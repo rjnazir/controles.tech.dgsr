@@ -1,0 +1,93 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Détail vérificateur{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">       
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                    <h4 class="m-0 font-weight-bold text-gray-100">Détail vérificateur</h4>
+                    <div class="dropdown no-arrow">
+                        <a href="{{ path('app_vta_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </a>
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                        <a href="{{ path('app_vta_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th width="25%">Nom de l'utilisateur : </th>
+                                <td width="80%">{{ user.usrnamecomplet }}</td>
+                            </tr>
+                            <tr>
+                                <th width="25%">Fonction de l'utilisateur : </th>
+                                <td width="80%">{{ user.userfonction }}</td>
+                            </tr>
+                            <tr>
+                                <th width="25%">Téléphone : </th>
+                                <td width="80%">{{ user.userphone }}</td>
+                            </tr>
+                            <tr>
+                                <th width="25%">Adresse de l'utilisateur : </th>
+                                <td width="80%">{{ user.useradresse }}</td>
+                            </tr>
+                            <tr>
+                                <th width="25%">Centre d'affectation : </th>
+                                <td width="80%">{% if user.ctCentre is not null %}{{ user.ctCentre.ctrNom }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th width="25%">Active : </th>
+                                <td width="80%">{% if user.actived == 0 %}Non{% else %}Oui{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th width="25%">Présence : </th>
+                                <td width="80%">{% if user.userpresence == 0 %}Non{% else %}Oui{% endif %}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <a href="{{ path('app_vta_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-list"></i>
+                            </span>
+                            <span class="text">Retour à la liste</span>
+                        </a>
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                        <a href="{{ path('app_vta_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                            <span class="text">Créer vérificateur</span>
+                        </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_vta_edit', {'id': user.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            <span class="text">Modifier vérificateur</span>
+                        </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                        <div>{{ include('vta/_delete_form.html.twig') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

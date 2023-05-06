@@ -1,0 +1,9 @@
+<form method="post" action="{{ path('app_vta_delete', {'id': user.id}) }}" onsubmit="return confirm('Est-vous sûr de vouloir supprimer cet enregistrement?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+    <button class="btn btn-sm btn-danger btn-icon-split ml-2 mr-2">
+        <span class="icon text-white-50">
+            <i class="fa fa-trash"></i>
+        </span>
+        <span class="text">Supprimer vérificateur</span>
+    </button>
+</form>

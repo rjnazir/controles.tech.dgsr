@@ -1,0 +1,9 @@
+<form method="post" action="{{ path('app_ct_motif_tarif_delete', {'id': ct_motif_tarif.id}) }}" onsubmit="return confirm('Est-vous sûr de vouloir supprimer cet enregistrement?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ct_motif_tarif.id) }}">
+    <button class="btn btn-sm btn-danger btn-icon-split ml-2 mr-2">
+        <span class="icon text-white-50">
+            <i class="fa fa-trash"></i>
+        </span>
+        <span class="text">Supprimer tarif motif</span>
+    </button>
+</form>

@@ -1,0 +1,58 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Modifier l'anomalie{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">       
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                <h4 class="m-0 font-weight-bold text-gray-100">Modifier l'anomalie</h4>
+                <div class="dropdown no-arrow">
+                    <a href="{{ path('app_ct_anomalie_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('app_ct_anomalie_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                    {{ form_row(form.ctAnomalieType) }}
+                    {{ form_row(form.anml_libelle) }}
+                    {{ form_row(form.anml_code) }}
+                    {{ form_row(form.save) }}
+                {{ form_end(form) }}
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <a href="{{ path('app_ct_anomalie_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="text">Retour à la liste</span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('app_ct_anomalie_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Créer une anomalie</span>
+                    </a>
+                    {% endif %}
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <div>{{ include('ct_anomalie/_delete_form.html.twig') }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

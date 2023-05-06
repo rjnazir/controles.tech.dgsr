@@ -1,0 +1,73 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Détail tarif du motif{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">       
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                <h4 class="m-0 font-weight-bold text-gray-100">Détail tarif du motif</h4>
+                <div class="dropdown no-arrow">
+                    <a href="{{ path('app_ct_motif_tarif_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('app_ct_motif_tarif_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th width="20%">Motif : </th>
+                            <td width="80%">{{ ct_motif_tarif.ctMotif.mtfLibelle }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Tarif : </th>
+                            <td width="80%">{{ ct_motif_tarif.mtfTrfPrix }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Année : </th>
+                            <td width="80%">{{ ct_motif_tarif.mtfTrfDate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer">
+                <div class="row">
+                    <a href="{{ path('app_ct_motif_tarif_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="text">Retour à la liste</span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('app_ct_motif_tarif_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Créer tarif du motif</span>
+                    </a>
+                    <a href="{{ path('app_ct_motif_tarif_edit', {'id': ct_motif_tarif.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                        <span class="text">Modifier tarif du motif</span>
+                    </a>
+                    <div>{{ include('ct_motif_tarif/_delete_form.html.twig') }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

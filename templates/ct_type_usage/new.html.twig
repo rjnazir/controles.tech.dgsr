@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CtTypeUsage{% endblock %}
+
+{% block body %}
+    <h1>Create new CtTypeUsage</h1>
+
+    {{ include('ct_type_usage/_form.html.twig') }}
+
+    <a href="{{ path('app_ct_type_usage_index') }}">back to list</a>
+{% endblock %}
