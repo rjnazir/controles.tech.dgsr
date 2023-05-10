@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\CtTypeUsage;
+use App\Entity\CtTypeReception;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CtTypeUsage>
+ * @extends ServiceEntityRepository<CtTypeReception>
  *
- * @method CtTypeUsage|null find($id, $lockMode = null, $lockVersion = null)
- * @method CtTypeUsage|null findOneBy(array $criteria, array $orderBy = null)
- * @method CtTypeUsage[]    findAll()
- * @method CtTypeUsage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CtTypeReception|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CtTypeReception|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CtTypeReception[]    findAll()
+ * @method CtTypeReception[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CtTypeUsageRepository extends ServiceEntityRepository
+class CtTypeReceptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CtTypeUsage::class);
+        parent::__construct($registry, CtTypeReception::class);
     }
 
-    public function add(CtTypeUsage $entity, bool $flush = false): void
+    public function add(CtTypeReception $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CtTypeUsageRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(CtTypeUsage $entity, bool $flush = false): void
+    public function remove(CtTypeReception $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CtTypeUsageRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return CtTypeUsage[] Returns an array of CtTypeUsage objects
+//     * @return CtTypeReception[] Returns an array of CtTypeReception objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CtTypeUsageRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?CtTypeUsage
+//    public function findOneBySomeField($value): ?CtTypeReception
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

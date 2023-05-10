@@ -2,23 +2,23 @@
 
 namespace App\Form;
 
-use App\Entity\CtTypeUsage;
+use App\Entity\CtTypeReception;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CtTypeUsageType extends AbstractType
+class CtTypeReceptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('tpu_libelle', TextType::class, [
+            ->add('tprcpLibelle', TextType::class, [
                 'label' => 'Libellé',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control form-control-sm'
+                    'class' => 'form-control form-control-sm',
                 ]
             ])
             ->add('save', SubmitType::class, [
@@ -33,7 +33,7 @@ class CtTypeUsageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CtTypeUsage::class,
+            'data_class' => CtTypeReception::class,
         ]);
     }
 }

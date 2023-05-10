@@ -48,16 +48,16 @@
                                     <td>{{ ct_motif.mtfLibelle }}</td>
                                     <td class="text-center">{{ ct_motif.mtfIsCalculable ? 'Oui' : 'Non' }}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-info"
+                                        {# <a class="btn btn-sm btn-info"
                                             href="{{ path('app_ct_motif_show', {'id': ct_motif.id}) }}">
                                                 <i class="fas fa-eye"></i>
-                                        </a>
+                                        </a> #}
                                         {% if is_granted('ROLE_SUPERADMIN') %}
-                                        <a class="btn btn-sm btn-warning"
+                                        <a class="btn btn-sm btn-warning" title="Modifier"
                                             href="{{ path('app_ct_motif_edit', {'id': ct_motif.id}) }}">
                                                 <i class="fas fa-pen"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-danger"
+                                        <a class="btn btn-sm btn-danger" title="Supprimer"
                                             href="{{ path('app_ct_motif_delete', {'id': ct_motif.id}) }}">
                                                 <i class="fas fa-trash"></i>
                                         </a>

@@ -46,18 +46,18 @@
                                         <td class="text-center">{{ i }}</td>
                                         <td>{{ ct_anomalie_type.atpLibelle }}</td>
                                         <td class="text-center">
-                                            <a class="btn btn-sm btn-info"
+                                            {# <a class="btn btn-sm btn-info"
                                                 href="{{ path('app_ct_anomalie_type_show', {'id': ct_anomalie_type.id}) }}">
                                                     <i class="fas fa-eye"></i>
-                                            </a>
+                                            </a> #}
                                             {% if is_granted('ROLE_SUPERADMIN') %}
-                                            <a class="btn btn-sm btn-warning"
+                                            <a class="btn btn-sm btn-warning" title="Modifier"
                                                 href="{{ path('app_ct_anomalie_type_edit', {'id': ct_anomalie_type.id}) }}">
                                                     <i class="fas fa-pen"></i>
                                             </a>
                                             {% endif %}
                                             {% if is_granted('ROLE_SUPERADMIN') %}
-                                            <a class="btn btn-sm btn-danger"
+                                            <a class="btn btn-sm btn-danger" title="Supprimer"
                                                 href="{{ path('app_ct_anomalie_type_delete', {'id': ct_anomalie_type.id}) }}">
                                                     <i class="fas fa-trash"></i>
                                             </a>

@@ -23,40 +23,58 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Interface
+        Contrôles
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#visite"
+            aria-expanded="true" aria-controls="visite">
+            <i class="fas fa-fw fa-screwdriver"></i>
+            <span>Visite</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="visite" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Components:</h6>
-                <a class="collapse-item" href="buttons.html">Buttons</a>
-                <a class="collapse-item" href="cards.html">Cards</a>
+                {# <h6 class="collapse-header">Custom Utilities:</h6> #}
+                {% if is_granted('ROLE_SUPERADMIN') %}
+                <a class="collapse-item" href="{{ path('type_visite_index') }}">Types de visite</a>
+                {% endif %}
             </div>
         </div>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Utilities</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reception"
+            aria-expanded="true" aria-controls="reception">
+            <i class="fas fa-fw fa-inbox"></i>
+            <span>Réception</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+        <div id="reception" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-                <a class="collapse-item" href="utilities-border.html">Borders</a>
-                <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                <a class="collapse-item" href="utilities-other.html">Other</a>
+                {# <h6 class="collapse-header">Custom Utilities:</h6> #}
+                {% if is_granted('ROLE_SUPERADMIN') %}
+                <a class="collapse-item" href="{{ path('type_reception_index') }}">Types de réception</a>
+                {% endif %}
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#constatation"
+            aria-expanded="true" aria-controls="constatation">
+            <i class="fas fa-fw fa-clipboard"></i>
+            <span>Constatations</span>
+        </a>
+        <div id="constatation" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                {# <h6 class="collapse-header">Custom Utilities:</h6> #}
+                {% if is_granted('ROLE_SUPERADMIN') %}                    
+                <a class="collapse-item" href="{{ path('cad_type_index') }}">Types de constatation</a>
+                {% endif %}
             </div>
         </div>
     </li>
@@ -76,18 +94,17 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#arretes"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-university"></i>
-            <span>Arrêté et tarifs</span>
+            <span>Arrêtés et tarifs</span>
         </a>
         <div id="arretes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ path('app_ct_arrete_prix_index') }}">Arrêté</a>
+                <a class="collapse-item" href="{{ path('app_ct_arrete_prix_index') }}">Arrêtés</a>
                 <h6 class="collapse-header">Motif :</h6>
-                <a class="collapse-item" href="{{ path('app_ct_motif_index') }}">Motif</a>
-                <a class="collapse-item" href="{{ path('app_ct_motif_tarif_index') }}">Tarif par motif</a>
+                <a class="collapse-item" href="{{ path('app_ct_motif_index') }}">Motifs</a>
+                <a class="collapse-item" href="{{ path('app_ct_motif_tarif_index') }}">Tarifs par motif</a>
                 <h6 class="collapse-header">Usage :</h6>
-                <a class="collapse-item" href="{{ path('type_usage_index') }}">Type usage</a>
-                <a class="collapse-item" href="{{ path('app_ct_motif_tarif_index') }}">Usages</a>
-                <a class="collapse-item" href="{{ path('app_ct_motif_tarif_index') }}">Tarif par usage</a>
+                <a class="collapse-item" href="{{ path('usage_index') }}">Usages</a>
+                <a class="collapse-item" href="{{ path('usage_tarif_index') }}">Tarifs par usage</a>
             </div>
         </div>
     </li>
@@ -109,7 +126,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#lieux"
             aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-map"></i>
+            <i class="fas fa-fw fa-globe"></i>
             <span>Lieux</span>
         </a>
         <div id="lieux" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">

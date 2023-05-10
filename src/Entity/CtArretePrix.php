@@ -56,9 +56,15 @@ class CtArretePrix
      */
     private $ctMotifTarifs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtUsageTarif::class, mappedBy="ctArretePrix")
+     */
+    private $ctUsageTarifs;
+
     public function __construct()
     {
         $this->ctMotifTarifs = new ArrayCollection();
+        $this->ctUsageTarifs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +168,36 @@ class CtArretePrix
             // set the owning side to null (unless already changed)
             if ($ctMotifTarif->getCtArretePrix() === $this) {
                 $ctMotifTarif->setCtArretePrix(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtUsageTarif>
+     */
+    public function getCtUsageTarifs(): Collection
+    {
+        return $this->ctUsageTarifs;
+    }
+
+    public function addCtUsageTarif(CtUsageTarif $ctUsageTarif): self
+    {
+        if (!$this->ctUsageTarifs->contains($ctUsageTarif)) {
+            $this->ctUsageTarifs[] = $ctUsageTarif;
+            $ctUsageTarif->setCtArretePrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtUsageTarif(CtUsageTarif $ctUsageTarif): self
+    {
+        if ($this->ctUsageTarifs->removeElement($ctUsageTarif)) {
+            // set the owning side to null (unless already changed)
+            if ($ctUsageTarif->getCtArretePrix() === $this) {
+                $ctUsageTarif->setCtArretePrix(null);
             }
         }
 

@@ -1,6 +1,6 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Liste des tarifs des motifs{% endblock %}
+{% block title %}Liste types de réception{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -8,15 +8,15 @@
         <!-- DataTales Roles -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Liste des tarifs des motifs</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Liste types de réception</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('app_ct_motif_tarif_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                    <a href="{{ path('type_reception_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('app_ct_motif_tarif_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                    <a href="{{ path('type_reception_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -34,33 +34,29 @@
                     <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr class="text-center">
-                                <th>N°</th>
-                                <th>Motif</th>
-                                <th>Prix (en Ariary)</th>
-                                <th>Année</th>
+                                <th width="8%">N°</th>
+                                <th>Libellé</th>
                                 <th width="12%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for ct_motif_tarif in ct_motif_tarifs %}
+                            {% for ct_type_reception in ct_type_receptions %}
                             {% set i = ( i | default(0) ) + 1 %}
                                 <tr>
                                     <td class="text-center">{{ i }}</td>
-                                    <td>{{ ct_motif_tarif.ctMotif ? ct_motif_tarif.ctMotif.mtfLibelle : '' }}</td>
-                                    <td class="text-right">{{ ct_motif_tarif.MtfTrfPrix | number_format(2, ',', '.') }}</td>
-                                    <td class="text-center">{{ ct_motif_tarif.mtfTrfDate }}</td>
+                                    <td>{{ ct_type_reception.tprcpLibelle }}</td>
                                     <td class="text-center">
                                         {# <a class="btn btn-sm btn-info"
-                                            href="{{ path('app_ct_motif_tarif_show', {'id': ct_motif_tarif.id}) }}">
+                                            href="{{ path('type_reception_show', {'id': ct_type_reception.id}) }}">
                                                 <i class="fas fa-eye"></i>
                                         </a> #}
                                         {% if is_granted('ROLE_SUPERADMIN') %}
                                         <a class="btn btn-sm btn-warning" title="Modifier"
-                                            href="{{ path('app_ct_motif_tarif_edit', {'id': ct_motif_tarif.id}) }}">
+                                            href="{{ path('type_reception_edit', {'id': ct_type_reception.id}) }}">
                                                 <i class="fas fa-pen"></i>
                                         </a>
                                         <a class="btn btn-sm btn-danger" title="Supprimer"
-                                            href="{{ path('app_ct_motif_tarif_delete', {'id': ct_motif_tarif.id}) }}">
+                                            href="{{ path('type_reception_delete', {'id': ct_type_reception.id}) }}">
                                                 <i class="fas fa-trash"></i>
                                         </a>
                                         {% endif %}
@@ -68,7 +64,7 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center alert-danger">Aucun enregistrement trouvé.</td>
+                                    <td colspan="3" class="text-center alert-danger">Aucun enregistrement trouvé.</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -77,18 +73,18 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('app_ct_motif_tarif_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('type_reception_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('app_ct_motif_tarif_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('type_reception_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Créer tarif du motif</span>
+                        <span class="text">Créer type de réception</span>
                     </a>
                     {% endif %}
                 </div>
@@ -96,4 +92,33 @@
         </div>
     </div>
 </div>
+{#     <h1>CtTypeReception index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TprcpLibelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ct_type_reception in ct_type_receptions %}
+            <tr>
+                <td>{{ ct_type_reception.id }}</td>
+                <td>{{ ct_type_reception.tprcpLibelle }}</td>
+                <td>
+                    <a href="{{ path('app_ct_type_reception_show', {'id': ct_type_reception.id}) }}">show</a>
+                    <a href="{{ path('app_ct_type_reception_edit', {'id': ct_type_reception.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ct_type_reception_new') }}">Create new</a> #}
 {% endblock %}
