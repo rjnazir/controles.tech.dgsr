@@ -47,7 +47,7 @@ class CtUsageTarifType extends AbstractType
             ])
             ->add('usgTrfAnnee', TextType::class, [
                 'attr' => [
-                    'class' => 'o-hidden'
+                    'class' => 'disable'
                 ]
             ])
             ->add('usgTrfPrix', TextType::class, array(
