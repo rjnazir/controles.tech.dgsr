@@ -31,10 +31,10 @@
             <div class="card-body">
                 {{ form_start(form) }}
                     {{ form_row(form.ctArretePrix) }}
+                    {{ form_row(form.usgTrfAnnee) }}
                     {{ form_row(form.ctUsage) }}
                     {{ form_row(form.ctTypeVisite) }}
                     {{ form_row(form.usgTrfPrix) }}
-                    {{ form_row(form.usgTrfAnnee) }}
                     {{ form_row(form.save) }}
                 {{ form_end(form) }}
             </div>
@@ -60,14 +60,4 @@
         </div>
     </div>
 </div>
-{#     <h1>Create new CtUsageTarif</h1>
-
-    {{ include('ct_usage_tarif/_form.html.twig') }}
-
-    <a href="{{ path('usage_tarif_index') }}">back to list</a> #}
-{% endblock %}
-{% block javascripts %}
-    <script type="text/javascript">
-
-    </script>
 {% endblock %}

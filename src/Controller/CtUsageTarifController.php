@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CtUsageTarif;
 use App\Form\CtUsageTarifType;
+use App\Repository\CtArretePrixRepository;
 use App\Repository\CtUsageTarifRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +32,7 @@ class CtUsageTarifController extends AbstractController
      */
     public function new(Request $request, CtUsageTarifRepository $ctUsageTarifRepository): Response
     {
+
         $ctUsageTarif = new CtUsageTarif();
         $form = $this->createForm(CtUsageTarifType::class, $ctUsageTarif);
         $form->handleRequest($request);
@@ -104,28 +106,37 @@ class CtUsageTarifController extends AbstractController
     /**
      * @Route ("/tarif_usage_by_id", name="annee_arrete_prix_by_tarif_usage", methods={"GET", "POST"})
      */
-    public function recupUsgTrfAnnee(Request $request, CtUsageTarifRepository $ctUsageTarifRepository):JsonResponse
+    public function recupUsgTrfAnnee(Request $request, CtUsageTarifRepository $ctUsageTarifRepository):string
     {
-       
-        $_response = new JsonResponse();
-
-        $_us_array = array();
         $_data = $request->request->all();
         $arrete_prix_id = array_key_exists('ctArretePrix', $_data) ? $_data['ctArretePrix'] : 0;
 
         if($arrete_prix_id > 0){
             $_arretes = $ctUsageTarifRepository->findBy(['id'=> $arrete_prix_id]);
             foreach ($_arretes as $_arrete) {
-                $_art               =  new \stdClass();
-                $_art->usgTrfAnnee  = $_arrete->getCtArretePrix()->getArtDateApplic()->format('Y');
-                $_us_array[]        = $_art;
+                $_usgTrfAnnee   = $_arrete->getCtArretePrix()->getArtDateApplic()->format('Y');
             }
-            $_response->setData($_us_array);
         } else {
-            $_err = array("message" => "Erreur arrêté");
-            $_response->setData($_err);
+            $_usgTrfAnnee       = "Erreur arrêté";
         }
 
-        return $_response;
+        return $_usgTrfAnnee;
+    }
+
+    /**
+     * @Route ("/annee_arrete_prix", name="annee_arrete_prix_by_id", methods={"GET", "POST"})
+     */
+    public function recupUsgTrfAnneev2(int $id, CtArretePrixRepository $_art):string
+    {
+        if($id > 0){
+            $_arretes = $_art->findBy($id);
+            foreach ($_arretes as $_arrete) {
+                $_usgTrfAnnee   = $_arrete->getArtDateApplic()->format('Y');
+            }
+        } else {
+            $_usgTrfAnnee       = "Erreur arrêté";
+        }
+
+        return $_usgTrfAnnee;
     }
 }

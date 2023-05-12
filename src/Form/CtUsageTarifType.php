@@ -6,9 +6,11 @@ use App\Entity\CtArretePrix;
 use App\Entity\CtTypeVisite;
 use App\Entity\CtUsage;
 use App\Entity\CtUsageTarif;
+use App\Repository\CtArretePrixRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +26,7 @@ class CtUsageTarifType extends AbstractType
                 'choice_label'  => 'art_numero',
                 'required'  => false,
                 'attr' => [
-                    'class' => 'form-group form-control js-example-basic-single'
+                    'class' => 'form-group form-control form-control-sm',
                 ],
             ])
             ->add('ctTypeVisite', EntityType::class, [
@@ -45,10 +47,12 @@ class CtUsageTarifType extends AbstractType
                     'class' => 'form-group form-control js-example-basic-single'
                 ],
             ])
-            ->add('usgTrfAnnee', TextType::class, [
-                'attr' => [
-                    'class' => 'disable'
-                ]
+            ->add('usgTrfAnnee', HiddenType::class, [
+                'label' => 'Année d\'application',
+                'disabled' => true,
+                'attr'  => [
+                    'class' => 'form-control form-control-sm'
+                ],
             ])
             ->add('usgTrfPrix', TextType::class, array(
                 'label' => "Prix",

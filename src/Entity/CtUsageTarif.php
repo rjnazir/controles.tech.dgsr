@@ -8,9 +8,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CtUsageTarifRepository::class)
+  * @ORM\Table(name="ct_usage_tarif", uniqueConstraints={@ORM\UniqueConstraint(columns={"ct_arrete_prix_id", "ct_usage_id", "ct_type_visite_id"})})
  * @UniqueEntity(
- *  fields={"usgTrfAnnee", "ctUsage", "ctTypeVisite"},
- *  message="Le tarif pour l'usage entrés est déjà existant"
+ *  fields={"ctArretePrix", "ctUsage", "ctTypeVisite"},
+ *  errorPath="ctArretePrix",
+ *  message="Le tarif pour l'usage entrés est déjà existant pour cet arrêté."
  * )
  */
 class CtUsageTarif
