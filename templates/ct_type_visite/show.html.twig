@@ -63,24 +63,4 @@
         </div>
     </div>
 </div>
-{#     <h1>CtTypeVisite</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ct_type_visite.id }}</td>
-            </tr>
-            <tr>
-                <th>TpvLibelle</th>
-                <td>{{ ct_type_visite.tpvLibelle }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('type_visite_index') }}">back to list</a>
-
-    <a href="{{ path('type_visite_edit', {'id': ct_type_visite.id}) }}">edit</a>
-
-    {{ include('ct_type_visite/_delete_form.html.twig') }} #}
 {% endblock %}

@@ -94,7 +94,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#arretes"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-university"></i>
-            <span>Arrêtés et tarifs</span>
+            <span>Arrêtés - Tarifs</span>
         </a>
         <div id="arretes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -105,6 +105,8 @@
                 <h6 class="collapse-header">Usage :</h6>
                 <a class="collapse-item" href="{{ path('usage_index') }}">Usages</a>
                 <a class="collapse-item" href="{{ path('usage_tarif_index') }}">Tarifs par usage</a>
+                <h6 class="collapse-header">Droit PTAC :</h6>
+                <a class="collapse-item" href="{{ path('tp_drt_ptac_index') }}">Type</a>
             </div>
         </div>
     </li>
@@ -136,6 +138,26 @@
             </div>
         </div>
     </li>
+    <!-- Genres et catégorie -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#genres"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-clipboard"></i>
+            <span>Genres</span>
+        </a>
+        <div id="genres" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ path('ct_gc_index') }}">Catégories</a>
+                <a class="collapse-item" href="{# {{ path('ct_gc_index') }} #}">Genres</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('crs_index') }}">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Carrosseries</span></a>
+    </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">

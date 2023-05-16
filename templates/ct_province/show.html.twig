@@ -66,36 +66,4 @@
         </div>
     </div>
 </div>
-    {# <h1>CtProvince</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ct_province.id }}</td>
-            </tr>
-            <tr>
-                <th>Prv_nom</th>
-                <td>{{ ct_province.prvNom }}</td>
-            </tr>
-            <tr>
-                <th>Prv_code</th>
-                <td>{{ ct_province.prvCode }}</td>
-            </tr>
-            <tr>
-                <th>Prv_created_at</th>
-                <td>{{ ct_province.prvCreatedAt ? ct_province.prvCreatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Prv_updated_at</th>
-                <td>{{ ct_province.prvUpdatedAt ? ct_province.prvUpdatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ct_province_index') }}">back to list</a>
-
-    <a href="{{ path('app_ct_province_edit', {'id': ct_province.id}) }}">edit</a>
-
-    {{ include('ct_province/_delete_form.html.twig') }} #}
 {% endblock %}
