@@ -1,0 +1,9 @@
+<form method="post" action="{{ path('pv_delete', {'id': ct_proces_verbal.id}) }}" onsubmit="return confirm('Est-vous sûr de vouloir supprimer cet enregistrement?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ct_proces_verbal.id) }}">
+    <button class="btn btn-sm btn-danger btn-icon-split ml-2 mr-2">
+        <span class="icon text-white-50">
+            <i class="fa fa-trash"></i>
+        </span>
+        <span class="text">Supprimer le tarif procès-verbal</span>
+    </button>
+</form>

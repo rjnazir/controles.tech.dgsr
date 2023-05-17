@@ -1,0 +1,85 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Détail droit PTAC{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">       
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                <h4 class="m-0 font-weight-bold text-gray-100">Détail droit PTAC</h4>
+                <div class="dropdown no-arrow">
+                    <a href="{{ path('dp_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('dp_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th width="20%">Arrêté : </th>
+                            <td width="80%">{{ ct_droit_ptac.ctArretePrix ? ct_droit_ptac.ctArretePrix.artNumero : "" }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Type : </th>
+                            <td width="80%">{{ ct_droit_ptac.ctTypeDroitPtac ? ct_droit_ptac.ctTypeDroitPtac.tpDpLibelle : "" }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Catégorie : </th>
+                            <td width="80%">{{ ct_droit_ptac.ctGenreCategorie ? ct_droit_ptac.ctGenreCategorie.gcLibelle : "" }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Poids minimum (T) : </th>
+                            <td width="80%">{{ ct_droit_ptac.dpPoidsMin | number_format(2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Poids maximum (T) : </th>
+                            <td width="80%">{{ ct_droit_ptac.dpPoidsMax | number_format(2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Droit : </th>
+                            <td width="80%">{{ ct_droit_ptac.dpDroit | number_format(2, ',', '.') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer">
+                <div class="row">
+                    <a href="{{ path('dp_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="text">Retour à la liste</span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('dp_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Créer droit PTAC</span>
+                    </a>
+                    <a href="{{ path('dp_edit', {'id': ct_droit_ptac.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                        <span class="text">Modifier droit PTAC</span>
+                    </a>
+                    <div>{{ include('ct_droit_ptac/_delete_form.html.twig') }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
