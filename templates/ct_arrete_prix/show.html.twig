@@ -70,40 +70,4 @@
         </div>
     </div>
 </div>
-{#     <h1>CtArretePrix</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ct_arrete_prix.id }}</td>
-            </tr>
-            <tr>
-                <th>Art_numero</th>
-                <td>{{ ct_arrete_prix.artNumero }}</td>
-            </tr>
-            <tr>
-                <th>Art_date</th>
-                <td>{{ ct_arrete_prix.artDate ? ct_arrete_prix.artDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Art_date_applic</th>
-                <td>{{ ct_arrete_prix.artDateApplic ? ct_arrete_prix.artDateApplic|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Art_created_at</th>
-                <td>{{ ct_arrete_prix.artCreatedAt ? ct_arrete_prix.artCreatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Art_updated_at</th>
-                <td>{{ ct_arrete_prix.artUpdatedAt ? ct_arrete_prix.artUpdatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ct_arrete_prix_index') }}">back to list</a>
-
-    <a href="{{ path('app_ct_arrete_prix_edit', {'id': ct_arrete_prix.id}) }}">edit</a>
-
-    {{ include('ct_arrete_prix/_delete_form.html.twig') }} #}
 {% endblock %}

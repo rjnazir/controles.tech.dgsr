@@ -4,9 +4,24 @@ namespace App\Entity;
 
 use App\Repository\CtAnomalieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CtAnomalieRepository::class)
+ * @ORM\Table(
+ *  name = "ct_anomalie",
+ *  uniqueConstraints = {
+ *      @ORM\UniqueConstraint(
+ *          columns = {
+ *              "ct_anomalie_type_id", "anml_libelle", "anml_code"
+ *          }
+ *      )
+ *  }
+ * )
+ * @UniqueEntity(
+ *  fields = {"ctAnomalieType", "anml_libelle", "anml_code"},
+ *  message = "L'anomalie entrée est déjà existant."
+ * )
  */
 class CtAnomalie
 {

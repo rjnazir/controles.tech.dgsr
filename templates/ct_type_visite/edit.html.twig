@@ -44,8 +44,6 @@
                         </span>
                         <span class="text">Créer type visite</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <a href="{{ path('type_visite_edit', {'id': ct_type_visite.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>
@@ -59,11 +57,4 @@
         </div>
     </div>
 </div>
-{#     <h1>Edit CtTypeVisite</h1>
-
-    {{ include('ct_type_visite/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('type_visite_index') }}">back to list</a>
-
-    {{ include('ct_type_visite/_delete_form.html.twig') }} #}
 {% endblock %}

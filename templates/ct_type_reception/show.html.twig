@@ -48,8 +48,6 @@
                         </span>
                         <span class="text">Créer type réception</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <a href="{{ path('type_reception_edit', {'id': ct_type_reception.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>
@@ -63,24 +61,4 @@
         </div>
     </div>
 </div>
-{#     <h1>CtTypeReception</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ct_type_reception.id }}</td>
-            </tr>
-            <tr>
-                <th>TprcpLibelle</th>
-                <td>{{ ct_type_reception.tprcpLibelle }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ct_type_reception_index') }}">back to list</a>
-
-    <a href="{{ path('app_ct_type_reception_edit', {'id': ct_type_reception.id}) }}">edit</a>
-
-    {{ include('ct_type_reception/_delete_form.html.twig') }} #}
 {% endblock %}

@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=CtUsageRepository::class)
  * @UniqueEntity(
  *  fields={"usgLibelle", "usgValidite"},
- *  message="Le libellé avec cette validité entrés est déjà existant"
+ *  message="Le libellé avec cette validité entré est déjà existant"
  * )
  */
 class CtUsage

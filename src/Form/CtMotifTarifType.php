@@ -7,7 +7,7 @@ use App\Entity\CtMotif;
 use App\Entity\CtMotifTarif;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -18,7 +18,7 @@ class CtMotifTarifType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ctArretePrix', EntityType::class, array(
+            ->add('ctArretePrix', EntityType::class, [
                 'label' => 'Arrêté',
                 'class' => CtArretePrix::class,
                 'query_builder' => function (EntityRepository $_er) {
@@ -33,7 +33,7 @@ class CtMotifTarifType extends AbstractType
                 'attr' => [
                     'class' => 'form-group form-control js-example-basic-single'
                 ],
-            ))
+            ])
             ->add('ctMotif', EntityType::class, array(
                 'class' => CtMotif::class,
                 'label' => "Motif",
@@ -43,7 +43,7 @@ class CtMotifTarifType extends AbstractType
                     'class' => 'form-group form-control js-example-basic-single'
                 ],
             ))
-            ->add('mtfTrfPrix', TextType::class, array(
+            ->add('mtfTrfPrix', NumberType::class, array(
                 'label' => "Prix",
                 'required' => true,
                 'attr'  => [

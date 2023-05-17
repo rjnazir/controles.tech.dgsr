@@ -62,16 +62,12 @@
                         </span>
                         <span class="text">Créer une anomalie</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <a href="{{ path('app_ct_anomalie_edit', {'id': ct_anomalie.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>
                         </span>
                         <span class="text">Modifier l'anomalie</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <div>{{ include('ct_anomalie/_delete_form.html.twig') }}</div>
                     {% endif %}
                 </div>

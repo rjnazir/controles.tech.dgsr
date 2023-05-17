@@ -48,8 +48,6 @@
                         </span>
                         <span class="text">Créer type de constatation</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <a href="{{ path('cad_type_edit', {'id': ct_const_av_ded_type.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>

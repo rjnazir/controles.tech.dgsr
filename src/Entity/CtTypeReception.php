@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=CtTypeReceptionRepository::class)
  * @UniqueEntity(
  *  fields={"tprcpLibelle"},
- *  message="Le libellé entrés est déjà existant"
+ *  message="Le libellé entré est déjà existant."
  * )
  */
 class CtTypeReception

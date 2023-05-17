@@ -92,33 +92,4 @@
         </div>
     </div>
 </div>
-{#     <h1>CtTypeVisite index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>TpvLibelle</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ct_type_visite in ct_type_visites %}
-            <tr>
-                <td>{{ ct_type_visite.id }}</td>
-                <td>{{ ct_type_visite.tpvLibelle }}</td>
-                <td>
-                    <a href="{{ path('type_visite_show', {'id': ct_type_visite.id}) }}">show</a>
-                    <a href="{{ path('type_visite_edit', {'id': ct_type_visite.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('type_visite_new') }}">Create new</a> #}
 {% endblock %}

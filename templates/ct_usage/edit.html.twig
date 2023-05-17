@@ -45,8 +45,6 @@
                         </span>
                         <span class="text">Créer un usage</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <div>{{ include('ct_usage/_delete_form.html.twig') }}</div>
                     {% endif %}
                 </div>
@@ -54,11 +52,4 @@
         </div>
     </div>
 </div>
-{#     <h1>Edit CtUsage</h1>
-
-    {{ include('ct_usage/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('usage_index') }}">back to list</a>
-
-    {{ include('ct_usage/_delete_form.html.twig') }} #}
 {% endblock %}

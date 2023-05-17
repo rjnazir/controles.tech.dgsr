@@ -10,7 +10,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CtAnomalieTypeRepository::class)
- * @UniqueEntity(fields="atp_libelle", message="Le libellé entré est déjà existant")
+ * @UniqueEntity(
+ *  fields = "atp_libelle",
+ *  message = "Le libellé entré est déjà existant."
+ * )
  */
 class CtAnomalieType
 {

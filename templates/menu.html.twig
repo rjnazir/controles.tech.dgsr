@@ -94,19 +94,25 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#arretes"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-university"></i>
-            <span>Arrêtés - Tarifs</span>
+            <span>Tarifs</span>
         </a>
         <div id="arretes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ path('app_ct_arrete_prix_index') }}">Arrêtés</a>
+                <h6 class="collapse-header">Imprimés :</h6>
+                <a class="collapse-item" href="{{ path('pv_index') }}">Procès-verbaux</a>
                 <h6 class="collapse-header">Motif :</h6>
                 <a class="collapse-item" href="{{ path('app_ct_motif_index') }}">Motifs</a>
                 <a class="collapse-item" href="{{ path('app_ct_motif_tarif_index') }}">Tarifs par motif</a>
                 <h6 class="collapse-header">Usage :</h6>
                 <a class="collapse-item" href="{{ path('usage_index') }}">Usages</a>
                 <a class="collapse-item" href="{{ path('usage_tarif_index') }}">Tarifs par usage</a>
-                <h6 class="collapse-header">Droit PTAC :</h6>
-                <a class="collapse-item" href="{{ path('tp_drt_ptac_index') }}">Type</a>
+                <h6 class="collapse-header">Droits PTAC :</h6>
+                <a class="collapse-item" href="{{ path('tp_drt_ptac_index') }}">Types</a>
+                <a class="collapse-item" href="{{ path('dp_index') }}">Droits PTAC</a>
+                <h6 class="collapse-header">Visite extra :</h6>
+                <a class="collapse-item" href="{{ path('vtex_index') }}">Types</a>
+                <a class="collapse-item" href="{# {{ path('vtex_index') }} #}">Tarifs</a>
             </div>
         </div>
     </li>
@@ -148,7 +154,7 @@
         <div id="genres" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ path('ct_gc_index') }}">Catégories</a>
-                <a class="collapse-item" href="{# {{ path('ct_gc_index') }} #}">Genres</a>
+                <a class="collapse-item" href="{{ path('gr_index') }}">Genres</a>
             </div>
         </div>
     </li>

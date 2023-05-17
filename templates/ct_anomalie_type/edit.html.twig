@@ -44,8 +44,6 @@
                         </span>
                         <span class="text">Créer type d'anomalie</span>
                     </a>
-                    {% endif %}
-                    {% if is_granted('ROLE_SUPERADMIN') %}
                     <div>{{ include('ct_anomalie_type/_delete_form.html.twig') }}</div>
                     {% endif %}
                 </div>

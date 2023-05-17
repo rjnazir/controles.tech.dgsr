@@ -100,35 +100,4 @@
         </div>
     </div>
 </div>
-{#     <h1>CtUsageTarif index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>UsgTrfAnnee</th>
-                <th>UsgTrfPrix</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ct_usage_tarif in ct_usage_tarifs %}
-            <tr>
-                <td>{{ ct_usage_tarif.id }}</td>
-                <td>{{ ct_usage_tarif.usgTrfAnnee }}</td>
-                <td>{{ ct_usage_tarif.usgTrfPrix }}</td>
-                <td>
-                    <a href="{{ path('usage_tarif_show', {'id': ct_usage_tarif.id}) }}">show</a>
-                    <a href="{{ path('usage_tarif_edit', {'id': ct_usage_tarif.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('usage_tarif_new') }}">Create new</a> #}
 {% endblock %}

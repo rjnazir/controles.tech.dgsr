@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=CtTypeVisiteRepository::class)
  * @UniqueEntity(
  *  fields={"tpvLibelle"},
- *  message="Le libellé entrés est déjà existant"
+ *  message="Le libellé entré est déjà existant."
  * )
  */
 class CtTypeVisite

@@ -61,10 +61,22 @@ class CtArretePrix
      */
     private $ctUsageTarifs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtDroitPtac::class, mappedBy="ctArretePrix")
+     */
+    private $ctDroitPtacs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CtProcesVerbal::class, mappedBy="ctArretePrix")
+     */
+    private $ctProcesVerbals;
+
     public function __construct()
     {
         $this->ctMotifTarifs = new ArrayCollection();
         $this->ctUsageTarifs = new ArrayCollection();
+        $this->ctDroitPtacs = new ArrayCollection();
+        $this->ctProcesVerbals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +210,66 @@ class CtArretePrix
             // set the owning side to null (unless already changed)
             if ($ctUsageTarif->getCtArretePrix() === $this) {
                 $ctUsageTarif->setCtArretePrix(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtDroitPtac>
+     */
+    public function getCtDroitPtacs(): Collection
+    {
+        return $this->ctDroitPtacs;
+    }
+
+    public function addCtDroitPtac(CtDroitPtac $ctDroitPtac): self
+    {
+        if (!$this->ctDroitPtacs->contains($ctDroitPtac)) {
+            $this->ctDroitPtacs[] = $ctDroitPtac;
+            $ctDroitPtac->setCtArretePrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtDroitPtac(CtDroitPtac $ctDroitPtac): self
+    {
+        if ($this->ctDroitPtacs->removeElement($ctDroitPtac)) {
+            // set the owning side to null (unless already changed)
+            if ($ctDroitPtac->getCtArretePrix() === $this) {
+                $ctDroitPtac->setCtArretePrix(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtProcesVerbal>
+     */
+    public function getCtProcesVerbals(): Collection
+    {
+        return $this->ctProcesVerbals;
+    }
+
+    public function addCtProcesVerbal(CtProcesVerbal $ctProcesVerbal): self
+    {
+        if (!$this->ctProcesVerbals->contains($ctProcesVerbal)) {
+            $this->ctProcesVerbals[] = $ctProcesVerbal;
+            $ctProcesVerbal->setCtArretePrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtProcesVerbal(CtProcesVerbal $ctProcesVerbal): self
+    {
+        if ($this->ctProcesVerbals->removeElement($ctProcesVerbal)) {
+            // set the owning side to null (unless already changed)
+            if ($ctProcesVerbal->getCtArretePrix() === $this) {
+                $ctProcesVerbal->setCtArretePrix(null);
             }
         }
 
