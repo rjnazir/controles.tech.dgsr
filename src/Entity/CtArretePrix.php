@@ -71,12 +71,18 @@ class CtArretePrix
      */
     private $ctProcesVerbals;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtVisiteExtraTarif::class, mappedBy="ctArretePrix")
+     */
+    private $ctVisiteExtraTarifs;
+
     public function __construct()
     {
         $this->ctMotifTarifs = new ArrayCollection();
         $this->ctUsageTarifs = new ArrayCollection();
         $this->ctDroitPtacs = new ArrayCollection();
         $this->ctProcesVerbals = new ArrayCollection();
+        $this->ctVisiteExtraTarifs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +276,36 @@ class CtArretePrix
             // set the owning side to null (unless already changed)
             if ($ctProcesVerbal->getCtArretePrix() === $this) {
                 $ctProcesVerbal->setCtArretePrix(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtVisiteExtraTarif>
+     */
+    public function getCtVisiteExtraTarifs(): Collection
+    {
+        return $this->ctVisiteExtraTarifs;
+    }
+
+    public function addCtVisiteExtraTarif(CtVisiteExtraTarif $ctVisiteExtraTarif): self
+    {
+        if (!$this->ctVisiteExtraTarifs->contains($ctVisiteExtraTarif)) {
+            $this->ctVisiteExtraTarifs[] = $ctVisiteExtraTarif;
+            $ctVisiteExtraTarif->setCtArretePrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtVisiteExtraTarif(CtVisiteExtraTarif $ctVisiteExtraTarif): self
+    {
+        if ($this->ctVisiteExtraTarifs->removeElement($ctVisiteExtraTarif)) {
+            // set the owning side to null (unless already changed)
+            if ($ctVisiteExtraTarif->getCtArretePrix() === $this) {
+                $ctVisiteExtraTarif->setCtArretePrix(null);
             }
         }
 
