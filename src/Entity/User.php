@@ -106,9 +106,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $ctArretePrixes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtImprimeTech::class, mappedBy="ctUser")
+     */
+    private $ctImprimeTeches;
+
     public function __construct()
     {
         $this->ctArretePrixes = new ArrayCollection();
+        $this->ctImprimeTeches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -363,6 +369,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($ctArretePrix->getUser() === $this) {
                 $ctArretePrix->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtImprimeTech>
+     */
+    public function getCtImprimeTeches(): Collection
+    {
+        return $this->ctImprimeTeches;
+    }
+
+    public function addCtImprimeTech(CtImprimeTech $ctImprimeTech): self
+    {
+        if (!$this->ctImprimeTeches->contains($ctImprimeTech)) {
+            $this->ctImprimeTeches[] = $ctImprimeTech;
+            $ctImprimeTech->setCtUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtImprimeTech(CtImprimeTech $ctImprimeTech): self
+    {
+        if ($this->ctImprimeTeches->removeElement($ctImprimeTech)) {
+            // set the owning side to null (unless already changed)
+            if ($ctImprimeTech->getCtUser() === $this) {
+                $ctImprimeTech->setCtUser(null);
             }
         }
 

@@ -115,7 +115,7 @@ class UserEditType extends AbstractType
                 'expanded'  => false,
                 'multiple'  => true,
                 'attr'      => [
-                    'class' => 'form-control select-sm',
+                    'class' => 'form-control js-example-basic-multiple',
                 ]
             ])
             ->add('password', PasswordType::class, [

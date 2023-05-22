@@ -48,7 +48,6 @@ class VtaController extends AbstractController
             $user->setPassword($passwordEncoder->hashPassword($user, uniqid()));
 
             $user->setUserCreatedAt(new DateTimeImmutable());
-            $user->setUserUpdatedAt(NULL);
 
             $userRepository->add($user, true);
 

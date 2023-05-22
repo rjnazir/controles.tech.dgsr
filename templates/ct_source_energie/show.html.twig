@@ -1,21 +1,21 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Détail la marque{% endblock %}
+{% block title %}Détail de la source d'énergie{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Détail la marque</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Détail de la source d'énergie</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('mrq_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                    <a href="{{ path('sre_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('mrq_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                    <a href="{{ path('sre_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -28,7 +28,7 @@
                     <tbody>
                         <tr>
                             <th width="20%">Libellé : </th>
-                            <td width="80%">{{ ct_marque.mrqLibelle }}</td>
+                            <td width="80%">{{ ct_source_energie.sreLibelle }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -36,26 +36,26 @@
 
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('mrq_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('sre_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('mrq_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('sre_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Créer une marque</span>
+                        <span class="text">Créer une source d'énergie</span>
                     </a>
-                    <a href="{{ path('mrq_edit', {'id': ct_marque.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('sre_edit', {'id': ct_source_energie.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>
                         </span>
-                        <span class="text">Modifier la marque</span>
+                        <span class="text">Modifier la source d'énergie</span>
                     </a>
-                    <div>{{ include('ct_marque/_delete_form.html.twig') }}</div>
+                    <div>{{ include('ct_source_energie/_delete_form.html.twig') }}</div>
                     {% endif %}
                 </div>
             </div>

@@ -1,21 +1,21 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Créer une marque{% endblock %}
+{% block title %}Créer une utilisation{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Créer une marque</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Créer une utilisation</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('mrq_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                    <a href="{{ path('ut_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('mrq_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                    <a href="{{ path('ut_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -25,25 +25,25 @@
             </div>
             <div class="card-body">
                 {{ form_start(form) }}
-                    {{ form_row(form.mrqLibelle) }}
+                    {{ form_row(form.utLibelle) }}
                     {{ form_row(form.save) }}
                 {{ form_end(form) }}
             </div>
 
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('mrq_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('ut_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('mrq_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('ut_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Créer une marque</span>
+                        <span class="text">Créer une utilisation</span>
                     </a>
                     {% endif %}
                 </div>

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserEditType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,6 +55,8 @@ class UserController extends AbstractController
                 $passwordEncoder->hashPassword($user, $user->getPassword())
             );
 
+            $user->setUserCreatedAt(new DateTimeImmutable());
+
             $userRepository->add($user, true);
 
             $this->addFlash('success', 'Ajout utilisateur effectué avec succès.');
@@ -93,6 +96,8 @@ class UserController extends AbstractController
             $user->setPassword(
                 $passwordEncoder->hashPassword($user, $user->getPassword())
             );
+
+            $user->setUserUpdatedAt(new DateTimeImmutable());
 
             $userRepository->add($user, true);
 

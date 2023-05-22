@@ -1,6 +1,6 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Liste des marques{% endblock %}
+{% block title %}Liste des zones de servitude{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -8,15 +8,15 @@
         <!-- DataTales Roles -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Liste des marques</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Liste des zones de servitude</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('mrq_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                    <a href="{{ path('zd_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('mrq_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                    <a href="{{ path('zd_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -40,23 +40,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for ct_marque in ct_marques %}
+                            {% for ct_zone_deserte in ct_zone_desertes %}
                             {% set i = ( i | default(0) ) + 1 %}
                                 <tr>
                                     <td class="text-center">{{ i }}</td>
-                                    <td>{{ ct_marque.mrqLibelle }}</td>
+                                    <td>{{ ct_zone_deserte.zdLibelle }}</td>
                                     <td class="text-center">
                                         {# <a class="btn btn-sm btn-info"
-                                            href="{{ path('mrq_show', {'id': ct_marque.id}) }}">
+                                            href="{{ path('zd_show', {'id': ct_zone_deserte.id}) }}">
                                                 <i class="fas fa-eye"></i>
                                         </a> #}
                                         {% if is_granted('ROLE_SUPERADMIN') %}
                                         <a class="btn btn-sm btn-warning" title="Modifier"
-                                            href="{{ path('mrq_edit', {'id': ct_marque.id}) }}">
+                                            href="{{ path('zd_edit', {'id': ct_zone_deserte.id}) }}">
                                                 <i class="fas fa-pen"></i>
                                         </a>
                                         <a class="btn btn-sm btn-danger" title="Supprimer"
-                                            href="{{ path('mrq_delete', {'id': ct_marque.id}) }}">
+                                            href="{{ path('zd_delete', {'id': ct_zone_deserte.id}) }}">
                                                 <i class="fas fa-trash"></i>
                                         </a>
                                         {% endif %}
@@ -73,18 +73,18 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('mrq_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('zd_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('mrq_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('zd_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Créer une marque</span>
+                        <span class="text">Créer une zone de servitude</span>
                     </a>
                     {% endif %}
                 </div>

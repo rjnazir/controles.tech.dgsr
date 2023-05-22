@@ -82,6 +82,60 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Marchandises
+    </div>
+
+    <!-- Imprimés techniques -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#arretes"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-align-justify"></i>
+            <span>Imprimés techniques</span>
+        </a>
+        <div id="arretes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Demandes :</h6>
+                <a class="collapse-item" href="#">Expressions (EDB)</a>
+                <h6 class="collapse-header">Envois :</h6>
+                <a class="collapse-item" href="#">Bordereau (BDE)</a>
+                <h6 class="collapse-header">Utilisations :</h6>
+                <a class="collapse-item" href="#">Activation</a>
+                <a class="collapse-item" href="#">Unique</a>
+                <a class="collapse-item" href="#">Multiple</a>
+                <a class="collapse-item" href="#">Non utilisés</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Admins
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#user"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Comptes utilisateurs</span>
+        </a>
+        <div id="user" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ path('app_user_index') }}">Utilisateurs</a>
+                <a class="collapse-item" href="{{ path('app_vta_index') }}">Vérificateurs</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    {% endif %}
+
     {% if is_granted('ROLE_SUPERADMIN') %}
     <!-- Heading -->
     <div class="sidebar-heading">
@@ -103,13 +157,15 @@
             </div>
         </div>
     </li>
+
     <!-- Carrosseries -->
     <li class="nav-item">
         <a class="nav-link" href="{{ path('crs_index') }}">
             <i class="fas fa-fw fa-cog"></i>
             <span>Carrosseries</span></a>
     </li>
-    <!-- Genres et catégorie -->
+
+    <!-- Genres et catégories -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#genres"
             aria-expanded="true" aria-controls="collapsePages">
@@ -123,7 +179,8 @@
             </div>
         </div>
     </li>
-    <!-- Centre et provinces -->
+
+    <!-- Centres et provinces -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#lieux"
             aria-expanded="true" aria-controls="collapsePages">
@@ -137,13 +194,22 @@
             </div>
         </div>
     </li>
-    <!-- Carrosseries -->
+
+    <!-- Marques -->
     <li class="nav-item">
         <a class="nav-link" href="{{ path('mrq_index') }}">
             <i class="fas fa-fw fa-heading"></i>
             <span>Marques</span></a>
     </li>
-    <!-- Arrêté et tous tarifs -->
+
+    <!-- Sources d'energie -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('sre_index') }}">
+            <i class="fas fa-fw fa-battery-quarter"></i>
+            <span>Sources d'énergie</span></a>
+    </li>
+
+    <!-- Arrêtés et tous tarifs -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#arretes"
             aria-expanded="true" aria-controls="collapsePages">
@@ -171,32 +237,29 @@
         </div>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-    {% endif %}
-    
-    {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Admins
-    </div>
-
+    <!-- Types imprimés techniques -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#user"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Comptes utilisateurs</span>
-        </a>
-        <div id="user" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ path('app_user_index') }}">Utilisateurs</a>
-                <a class="collapse-item" href="{{ path('app_vta_index') }}">Vérificateurs</a>
-            </div>
-        </div>
+        <a class="nav-link" href="{{ path('it_index') }}">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            <span>Types d'imprimés</span></a>
+    </li>
+
+    <!-- Utilisations -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('ut_index') }}">
+            <i class="fas fa-fw fa-hand-rock"></i>
+            <span>Utilisations</span></a>
+    </li>
+
+    <!-- Zones de servitude -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('zd_index') }}">
+            <i class="fas fa-fw fa-hand-rock"></i>
+            <span>Zones de servitude</span></a>
     </li>
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <hr class="sidebar-divider">
     {% endif %}
 
     <!-- Sidebar Toggler (Sidebar) -->
