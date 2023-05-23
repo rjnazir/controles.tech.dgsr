@@ -35,6 +35,9 @@ class CtArretePrixController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ctArretePrix->setArtCreatedAt(new DateTimeImmutable());
+            $ctArretePrix->setUser($this->getUser());
+
             $ctArretePrixRepository->add($ctArretePrix, true);
 
             $this->addFlash('success', 'Ajout d\'arrêté effectuée avec succès.');
@@ -67,6 +70,9 @@ class CtArretePrixController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ctArretePrix->setArtUpdatedAt(new DateTimeImmutable());
+            $ctArretePrix->setUser($this->getUser());
+
             $ctArretePrixRepository->add($ctArretePrix, true);
 
             $this->addFlash('success', 'Modification d\'arrêté effectuée avec succès.');

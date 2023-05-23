@@ -89,19 +89,23 @@
 
     <!-- Imprimés techniques -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#arretes"
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#imprimes"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-align-justify"></i>
             <span>Imprimés techniques</span>
         </a>
-        <div id="arretes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="imprimes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Demandes :</h6>
-                <a class="collapse-item" href="#">Expressions (EDB)</a>
+                <a class="collapse-item" href="{{ path('edb_index') }}">Expressions (EDB)</a>
+                {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_APPRO') %}
                 <h6 class="collapse-header">Envois :</h6>
                 <a class="collapse-item" href="#">Bordereau (BDE)</a>
+                {% endif %}
                 <h6 class="collapse-header">Utilisations :</h6>
+                {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
                 <a class="collapse-item" href="#">Activation</a>
+                {% endif %}
                 <a class="collapse-item" href="#">Unique</a>
                 <a class="collapse-item" href="#">Multiple</a>
                 <a class="collapse-item" href="#">Non utilisés</a>

@@ -1,0 +1,97 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Liste des imprimés de l'EDB{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">       
+        <!-- DataTales Roles -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                <h4 class="m-0 font-weight-bold text-gray-100">Liste des imprimés de l'EDB</h4>
+                <div class="dropdown no-arrow">
+                    <a href="{{ path('edb_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('edb_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                    {{ message }}
+            </div>
+            {% endfor %}
+            <div class="card-body">
+                <div class="table-responsive table-striped">
+                    <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr class="text-center">
+                                <th>N°</th>
+                                <th>Réf. EDB</th>
+                                <th>Date EDB</th>
+                                <th>Type</th>
+                                <th>Quantité</th>
+                                <th width="12%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ct_expression_besoin in ct_expression_besoins %}
+                            {% set i = ( i | default(0) ) + 1 %}
+                                <tr>
+                                    <td class="text-center">{{ i }}</td>
+                                    <td>{{ ct_expression_besoin.edbNumero }}</td>
+                                    <td>{{ ct_expression_besoin.edbDateEdit | date('d/m/Y') }}</td>
+                                    <td class="text-right">{{ ct_expression_besoin.ctImprimeTech ? ct_expression_besoin.ctImprimeTech.nomImprimeTech : "" }}</td>
+                                    <td class="text-right">{{ ct_expression_besoin.edbQteDemander | number_format(2, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        {# <a class="btn btn-sm btn-info"
+                                            href="{{ path('edb_show', {'id': ct_expression_besoin.id}) }}">
+                                                <i class="fas fa-eye"></i>
+                                        </a> #}
+                                        {% if is_granted('ROLE_SUPERADMIN') %}
+                                        <a class="btn btn-sm btn-warning" title="Modifier"
+                                            href="{{ path('edb_edit', {'id': ct_expression_besoin.id}) }}">
+                                                <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-danger" title="Supprimer"
+                                            href="{{ path('edb_delete', {'id': ct_expression_besoin.id}) }}">
+                                                <i class="fas fa-trash"></i>
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center alert-danger">Aucun enregistrement trouvé.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <a href="{{ path('edb_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="text">Retour à la liste</span>
+                    </a>
+                    <a href="{{ path('edb_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Ajouter une imprimé dans l'EDB</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -51,9 +51,15 @@ class CtCentre
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtExpressionBesoin::class, mappedBy="ctCentre")
+     */
+    private $ctExpressionBesoins;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->ctExpressionBesoins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +151,36 @@ class CtCentre
             // set the owning side to null (unless already changed)
             if ($user->getCtCentre() === $this) {
                 $user->setCtCentre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtExpressionBesoin>
+     */
+    public function getCtExpressionBesoins(): Collection
+    {
+        return $this->ctExpressionBesoins;
+    }
+
+    public function addCtExpressionBesoin(CtExpressionBesoin $ctExpressionBesoin): self
+    {
+        if (!$this->ctExpressionBesoins->contains($ctExpressionBesoin)) {
+            $this->ctExpressionBesoins[] = $ctExpressionBesoin;
+            $ctExpressionBesoin->setCtCentre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtExpressionBesoin(CtExpressionBesoin $ctExpressionBesoin): self
+    {
+        if ($this->ctExpressionBesoins->removeElement($ctExpressionBesoin)) {
+            // set the owning side to null (unless already changed)
+            if ($ctExpressionBesoin->getCtCentre() === $this) {
+                $ctExpressionBesoin->setCtCentre(null);
             }
         }
 

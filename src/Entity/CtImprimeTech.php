@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CtImprimeTechRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -59,6 +61,16 @@ class CtImprimeTech
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ctImprimeTeches")
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CtExpressionBesoin::class, mappedBy="ctImprimeTech")
+     */
+    private $ctExpressionBesoins;
+
+    public function __construct()
+    {
+        $this->ctExpressionBesoins = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -133,6 +145,36 @@ class CtImprimeTech
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtExpressionBesoin>
+     */
+    public function getCtExpressionBesoins(): Collection
+    {
+        return $this->ctExpressionBesoins;
+    }
+
+    public function addCtExpressionBesoin(CtExpressionBesoin $ctExpressionBesoin): self
+    {
+        if (!$this->ctExpressionBesoins->contains($ctExpressionBesoin)) {
+            $this->ctExpressionBesoins[] = $ctExpressionBesoin;
+            $ctExpressionBesoin->setCtImprimeTech($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtExpressionBesoin(CtExpressionBesoin $ctExpressionBesoin): self
+    {
+        if ($this->ctExpressionBesoins->removeElement($ctExpressionBesoin)) {
+            // set the owning side to null (unless already changed)
+            if ($ctExpressionBesoin->getCtImprimeTech() === $this) {
+                $ctExpressionBesoin->setCtImprimeTech(null);
+            }
+        }
 
         return $this;
     }
