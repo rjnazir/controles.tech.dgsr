@@ -3,29 +3,44 @@
 namespace App\Form;
 
 use App\Entity\CtCentre;
-use App\Entity\CtExpressionBesoin;
 use App\Entity\CtImprimeTech;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\CtExpressionBesoin;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class CtExpressionBesoinType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // $ctCentre = $options['ctCentre'];
+        $ctCentre = $options['ctCentre'];
 
         $builder
             ->add('ctCentre', EntityType::class, [
                 'label' => 'Votre centre',
                 'class' => CtCentre::class,
                 'choice_label' => 'ctrNom',
-                'disabled' => true,
-                'data' => $options['ctCentre'],
+                'required'   => true,
+                'query_builder' => function (EntityRepository $_er) use ($ctCentre) {
+                    if($ctCentre){
+                        return $_er
+                            ->createQueryBuilder('c')
+                            ->where("c.id = ".$ctCentre."")
+                            ->orderBy('c.ctr_nom', 'ASC');
+                    }else{
+                        return $_er
+                            ->createQueryBuilder('c')
+                            ->orderBy('c.ctr_nom', 'ASC');
+                    }
+                },
+                'attr' => [
+                    'class' => 'col-sm-12 form-control js-example-basic-single'
+                ],
             ])
             ->add('ctImprimeTech', EntityType::class, [
                 'label' => 'Type d\'imprimé',

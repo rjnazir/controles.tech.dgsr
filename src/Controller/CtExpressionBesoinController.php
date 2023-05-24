@@ -41,11 +41,11 @@ class CtExpressionBesoinController extends AbstractController
      */
     public function new(Request $request, CtExpressionBesoinRepository $ctExpressionBesoinRepository): Response
     {
-        $ctExpressionBesoin = new CtExpressionBesoin();
-        $form = $this->createForm(CtExpressionBesoinType::class, $ctExpressionBesoin);
-        $form->handleRequest($request);
+        $ctCentre = $this->getUser()->getCtCentre()->getId();
 
-        $ctCentre = $this->getUser()->getCtCentre();
+        $ctExpressionBesoin = new CtExpressionBesoin();
+        $form = $this->createForm(CtExpressionBesoinType::class, $ctExpressionBesoin, ['ctCentre' => $ctCentre]);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ctExpressionBesoin->setEdbCreatedAt(new DateTimeImmutable());
@@ -62,7 +62,6 @@ class CtExpressionBesoinController extends AbstractController
         return $this->renderForm('ct_expression_besoin/new.html.twig', [
             'ct_expression_besoin' => $ctExpressionBesoin,
             'form' => $form,
-            'ctCentre' => $ctCentre,
         ]);
     }
 

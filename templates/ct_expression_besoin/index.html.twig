@@ -33,6 +33,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>N°</th>
+                                <th>Centre</th>
                                 <th>Réf. EDB</th>
                                 <th>Date EDB</th>
                                 <th>Type</th>
@@ -45,9 +46,10 @@
                             {% set i = ( i | default(0) ) + 1 %}
                                 <tr>
                                     <td class="text-center">{{ i }}</td>
-                                    <td>{{ ct_expression_besoin.edbNumero }}</td>
-                                    <td>{{ ct_expression_besoin.edbDateEdit | date('d/m/Y') }}</td>
-                                    <td class="text-right">{{ ct_expression_besoin.ctImprimeTech ? ct_expression_besoin.ctImprimeTech.nomImprimeTech : "" }}</td>
+                                    <td class="text-center">{{ ct_expression_besoin.ctCentre ? ct_expression_besoin.ctCentre.ctrNom : "" }}</td>
+                                    <td class="text-center">{{ ct_expression_besoin.edbNumero }}</td>
+                                    <td class="text-center">{{ ct_expression_besoin.edbDateEdit | date('d/m/Y') }}</td>
+                                    <td class="text-left">{{ ct_expression_besoin.ctImprimeTech ? ct_expression_besoin.ctImprimeTech.nomImprimeTech : "" }}</td>
                                     <td class="text-right">{{ ct_expression_besoin.edbQteDemander | number_format(2, ',', '.') }}</td>
                                     <td class="text-center">
                                         {# <a class="btn btn-sm btn-info"
@@ -68,7 +70,7 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="7" class="text-center alert-danger">Aucun enregistrement trouvé.</td>
+                                    <td colspan="8" class="text-center alert-danger">Aucun enregistrement trouvé.</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
