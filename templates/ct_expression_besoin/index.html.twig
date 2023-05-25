@@ -91,9 +91,32 @@
                         </span>
                         <span class="text">Ajouter une imprimé dans l'EDB</span>
                     </a>
+                    {% if ct_expression_besoins %}
+                    {# <a href="{{ path('printing') }}" id="btn-edb-printing" target="_blank" class="btn btn-sm btn-dark btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Imprimer l'EDB</span>
+                    </a> #}
+                    <button type="submit" class="btn btn-sm btn-dark btn-icon-split ml-2 mr-2" id="btn-edb-printing" style="">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Imprimer l'EDB</span>
+                    </button>
+                    <span class="pull-left" id="link-download-edb"></span>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var _edb_generer_uri = "{{ path('edb_print') }}";
+    </script>
+    <script src="js/edb.printing.js"></script>
+    <script src="/js/edb.printing.js"></script>
 {% endblock %}

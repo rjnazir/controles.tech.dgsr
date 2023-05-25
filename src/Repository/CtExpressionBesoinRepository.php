@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\CtExpressionBesoin;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 /**
  * @extends ServiceEntityRepository<CtExpressionBesoin>
@@ -38,6 +40,21 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /* public function generateEdb($centre, $dedition)
+    {
+        $this->findBy(['ctCentre'=>$centre, 'edbDateEdit'=>$dedition]);
+        $template_src = new TemplateProcessor('reporting/templates/edb/edb.docx');
+
+        $dirgenerated = 'reporting/generated/edb/';
+        $filename = 'edb'.$centre.'_'.date('Ymdhis').'.docx';
+
+        $php_word = new PhpWord();
+        $template = $php_word->loadTemplate($template_src);
+
+        $template->setValue('bl_numero', $dedition);
+
+    } */
 
 //    /**
 //     * @return CtExpressionBesoin[] Returns an array of CtExpressionBesoin objects

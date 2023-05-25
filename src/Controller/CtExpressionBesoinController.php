@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\CtExpressionBesoin;
-use App\Form\CtExpressionBesoinType;
-use App\Repository\CtExpressionBesoinRepository;
 use DateTime;
 use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\CtExpressionBesoin;
+use App\Form\CtExpressionBesoinType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
+use App\Repository\CtExpressionBesoinRepository;
+use PhpOffice\PhpWord\PhpWord;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * @Route("/edb")
@@ -113,5 +114,54 @@ class CtExpressionBesoinController extends AbstractController
         }
 
         return $this->redirectToRoute('edb_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/printing", name="edb_print")
+     */
+    public function printing(CtExpressionBesoinRepository $ctExpressionBesoinRepository)
+    {
+        $ctCentre = $this->getUser()->getCtCentre()->getId();
+        $edbDateEdit = new DateTime('now');
+
+        $contenue = $ctExpressionBesoinRepository->findBy(['ctCentre'=>$ctCentre, 'edbDateEdit'=>$edbDateEdit]);
+
+        $fileName = "reporting/templates/edb/edb.docx";
+    
+        $_phpWord = new PhpWord();
+        // ask the service for a Word2007
+        // $phpTemplateObject = $this->get('phpword')->createTemplateObject($fileName);
+        $phpTemplateObject = $_phpWord->createTemplateObject($fileName);
+
+        $phpTemplateObject->setValue('test', 'testValue');
+        $phpTemplateObject->setValue('idCentre', $ctCentre);
+        $phpTemplateObject->setValue('edbDate', $edbDateEdit);
+        
+        // $phpWordObject = $this->get('phpword')->getPhpWordObjFromTemplate($phpTemplateObject);
+        $phpWordObject = $_phpWord->getPhpWordObjFromTemplate($phpTemplateObject);
+
+        // create the writer
+        // $writer = $this->get('phpword')->createWriter($phpWordObject, 'Word2007');
+        $writer = $_phpWord->createWriter($phpWordObject, 'Word2007');
+        // create the response
+        // $response = $this->get('phpword')->createStreamedResponse($writer);
+        $response = $_phpWord->createStreamedResponse($writer);
+        // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'stream-file.docx'
+        );
+        $response->headers->set('Content-Type', 'application/msword');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
+        // $ctCentre = $this->getUser()->getCtCentre()->getId();
+        // $edbDateEdit = new DateTime('now');
+
+        // $link = $ctExpressionBesoinRepository->generateEdb($ctCentre, $edbDateEdit);
+
+        // return new JsonResponse($link);
     }
 }
