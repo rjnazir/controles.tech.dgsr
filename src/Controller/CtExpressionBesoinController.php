@@ -6,13 +6,13 @@ use DateTime;
 use DateTimeImmutable;
 use App\Entity\CtExpressionBesoin;
 use App\Form\CtExpressionBesoinType;
+use App\Repository\CtCentreRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CtExpressionBesoinRepository;
-use PhpOffice\PhpWord\PhpWord;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use TCPDF;
 
 /**
  * @Route("/edb")
@@ -117,51 +117,86 @@ class CtExpressionBesoinController extends AbstractController
     }
 
     /**
-     * @Route("/printing", name="edb_print")
+     * @Route("/edb/printing", name="edb_print")
      */
-    public function printing(CtExpressionBesoinRepository $ctExpressionBesoinRepository)
+    public function printing(CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtCentreRepository $ctCentreRepository)
     {
         $ctCentre = $this->getUser()->getCtCentre()->getId();
         $edbDateEdit = new DateTime('now');
 
+        $ct_centre = $this->getUser()->getCtCentre()->getCtrNom();
+        $rgts_ctre = $ctCentreRepository->transformCenter($ct_centre, '69');
+        $ctrLibelle = $rgts_ctre[2];
+        $ctrNom = $rgts_ctre[1];
+        $ctrNumero = $rgts_ctre[4];
+
         $contenue = $ctExpressionBesoinRepository->findBy(['ctCentre'=>$ctCentre, 'edbDateEdit'=>$edbDateEdit]);
-
-        $fileName = "reporting/templates/edb/edb.docx";
-    
-        $_phpWord = new PhpWord();
-        // ask the service for a Word2007
-        // $phpTemplateObject = $this->get('phpword')->createTemplateObject($fileName);
-        $phpTemplateObject = $_phpWord->createTemplateObject($fileName);
-
-        $phpTemplateObject->setValue('test', 'testValue');
-        $phpTemplateObject->setValue('idCentre', $ctCentre);
-        $phpTemplateObject->setValue('edbDate', $edbDateEdit);
         
-        // $phpWordObject = $this->get('phpword')->getPhpWordObjFromTemplate($phpTemplateObject);
-        $phpWordObject = $_phpWord->getPhpWordObjFromTemplate($phpTemplateObject);
+        $pdf = new TCPDF();
 
-        // create the writer
-        // $writer = $this->get('phpword')->createWriter($phpWordObject, 'Word2007');
-        $writer = $_phpWord->createWriter($phpWordObject, 'Word2007');
-        // create the response
-        // $response = $this->get('phpword')->createStreamedResponse($writer);
-        $response = $_phpWord->createStreamedResponse($writer);
-        // adding headers
-        $dispositionHeader = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'stream-file.docx'
-        );
-        $response->headers->set('Content-Type', 'application/msword');
-        $response->headers->set('Pragma', 'public');
-        $response->headers->set('Cache-Control', 'maxage=1');
-        $response->headers->set('Content-Disposition', $dispositionHeader);
+        $pdf->AddPage('P');
+        $pdf->setTitle('Expression de besoin');
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
 
-        return $response;
-        // $ctCentre = $this->getUser()->getCtCentre()->getId();
-        // $edbDateEdit = new DateTime('now');
+        $pdf->SetFont('helvetica','',7);
+		$pdf->SetTextColor(0,0,0);
+		$pdf->SetFillColor(0,0,0,0);
+		$pdf->MultiCell(95,5,"DIRECTION GENERALE DE LA SECURITE ROUTIERE",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,"REPOBLIKAN'I MADAGASIKARA",0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,"--------------------",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
+		$pdf->SetFont('helvetica','I',7);
+		$pdf->MultiCell(95,5,"Fitiavana - Tanindrazana - Fandrosoana",0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->SetFont('helvetica','',7);
+		$pdf->MultiCell(95,5,"DIRECTION DES OPERATIONS ROUTIERES",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,"--------------------",0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,"--------------------",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,"" ,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,$ctrLibelle.' '.$ctrNom,0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,'A '.ucwords(strtolower($ctrNom)).', '.$ctCentreRepository->dateLetterFr(),0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,"--------------------",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,$ctrNumero,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->Ln(10);
 
-        // $link = $ctExpressionBesoinRepository->generateEdb($ctCentre, $edbDateEdit);
+		$pdf->SetFont('Helvetica','UB',12);
+		$pdf->SetTextColor(0,0,0);
+		$pdf->Cell(190,8,"EXPRESSION DES BESOINS",0,0,'C');
+		$pdf->Ln(10);
 
-        // return new JsonResponse($link);
+		$entete = array();
+		$entete[0] = "N°";
+		$entete[1] = "DESIGNATION DES PIECES";
+		$entete[2] = "QUANTITE EN STOCKS";
+		$entete[3] = "QUANTITE DEMANDER";
+		$entete[4] = "OBSERVATIONS";
+		$pdf->SetTextColor(0,0,0);
+		//En-tête tableau
+		$pdf->SetFont('helvetica','B',7);
+		$w=array(10,90,30,30,30);
+		$pdf->SetFillColor(0,148,255);
+		for($i=0;$i<count($entete);$i++){
+			$pdf->Cell($w[$i],10,($entete[$i]),1,0,'C',0);
+		}
+		$pdf->Ln(10);
+		$pdf->SetTextColor(0,0,0);
+		$pdf->SetFont('helvetica','',7);
+		if(count($contenue) !=0){
+            $i = 1;
+			foreach($contenue as $contenue) {
+				$pdf->Cell($w[0],8,$i,1,0,'C');
+				$pdf->Cell($w[1],8,$contenue->getCtImprimeTech()->getNomImprimeTech().' ('.$contenue->getCtImprimeTech()->getAbrevImprimeTech().')',1);
+				$pdf->Cell($w[2],8,"",1,0,'C');
+				$pdf->Cell($w[3],8,$contenue->getEdbQteDemander(),1,0,'C');
+				$pdf->Cell($w[4],8,"",1,0,'C');
+				$pdf->Ln(8);
+                $i++;
+			}
+		}else{
+			$pdf->Cell(190,8,"NEANT",1,0,"C");
+			$pdf->Ln(4);
+		}
+
+        $pdf->Output('edb_'.date('YmdHis').'.pdf', 'I');
+
     }
 }
