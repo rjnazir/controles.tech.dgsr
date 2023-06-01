@@ -98,7 +98,7 @@ class CtCentreRepository extends ServiceEntityRepository
     function dateLetterFr()
     {
         $months = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
-        $day = date('j');
+        $day = date('d');
         $year = date('Y');
         $month = date('m');
         $mois = $months[$month-1];

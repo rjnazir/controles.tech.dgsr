@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CtExpressionBesoinRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -34,7 +36,7 @@ class CtExpressionBesoin
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=32)
      */
     private $edbNumero;
 
@@ -73,17 +75,27 @@ class CtExpressionBesoin
      */
     private $edbUpdatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtBordereau::class, mappedBy="ctExpressionBesoin")
+     */
+    private $ctBordereaus;
+
+    public function __construct()
+    {
+        $this->ctBordereaus = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEdbNumero(): ?int
+    public function getEdbNumero(): ?string
     {
         return $this->edbNumero;
     }
 
-    public function setEdbNumero(int $edbNumero): self
+    public function setEdbNumero(string $edbNumero): self
     {
         $this->edbNumero = $edbNumero;
 
@@ -170,6 +182,36 @@ class CtExpressionBesoin
     public function setEdbUpdatedAt(?\DateTimeImmutable $edbUpdatedAt): self
     {
         $this->edbUpdatedAt = $edbUpdatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtBordereau>
+     */
+    public function getCtBordereaus(): Collection
+    {
+        return $this->ctBordereaus;
+    }
+
+    public function addCtBordereau(CtBordereau $ctBordereau): self
+    {
+        if (!$this->ctBordereaus->contains($ctBordereau)) {
+            $this->ctBordereaus[] = $ctBordereau;
+            $ctBordereau->setCtExpressionBesoin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtBordereau(CtBordereau $ctBordereau): self
+    {
+        if ($this->ctBordereaus->removeElement($ctBordereau)) {
+            // set the owning side to null (unless already changed)
+            if ($ctBordereau->getCtExpressionBesoin() === $this) {
+                $ctBordereau->setCtExpressionBesoin(null);
+            }
+        }
 
         return $this;
     }

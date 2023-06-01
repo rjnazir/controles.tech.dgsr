@@ -100,7 +100,7 @@
                 <a class="collapse-item" href="{{ path('edb_index') }}">Expressions (EDB)</a>
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_APPRO') %}
                 <h6 class="collapse-header">Envois :</h6>
-                <a class="collapse-item" href="#">Bordereau (BDE)</a>
+                <a class="collapse-item" href="{{ path('be_index') }}">Bordereau (BDE)</a>
                 {% endif %}
                 <h6 class="collapse-header">Utilisations :</h6>
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}

@@ -81,7 +81,9 @@ class CtExpressionBesoinController extends AbstractController
      */
     public function edit(Request $request, CtExpressionBesoin $ctExpressionBesoin, CtExpressionBesoinRepository $ctExpressionBesoinRepository): Response
     {
-        $form = $this->createForm(CtExpressionBesoinType::class, $ctExpressionBesoin);
+        $ctCentre = $this->getUser()->getCtCentre()->getId();
+
+        $form = $this->createForm(CtExpressionBesoinType::class, $ctExpressionBesoin, ['ctCentre' => $ctCentre]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -132,15 +134,14 @@ class CtExpressionBesoinController extends AbstractController
         $ctrNumero = $rgts_ctre[4];
 
         $contenue = $ctExpressionBesoinRepository->findBy(['ctCentre'=>$ctCentre, 'edbDateEdit'=>$edbDateEdit]);
-        
+        $numero_edb = $ctExpressionBesoinRepository->findNumberEDB($ctCentre, $edbDateEdit->format('Y-m-d'));
+
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->AddPage('P');
         $pdf->setTitle('Expression de besoin');
 
-		$pdf->setPrintFooter(false);
-		$pdf->setPrintHeader(false);
 		$pdf->setFooterFont(Array('times', '', 10));
-		$pdf->SetHeaderMargin(10);
+		$pdf->SetHeaderMargin(0);
 		$pdf->SetFooterMargin(10);
 		$pdf->SetAutoPageBreak(true, 10);
 
@@ -162,7 +163,7 @@ class CtExpressionBesoinController extends AbstractController
 		$pdf->SetFont('times','',9);
 		$pdf->MultiCell(95,5,'A '.ucwords(strtolower($ctrNom)).', '.$ctCentreRepository->dateLetterFr(),0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
 		$pdf->MultiCell(95,5,"--------------------",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
-		$pdf->MultiCell(95,5,$ctrNumero,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,$numero_edb,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
         $pdf->SetXY(52.5, 40);
         $pdf->Image('sb-admin-2/images/logo_dgsr.jpg', '', '', 10, 10, '', '', '', true, 300, '', false, false, false, false, false, false);
 		$pdf->Ln(10);

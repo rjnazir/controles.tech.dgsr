@@ -1,0 +1,127 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Détail d'une imprimé de l'EDB{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">       
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                <h4 class="m-0 font-weight-bold text-gray-100">Détail d'une imprimé de l'EDB</h4>
+                <div class="dropdown no-arrow">
+                    <a href="{{ path('be_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('be_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th width="20%">Centre : </th>
+                            <td width="80%">{{ ct_bordereau.ctCentre ? ct_bordereau.ctCentre.ctrNom : "" }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Réf. de l'EDB : </th>
+                            <td width="80%">{{ ct_bordereau.ctExpressionBesoin ? ct_bordereau.ctExpressionBesoin.edbNumero : "" }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Numéro du BE : </th>
+                            <td width="80%">{{ ct_bordereau.beNumero }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Date du BE : </th>
+                            <td width="80%">{{ ct_bordereau.beDateEdit | date('d/m/Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Type d'imprimé : </th>
+                            <td width="80%">{{ ct_bordereau.ctImprimeTech ? ct_bordereau.ctImprimeTech.nomImprimeTech : "" }}</td>
+                        </tr>
+                        <tr>
+                            <th width="20%">Numéro : </th>
+                            <td width="80%">{{ ct_bordereau.beDebutNumero | number_format(0, ',', '.') }} à {{ ct_bordereau.beFinNumero | number_format(0, ',', '.') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer">
+                <div class="row">
+                    <a href="{{ path('be_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="text">Retour à la liste</span>
+                    </a>
+                    {% if is_granted('ROLE_SUPERADMIN') %}
+                    <a href="{{ path('be_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Ajouter une imprimé au BE</span>
+                    </a>
+                    <a href="{{ path('be_edit', {'id': ct_bordereau.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                        <span class="text">Modifier l'imprimé du BE</span>
+                    </a>
+                    <div>{{ include('ct_bordereau/_delete_form.html.twig') }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{# {% extends 'base.html.twig' %}
+
+{% block title %}CtBordereau{% endblock %}
+
+{% block body %}
+    <h1>CtBordereau</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ct_bordereau.id }}</td>
+            </tr>
+            <tr>
+                <th>BeNumero</th>
+                <td>{{ ct_bordereau.beNumero }}</td>
+            </tr>
+            <tr>
+                <th>BeDebutNumero</th>
+                <td>{{ ct_bordereau.beDebutNumero }}</td>
+            </tr>
+            <tr>
+                <th>BeFinNumero</th>
+                <td>{{ ct_bordereau.beFinNumero }}</td>
+            </tr>
+            <tr>
+                <th>BeCreatedAt</th>
+                <td>{{ ct_bordereau.beCreatedAt ? ct_bordereau.beCreatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>BeUpdatedAt</th>
+                <td>{{ ct_bordereau.beUpdatedAt ? ct_bordereau.beUpdatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ct_bordereau_index') }}">back to list</a>
+
+    <a href="{{ path('app_ct_bordereau_edit', {'id': ct_bordereau.id}) }}">edit</a>
+
+    {{ include('ct_bordereau/_delete_form.html.twig') }}
+{% endblock %} #}

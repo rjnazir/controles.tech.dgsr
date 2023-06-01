@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CtExpressionBesoinType extends AbstractType
 {
@@ -51,15 +51,15 @@ class CtExpressionBesoinType extends AbstractType
                     'class' => 'col-sm-12 form-control js-example-basic-single'
                 ],
             ])
-            ->add('edbNumero', IntegerType::class, [
+            ->add('edbNumero', TextType::class, [
                 'label' => 'Numéro de l\'EDB',
-                'required' => true,
+                'required'   => true,
                 'attr'  => [
-                    'class' => 'form-control form-control-sm'
+                    'class' => 'form-control form-control-sm',
                 ]
             ])
             ->add('edbDateEdit', null, [
-                'label' => 'Date de l\'arrêté',
+                'label' => 'Date de l\'EDB',
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'datetimepicker',

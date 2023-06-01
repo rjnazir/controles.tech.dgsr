@@ -116,11 +116,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $ctExpressionBesoins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtBordereau::class, mappedBy="user")
+     */
+    private $ctBordereaus;
+
     public function __construct()
     {
         $this->ctArretePrixes = new ArrayCollection();
         $this->ctImprimeTeches = new ArrayCollection();
         $this->ctExpressionBesoins = new ArrayCollection();
+        $this->ctBordereaus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -435,6 +441,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($ctExpressionBesoin->getUser() === $this) {
                 $ctExpressionBesoin->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtBordereau>
+     */
+    public function getCtBordereaus(): Collection
+    {
+        return $this->ctBordereaus;
+    }
+
+    public function addCtBordereau(CtBordereau $ctBordereau): self
+    {
+        if (!$this->ctBordereaus->contains($ctBordereau)) {
+            $this->ctBordereaus[] = $ctBordereau;
+            $ctBordereau->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtBordereau(CtBordereau $ctBordereau): self
+    {
+        if ($this->ctBordereaus->removeElement($ctBordereau)) {
+            // set the owning side to null (unless already changed)
+            if ($ctBordereau->getUser() === $this) {
+                $ctBordereau->setUser(null);
             }
         }
 

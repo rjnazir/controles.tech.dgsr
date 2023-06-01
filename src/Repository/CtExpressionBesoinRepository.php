@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpParser\Node\Expr\Cast\String_;
 
 /**
  * @extends ServiceEntityRepository<CtExpressionBesoin>
@@ -39,6 +40,23 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findNumberEDB($centre, $dedition): string
+    {
+        $list = $this->createQueryBuilder('c')
+            ->andWhere('c.ctCentre = ?1 ')
+            ->andWhere('c.edbDateEdit = ?2 ')
+            ->setParameter(1, $centre)
+            ->setParameter(2, $dedition)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+        foreach($list as $list){
+            $numero = $list->getEdbNumero();
+        }
+        return $numero;
     }
 
     /* public function generateEdb($centre, $dedition)

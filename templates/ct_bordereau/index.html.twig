@@ -1,6 +1,6 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Liste des imprimés de l'EDB{% endblock %}
+{% block title %}Liste des imprimés du BE{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -8,14 +8,14 @@
         <!-- DataTales Roles -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Liste des imprimés de l'EDB</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Liste des imprimés du BE</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('edb_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                    <a href="{{ path('be_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
-                    <a href="{{ path('edb_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                    <a href="{{ path('be_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -35,34 +35,34 @@
                                 <th>N°</th>
                                 <th>Centre</th>
                                 <th>Réf. EDB</th>
-                                <th>Date EDB</th>
-                                <th>Type</th>
-                                <th>Quantité</th>
+                                <th>Réf. BE</th>
+                                <th>Type imprimé</th>
+                                <th>N° imprimé</th>
                                 <th width="12%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for ct_expression_besoin in ct_expression_besoins %}
+                            {% for ct_bordereau in ct_bordereaus %}
                             {% set i = ( i | default(0) ) + 1 %}
                                 <tr>
                                     <td class="text-center">{{ i }}</td>
-                                    <td class="text-center">{{ ct_expression_besoin.ctCentre ? ct_expression_besoin.ctCentre.ctrNom : "" }}</td>
-                                    <td class="text-center">{{ ct_expression_besoin.edbNumero }}</td>
-                                    <td class="text-center">{{ ct_expression_besoin.edbDateEdit | date('d/m/Y') }}</td>
-                                    <td class="text-left">{{ ct_expression_besoin.ctImprimeTech ? ct_expression_besoin.ctImprimeTech.nomImprimeTech : "" }}</td>
-                                    <td class="text-right">{{ ct_expression_besoin.edbQteDemander | number_format(2, ',', '.') }}</td>
+                                    <td class="text-center">{{ ct_bordereau.ctCentre ? ct_bordereau.ctCentre.ctrNom : "" }}</td>
+                                    <td class="text-center">{{ ct_bordereau.ctExpressionBesoin ? ct_bordereau.ctExpressionBesoin.edbNumero : "" }}</td>
+                                    <td class="text-center">{{ ct_bordereau.beNumero }}</td>
+                                    <td class="text-left">{{ ct_bordereau.ctImprimeTech ? ct_bordereau.ctImprimeTech.nomImprimeTech : "" }}</td>
+                                    <td class="text-center">{{ ct_bordereau.beDebutNumero | number_format(0, ',', '.') }} à {{ ct_bordereau.beFinNumero | number_format(0, ',', '.') }}</td>
                                     <td class="text-center">
                                         {# <a class="btn btn-sm btn-info"
-                                            href="{{ path('edb_show', {'id': ct_expression_besoin.id}) }}">
+                                            href="{{ path('be_show', {'id': ct_bordereau.id}) }}">
                                                 <i class="fas fa-eye"></i>
                                         </a> #}
                                         {% if is_granted('ROLE_SUPERADMIN') %}
                                         <a class="btn btn-sm btn-warning" title="Modifier"
-                                            href="{{ path('edb_edit', {'id': ct_expression_besoin.id}) }}">
+                                            href="{{ path('be_edit', {'id': ct_bordereau.id}) }}">
                                                 <i class="fas fa-pen"></i>
                                         </a>
                                         <a class="btn btn-sm btn-danger" title="Supprimer"
-                                            href="{{ path('edb_delete', {'id': ct_expression_besoin.id}) }}">
+                                            href="{{ path('be_delete', {'id': ct_bordereau.id}) }}">
                                                 <i class="fas fa-trash"></i>
                                         </a>
                                         {% endif %}
@@ -79,40 +79,29 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('edb_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('be_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
-                    <a href="{{ path('edb_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('be_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Ajouter une imprimé dans l'EDB</span>
+                        <span class="text">Ajouter une imprimé dans le BE</span>
                     </a>
-                    {% if ct_expression_besoins %}
-                    <a href="{{ path('edb_print') }}" id="btn-edb-printing" target="_blank" class="btn btn-sm btn-icon-split btn-success ml-2 mr-2">
+                    {# {% if ct_bordereaus %}
+                    <a href="{{ path('be_print') }}" id="btn-edb-printing" target="_blank" class="btn btn-sm btn-icon-split btn-success ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-print"></i>
                         </span>
-                        <span class="text">Imprimer l'EDB</span>
+                        <span class="text">Imprimer le BE</span>
                     </a>
-                    {% endif %}
+                    {% endif %} #}
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(function () {
-            $('#btn-edb-printing').click(function(event) {
-                alert('Andrana');
-                return false;
-            });
-        })
-    </script>
 {% endblock %}

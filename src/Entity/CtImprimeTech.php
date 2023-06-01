@@ -67,9 +67,15 @@ class CtImprimeTech
      */
     private $ctExpressionBesoins;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtBordereau::class, mappedBy="ctImprimeTech")
+     */
+    private $ctBordereaus;
+
     public function __construct()
     {
         $this->ctExpressionBesoins = new ArrayCollection();
+        $this->ctBordereaus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,6 +179,36 @@ class CtImprimeTech
             // set the owning side to null (unless already changed)
             if ($ctExpressionBesoin->getCtImprimeTech() === $this) {
                 $ctExpressionBesoin->setCtImprimeTech(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtBordereau>
+     */
+    public function getCtBordereaus(): Collection
+    {
+        return $this->ctBordereaus;
+    }
+
+    public function addCtBordereau(CtBordereau $ctBordereau): self
+    {
+        if (!$this->ctBordereaus->contains($ctBordereau)) {
+            $this->ctBordereaus[] = $ctBordereau;
+            $ctBordereau->setCtImprimeTech($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtBordereau(CtBordereau $ctBordereau): self
+    {
+        if ($this->ctBordereaus->removeElement($ctBordereau)) {
+            // set the owning side to null (unless already changed)
+            if ($ctBordereau->getCtImprimeTech() === $this) {
+                $ctBordereau->setCtImprimeTech(null);
             }
         }
 
