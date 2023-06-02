@@ -399,7 +399,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->ctImprimeTeches->contains($ctImprimeTech)) {
             $this->ctImprimeTeches[] = $ctImprimeTech;
-            $ctImprimeTech->setCtUser($this);
+            $ctImprimeTech->setUser($this);
         }
 
         return $this;
@@ -409,8 +409,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->ctImprimeTeches->removeElement($ctImprimeTech)) {
             // set the owning side to null (unless already changed)
-            if ($ctImprimeTech->getCtUser() === $this) {
-                $ctImprimeTech->setCtUser(null);
+            if ($ctImprimeTech->getUser() === $this) {
+                $ctImprimeTech->setUser(null);
             }
         }
 
