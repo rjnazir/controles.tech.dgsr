@@ -1,13 +1,13 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Détail d'une imprimé de l'EDB{% endblock %}
+{% block title %}Détail de l'EDB{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Détail d'une imprimé de l'EDB</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Détail de l'EDB</h4>
                 <div class="dropdown no-arrow">
                     <a href="{{ path('edb_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
@@ -38,17 +38,13 @@
                             <th width="20%">Date de l'EDB : </th>
                             <td width="80%">{{ ct_expression_besoin.edbDateEdit | date('d/m/Y') }}</td>
                         </tr>
-                        <tr>
+                        {# <tr>
                             <th width="20%">Type d'imprimé : </th>
                             <td width="80%">{{ ct_expression_besoin.ctImprimeTech ? ct_expression_besoin.ctImprimeTech.nomImprimeTech : "" }}</td>
                         </tr>
                         <tr>
                             <th width="20%">Quantité : </th>
                             <td width="80%">{{ ct_expression_besoin.edbQteDemander }}</td>
-                        </tr>
-                        {# <tr>
-                            <th width="20%">Code : </th>
-                            <td width="80%">{{ ct_expression_besoin.grCode }}</td>
                         </tr> #}
                     </tbody>
                 </table>
@@ -67,13 +63,13 @@
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Ajouter une imprimé à l'EDB</span>
+                        <span class="text">Créer une EDB</span>
                     </a>
                     <a href="{{ path('edb_edit', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>
                         </span>
-                        <span class="text">Modifier l'imprimé de l'EDB</span>
+                        <span class="text">Modifier l'EDB</span>
                     </a>
                     <div>{{ include('ct_expression_besoin/_delete_form.html.twig') }}</div>
                     {% endif %}

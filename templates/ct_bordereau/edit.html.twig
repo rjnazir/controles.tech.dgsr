@@ -1,13 +1,13 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Modifier une imprimé du BE{% endblock %}
+{% block title %}Modifier un bordereau{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Modifier une imprimé du BE</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Modifier un bordereau</h4>
                 <div class="dropdown no-arrow">
                     <a href="{{ path('be_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
@@ -23,13 +23,10 @@
             </div>
             <div class="card-body">
                 {{ form_start(form) }}
-                    {{ form_row(form.ctCentre) }}
-                    {{ form_row(form.ctImprimeTech) }}
                     {{ form_row(form.ctExpressionBesoin) }}
+                    {{ form_row(form.ctCentre) }}
                     {{ form_row(form.beNumero) }}
                     {{ form_row(form.beDateEdit) }}
-                    {{ form_row(form.beDebutNumero) }}
-                    {{ form_row(form.beFinNumero) }}
                     {{ form_row(form.save) }}
                 {{ form_end(form) }}
             </div>
@@ -46,7 +43,7 @@
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Modifier une imprimé du BE</span>
+                        <span class="text">Modifier un bordereau</span>
                     </a>
                     <div>{{ include('ct_bordereau/_delete_form.html.twig') }}</div>
                 </div>
@@ -55,16 +52,3 @@
     </div>
 </div>
 {% endblock %}
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Edit CtBordereau{% endblock %}
-
-{% block body %}
-    <h1>Edit CtBordereau</h1>
-
-    {{ include('ct_bordereau/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_ct_bordereau_index') }}">back to list</a>
-
-    {{ include('ct_bordereau/_delete_form.html.twig') }}
-{% endblock %} #}

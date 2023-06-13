@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\CtImprimeTech;
+use App\Entity\CtBordereau;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CtImprimeTech>
+ * @extends ServiceEntityRepository<CtBordereau>
  *
- * @method CtImprimeTech|null find($id, $lockMode = null, $lockVersion = null)
- * @method CtImprimeTech|null findOneBy(array $criteria, array $orderBy = null)
- * @method CtImprimeTech[]    findAll()
- * @method CtImprimeTech[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CtBordereau|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CtBordereau|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CtBordereau[]    findAll()
+ * @method CtBordereau[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CtImprimeTechRepository extends ServiceEntityRepository
+class CtBordereauRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CtImprimeTech::class);
+        parent::__construct($registry, CtBordereau::class);
     }
 
-    public function add(CtImprimeTech $entity, bool $flush = false): void
+    public function add(CtBordereau $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CtImprimeTechRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(CtImprimeTech $entity, bool $flush = false): void
+    public function remove(CtBordereau $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CtImprimeTechRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return CtImprimeTech[] Returns an array of CtImprimeTech objects
+//     * @return CtBordereau[] Returns an array of CtBordereau objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CtImprimeTechRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?CtImprimeTech
+//    public function findOneBySomeField($value): ?CtBordereau
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
@@ -63,14 +63,4 @@ class CtImprimeTechRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
-   public function findOneByAbrevImprimeTech($value): ?CtImprimeTech
-   {
-       return $this->createQueryBuilder('c')
-           ->andWhere('c.abrevImprimeTech = :val')
-           ->setParameter('val', $value)
-           ->getQuery()
-           ->getOneOrNullResult()
-       ;
-   }
 }

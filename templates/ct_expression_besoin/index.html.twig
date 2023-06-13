@@ -8,7 +8,7 @@
         <!-- DataTales Roles -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Liste des imprimés de l'EDB</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Liste des EDB</h4>
                 <div class="dropdown no-arrow">
                     <a href="{{ path('edb_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
@@ -36,8 +36,8 @@
                                 <th>Centre</th>
                                 <th>Réf. EDB</th>
                                 <th>Date EDB</th>
-                                <th>Type</th>
-                                <th>Quantité</th>
+                                {# <th>Type</th>
+                                <th>Quantité</th> #}
                                 <th width="12%">Actions</th>
                             </tr>
                         </thead>
@@ -49,23 +49,25 @@
                                     <td class="text-center">{{ ct_expression_besoin.ctCentre ? ct_expression_besoin.ctCentre.ctrNom : "" }}</td>
                                     <td class="text-center">{{ ct_expression_besoin.edbNumero }}</td>
                                     <td class="text-center">{{ ct_expression_besoin.edbDateEdit | date('d/m/Y') }}</td>
-                                    <td class="text-left">{{ ct_expression_besoin.ctImprimeTech ? ct_expression_besoin.ctImprimeTech.nomImprimeTech : "" }}</td>
-                                    <td class="text-right">{{ ct_expression_besoin.edbQteDemander | number_format(2, ',', '.') }}</td>
                                     <td class="text-center">
                                         {# <a class="btn btn-sm btn-info"
                                             href="{{ path('edb_show', {'id': ct_expression_besoin.id}) }}">
                                                 <i class="fas fa-eye"></i>
                                         </a> #}
-                                        {% if is_granted('ROLE_SUPERADMIN') %}
                                         <a class="btn btn-sm btn-warning" title="Modifier"
                                             href="{{ path('edb_edit', {'id': ct_expression_besoin.id}) }}">
                                                 <i class="fas fa-pen"></i>
                                         </a>
+                                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') %}
                                         <a class="btn btn-sm btn-danger" title="Supprimer"
                                             href="{{ path('edb_delete', {'id': ct_expression_besoin.id}) }}">
                                                 <i class="fas fa-trash"></i>
                                         </a>
                                         {% endif %}
+                                        <a class="btn btn-sm btn-success" title="Supprimer" target='_black'
+                                            href="{{ path('edb_print', {'id': ct_expression_besoin.id}) }}">
+                                                <i class="fas fa-print"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             {% else %}
@@ -89,30 +91,17 @@
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Ajouter une imprimé dans l'EDB</span>
+                        <span class="text">Créer une EDB</span>
                     </a>
-                    {% if ct_expression_besoins %}
-                    <a href="{{ path('edb_print') }}" id="btn-edb-printing" target="_blank" class="btn btn-sm btn-icon-split btn-success ml-2 mr-2">
+                    <a href="{{ path('contenu_new') }}" class="btn btn-sm btn-info btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
-                            <i class="fas fa-print"></i>
+                            <i class="fas fa-plus-square"></i>
                         </span>
-                        <span class="text">Imprimer l'EDB</span>
+                        <span class="text">Ajouter des imprimés</span>
                     </a>
-                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(function () {
-            $('#btn-edb-printing').click(function(event) {
-                alert('Andrana');
-                return false;
-            });
-        })
-    </script>
 {% endblock %}

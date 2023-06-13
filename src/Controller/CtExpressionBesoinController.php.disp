@@ -4,12 +4,9 @@ namespace App\Controller;
 
 use DateTime;
 use DateTimeImmutable;
-use App\Form\CtContenuType;
-use App\Entity\CtContenu;
 use App\Entity\CtExpressionBesoin;
 use App\Form\CtExpressionBesoinType;
 use App\Repository\CtCentreRepository;
-use App\Repository\CtContenuRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,8 +45,7 @@ class CtExpressionBesoinController extends AbstractController
         $ctCentre = $this->getUser()->getCtCentre()->getId();
 
         $ctExpressionBesoin = new CtExpressionBesoin();
-        $form = $this->createForm(CtExpressionBesoinType::class, $ctExpressionBesoin, ['ctCentre'=>$ctCentre]);
-
+        $form = $this->createForm(CtExpressionBesoinType::class, $ctExpressionBesoin, ['ctCentre' => $ctCentre]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -123,25 +119,22 @@ class CtExpressionBesoinController extends AbstractController
     }
 
     /**
-     * @Route("/printing/{id}", name="edb_print")
+     * @Route("/edb/printing", name="edb_print")
      */
-    public function printing(CtExpressionBesoin $ctExpressionBesoin, CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtCentreRepository $ctCentreRepository, CtContenuRepository $ctContenuRepository)
+    public function printing(CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtCentreRepository $ctCentreRepository)
     {
         $ctCentre = $this->getUser()->getCtCentre()->getId();
         $edbDateEdit = new DateTime('now');
-        $numero_edb = $ctExpressionBesoinRepository->findOneBy(['id'=>$ctExpressionBesoin->getId()]);
-        if($numero_edb) $numero = $numero_edb->getEdbNumero();
 
         $ct_centre = $this->getUser()->getCtCentre()->getCtrNom();
-        $rgts_ctre = $ctCentreRepository->transformCenter($ct_centre);
+        $rgts_ctre = $ctCentreRepository->transformCenter($ct_centre, '69');
         $ctrFonction = $rgts_ctre[0];
         $ctrNom = $rgts_ctre[1];
         $ctrLibelle = $rgts_ctre[2];
         $ctrNumero = $rgts_ctre[4];
 
-        $contenue = $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctExpressionBesoin->getId()]);
-        // $contenue = $ctExpressionBesoinRepository->findBy(['ctCentre'=>$ctCentre, 'edbDateEdit'=>$edbDateEdit]);
-        // $numero_edb = $ctExpressionBesoinRepository->findNumberEDB($ctCentre, $edbDateEdit->format('Y-m-d'));
+        $contenue = $ctExpressionBesoinRepository->findBy(['ctCentre'=>$ctCentre, 'edbDateEdit'=>$edbDateEdit]);
+        $numero_edb = $ctExpressionBesoinRepository->findNumberEDB($ctCentre, $edbDateEdit->format('Y-m-d'));
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->AddPage('P');
@@ -170,7 +163,7 @@ class CtExpressionBesoinController extends AbstractController
 		$pdf->SetFont('times','',9);
 		$pdf->MultiCell(95,5,'A '.ucwords(strtolower($ctrNom)).', '.$ctCentreRepository->dateLetterFr(),0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
 		$pdf->MultiCell(95,5,"--------------------",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
-		$pdf->MultiCell(95,5,$numero,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5,$numero_edb,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
         $pdf->SetXY(52.5, 40);
         $pdf->Image('sb-admin-2/images/logo_dgsr.jpg', '', '', 10, 10, '', '', '', true, 300, '', false, false, false, false, false, false);
 		$pdf->Ln(10);
@@ -212,7 +205,7 @@ class CtExpressionBesoinController extends AbstractController
 				$pdf->Cell($w[0],12,$i,1,0,'C');
 				$pdf->Cell($w[1],12,$contenue->getCtImprimeTech()->getNomImprimeTech().' ('.$contenue->getCtImprimeTech()->getAbrevImprimeTech().')',1);
 				$pdf->Cell($w[2],12,"",1,0,'C');
-				$pdf->Cell($w[3],12,$contenue->getQteDemande(),1,0,'C');
+				$pdf->Cell($w[3],12,$contenue->getEdbQteDemander(),1,0,'C');
 				$pdf->Cell($w[4],12,"",1,0,'C');
 				$pdf->Ln(12);
                 $i++;

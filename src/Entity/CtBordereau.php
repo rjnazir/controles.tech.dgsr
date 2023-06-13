@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CtBordereauRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -13,15 +15,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  uniqueConstraints = {
  *      @ORM\UniqueConstraint(
  *          columns = {
- *              "ct_centre_id", "ct_imprime_tech_id", "be_numero", "be_debut_numero", "be_fin_numero"
+ *              "ct_centre_id", "be_numero"
  *          }
  *      )
  *  }
  * )
  * @UniqueEntity(
- *  fields = {"ctCentre", "ctImprimeTech", "beNumero", "beDebutNumero", "beFinNumero"},
- *  errorPath = "ctImprimeTech",
- *  message = "Le type d'imprimé entrée est déjà existant dans le bordereau d'envoi."
+ *  fields = {"ctCentre", "beNumero"},
+ *  errorPath = "beNumero",
+ *  message = "Le numéro de BE entrée est déjà existant."
  * )
  */
 class CtBordereau
@@ -39,16 +41,6 @@ class CtBordereau
     private $ctCentre;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CtImprimeTech::class, inversedBy="ctBordereaus")
-     */
-    private $ctImprimeTech;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=CtExpressionBesoin::class, inversedBy="ctBordereaus")
-     */
-    private $ctExpressionBesoin;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ctBordereaus")
      */
     private $user;
@@ -59,14 +51,9 @@ class CtBordereau
     private $beNumero;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
-    private $beDebutNumero;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $beFinNumero;
+    private $beDateEdit;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
@@ -79,9 +66,24 @@ class CtBordereau
     private $beUpdatedAt;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\OneToOne(targetEntity=CtExpressionBesoin::class, cascade={"persist", "detach"})
      */
-    private $beDateEdit;
+    private $ctExpressionBesoin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CtContenu::class, inversedBy="ctBordereaus")
+     */
+    private $ctContenu;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CtContenu::class, mappedBy="ctBordereau")
+     */
+    private $ctContenus;
+
+    public function __construct()
+    {
+        $this->ctContenus = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -100,64 +102,9 @@ class CtBordereau
         return $this;
     }
 
-    public function getCtImprimeTech(): ?CtImprimeTech
-    {
-        return $this->ctImprimeTech;
-    }
-
-    public function setCtImprimeTech(?CtImprimeTech $ctImprimeTech): self
-    {
-        $this->ctImprimeTech = $ctImprimeTech;
-
-        return $this;
-    }
-
-    public function getCtExpressionBesoin(): ?CtExpressionBesoin
-    {
-        return $this->ctExpressionBesoin;
-    }
-
-    public function setCtExpressionBesoin(?CtExpressionBesoin $ctExpressionBesoin): self
-    {
-        $this->ctExpressionBesoin = $ctExpressionBesoin;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getBeDebutNumero(): ?int
-    {
-        return $this->beDebutNumero;
-    }
-
-    public function setBeDebutNumero(?int $beDebutNumero): self
-    {
-        $this->beDebutNumero = $beDebutNumero;
-
-        return $this;
-    }
-
-    public function getBeFinNumero(): ?int
-    {
-        return $this->beFinNumero;
-    }
-
-    public function setBeFinNumero(?int $beFinNumero): self
-    {
-        $this->beFinNumero = $beFinNumero;
-
-        return $this;
     }
 
     public function getBeNumero(): ?string
@@ -168,6 +115,25 @@ class CtBordereau
     public function setBeNumero(string $beNumero): self
     {
         $this->beNumero = $beNumero;
+
+        return $this;
+    }
+
+    public function getBeDateEdit(): ?\DateTimeInterface
+    {
+        return $this->beDateEdit;
+    }
+
+    public function setBeDateEdit(?\DateTimeInterface $beDateEdit): self
+    {
+        $this->beDateEdit = $beDateEdit;
+
+        return $this;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
@@ -196,14 +162,56 @@ class CtBordereau
         return $this;
     }
 
-    public function getBeDateEdit(): ?\DateTimeInterface
+    public function getCtExpressionBesoin(): ?CtExpressionBesoin
     {
-        return $this->beDateEdit;
+        return $this->ctExpressionBesoin;
     }
 
-    public function setBeDateEdit(?\DateTimeInterface $beDateEdit): self
+    public function setCtExpressionBesoin(?CtExpressionBesoin $ctExpressionBesoin): self
     {
-        $this->beDateEdit = $beDateEdit;
+        $this->ctExpressionBesoin = $ctExpressionBesoin;
+
+        return $this;
+    }
+
+    public function getCtContenu(): ?CtContenu
+    {
+        return $this->ctContenu;
+    }
+
+    public function setCtContenu(?CtContenu $ctContenu): self
+    {
+        $this->ctContenu = $ctContenu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtContenu>
+     */
+    public function getCtContenus(): Collection
+    {
+        return $this->ctContenus;
+    }
+
+    public function addCtContenu(CtContenu $ctContenu): self
+    {
+        if (!$this->ctContenus->contains($ctContenu)) {
+            $this->ctContenus[] = $ctContenu;
+            $ctContenu->setCtBordereau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtContenu(CtContenu $ctContenu): self
+    {
+        if ($this->ctContenus->removeElement($ctContenu)) {
+            // set the owning side to null (unless already changed)
+            if ($ctContenu->getCtBordereau() === $this) {
+                $ctContenu->setCtBordereau(null);
+            }
+        }
 
         return $this;
     }

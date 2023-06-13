@@ -2,36 +2,35 @@
 
 namespace App\Form;
 
-use App\Entity\CtBordereau;
 use App\Entity\CtCentre;
-use App\Entity\CtExpressionBesoin;
 use App\Entity\CtImprimeTech;
+use App\Entity\CtExpressionBesoin;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CtBordereauType extends AbstractType
+class CtExpressionBesoinType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $idCentre = $options['idCentre'];
+        $ctCentre = $options['ctCentre'];
 
         $builder
             ->add('ctCentre', EntityType::class, [
-                'label' => 'Centre destinataire',
+                'label' => 'Votre centre',
                 'class' => CtCentre::class,
-                'choice_label' => 'ctr_nom',
+                'choice_label' => 'ctrNom',
                 'required'   => true,
-                'query_builder' => function (EntityRepository $_er) use ($idCentre) {
-                    if($idCentre == 26){
+                'query_builder' => function (EntityRepository $_er) use ($ctCentre) {
+                    if($ctCentre){
                         return $_er
                             ->createQueryBuilder('c')
-                            ->where("c.id IN (7, 9, 10, 11, 22)")
+                            ->where("c.id = ".$ctCentre."")
                             ->orderBy('c.ctr_nom', 'ASC');
                     }else{
                         return $_er
@@ -39,37 +38,40 @@ class CtBordereauType extends AbstractType
                             ->orderBy('c.ctr_nom', 'ASC');
                     }
                 },
-                'group_by'     => function (CtCentre $_centre) {
-                    if ($_centre->getCtProvince())
-                        return $_centre->getCtProvince()->getPrvNom();
-                },
                 'attr' => [
                     'class' => 'col-sm-12 form-control js-example-basic-single'
                 ],
             ])
-            ->add('ctExpressionBesoin', EntityType::class, [
-                'label' => 'Réf. expression de besoin',
-                'class' => CtExpressionBesoin::class,
-                'choice_label' => 'edbNumero',
+            ->add('ctImprimeTech', EntityType::class, [
+                'label' => 'Type d\'imprimé',
+                'class' => CtImprimeTech::class,
+                'choice_label' => 'nomImprimeTech',
                 'required'   => false,
                 'attr' => [
                     'class' => 'col-sm-12 form-control js-example-basic-single'
                 ],
             ])
-            ->add('beNumero', TextType::class, [
-                'label' => 'Numéro du BE',
+            ->add('edbNumero', TextType::class, [
+                'label' => 'Numéro de l\'EDB',
                 'required'   => true,
                 'attr'  => [
                     'class' => 'form-control form-control-sm',
                 ]
             ])
-            ->add('beDateEdit', null, [
-                'label' => 'Date du BE',
+            ->add('edbDateEdit', null, [
+                'label' => 'Date de l\'EDB',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-control form-control-sm datetimepicker',
+                    'class' => 'datetimepicker',
                 ],
                 'required' => true,
+            ])
+            ->add('edbQteDemander', NumberType::class, [
+                'label' => 'Quantité',
+                'required' => true,
+                'attr'  => [
+                    'class' => 'form-control form-control-sm'
+                ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
@@ -83,11 +85,11 @@ class CtBordereauType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CtBordereau::class,
+            'data_class' => CtExpressionBesoin::class,
         ]);
 
         $resolver->setRequired([
-            'idCentre'
-        ]);   
+            'ctCentre',
+        ]);
     }
 }

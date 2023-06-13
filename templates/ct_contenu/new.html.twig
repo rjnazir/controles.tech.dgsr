@@ -1,20 +1,20 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Créer un bordereau{% endblock %}
+{% block title %}Ajouter une imprimé l'EDB{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Créer un bordereau</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Ajouter une imprimé l'EDB</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('be_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
+                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
-                    <a href="{{ path('be_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
+                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -24,26 +24,26 @@
             <div class="card-body">
                 {{ form_start(form) }}
                     {{ form_row(form.ctExpressionBesoin) }}
-                    {{ form_row(form.ctCentre) }}
-                    {{ form_row(form.beNumero) }}
-                    {{ form_row(form.beDateEdit) }}
+                    {{ form_row(form.ctImprimeTech) }}
+                    {{ form_row(form.qteDemande) }}
+                    {# {{ form_row(form.debutNumero) }}
+                    {{ form_row(form.finNumero) }} #}
                     {{ form_row(form.save) }}
                 {{ form_end(form) }}
             </div>
-
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('be_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('contenu_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
-                    <a href="{{ path('be_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('contenu_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Créer un bordereau</span>
+                        <span class="text">Ajouter une imprimé</span>
                     </a>
                 </div>
             </div>

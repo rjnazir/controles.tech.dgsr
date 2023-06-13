@@ -1,13 +1,13 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Modifier une imprimé de l'EDB{% endblock %}
+{% block title %}Modifier l'EDB{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Modifier une imprimé de l'EDB</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Modifier l'EDB</h4>
                 <div class="dropdown no-arrow">
                     <a href="{{ path('edb_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
                         <span class="icon text-white-50">
@@ -24,10 +24,8 @@
             <div class="card-body">
                 {{ form_start(form) }}
                     {{ form_row(form.ctCentre) }}
-                    {{ form_row(form.ctImprimeTech) }}
                     {{ form_row(form.edbNumero) }}
                     {{ form_row(form.edbDateEdit) }}
-                    {{ form_row(form.edbQteDemander) }}
                     {{ form_row(form.save) }}
                 {{ form_end(form) }}
             </div>
@@ -44,7 +42,7 @@
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Modifier une imprimé de l'EDB</span>
+                        <span class="text">Modifier l'EDB</span>
                     </a>
                     <div>{{ include('ct_expression_besoin/_delete_form.html.twig') }}</div>
                 </div>

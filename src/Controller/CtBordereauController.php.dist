@@ -43,7 +43,7 @@ class CtBordereauController extends AbstractController
 
             $ctBordereauRepository->add($ctBordereau, true);
 
-            $this->addFlash("success", "Ajout du bordereau effectué avec succès.");
+            $this->addFlash("success", "Ajout de l'imprimé dans le BE effectué avec succès.");
 
             return $this->redirectToRoute('be_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -79,7 +79,7 @@ class CtBordereauController extends AbstractController
             $ctBordereau->setUser($this->getUser());
             $ctBordereauRepository->add($ctBordereau, true);
 
-            $this->addFlash("success", "Modification du bordereau effectué avec succès.");
+            $this->addFlash("success", "Modification de l'imprimé dans le BE effectué avec succès.");
 
             return $this->redirectToRoute('be_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -98,7 +98,7 @@ class CtBordereauController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$ctBordereau->getId(), $request->request->get('_token'))) {
             $ctBordereauRepository->remove($ctBordereau, true);
 
-            $this->addFlash("success", "Suppression du bordereau effectué avec succès.");
+            $this->addFlash("success", "Suppression de l'imprimé dans le BE effectué avec succès.");
         }
 
         return $this->redirectToRoute('be_index', [], Response::HTTP_SEE_OTHER);

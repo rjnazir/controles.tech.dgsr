@@ -7,8 +7,8 @@ use App\Entity\CtCentre;
 use App\Entity\CtExpressionBesoin;
 use App\Entity\CtImprimeTech;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -47,11 +47,38 @@ class CtBordereauType extends AbstractType
                     'class' => 'col-sm-12 form-control js-example-basic-single'
                 ],
             ])
+            ->add('ctImprimeTech', EntityType::class, [
+                'label' => 'Type d\'imprimé',
+                'class' => CtImprimeTech::class,
+                'choice_label' => 'nomImprimeTech',
+                'required'   => false,
+                'query_builder' => function (EntityRepository $_er) use ($idCentre) {
+                    if($idCentre == 26){
+                        return $_er
+                            ->createQueryBuilder('prtt')
+                            ->where("prtt.nomImprimeTech  LIKE 'Plaque%'")
+                            ->orderBy('prtt.nomImprimeTech', 'ASC');
+                    }else{
+                        return $_er
+                            ->createQueryBuilder('prtt')
+                            ->orderBy('prtt.nomImprimeTech', 'ASC');
+                    }
+                },
+                'attr' => [
+                    'class' => 'col-sm-12 form-control js-example-basic-single'
+                ],
+            ])
             ->add('ctExpressionBesoin', EntityType::class, [
                 'label' => 'Réf. expression de besoin',
                 'class' => CtExpressionBesoin::class,
                 'choice_label' => 'edbNumero',
                 'required'   => false,
+                /* 'query_builder' => function (EntityRepository $_er){
+                    return $_er
+                        ->createQueryBuilder('c')
+                        ->select('DISTINCT c.id, c.edbNumero')
+                        ->orderBy('c.edbNumero', 'DESC');
+                }, */
                 'attr' => [
                     'class' => 'col-sm-12 form-control js-example-basic-single'
                 ],
@@ -67,9 +94,23 @@ class CtBordereauType extends AbstractType
                 'label' => 'Date du BE',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-control form-control-sm datetimepicker',
+                    'class' => 'datetimepicker',
                 ],
                 'required' => true,
+            ])
+            ->add('beDebutNumero', NumberType::class, [
+                'label' => 'Début numéro imprimé',
+                'required'   => true,
+                'attr'  => [
+                    'class' => 'form-control form-control-sm',
+                ]
+            ])
+            ->add('beFinNumero', NumberType::class, [
+                'label' => 'Fin numéro imprimé',
+                'required'   => true,
+                'attr'  => [
+                    'class' => 'form-control form-control-sm',
+                ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',

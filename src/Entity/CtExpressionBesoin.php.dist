@@ -15,15 +15,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  uniqueConstraints = {
  *      @ORM\UniqueConstraint(
  *          columns = {
- *              "ct_centre_id", "edb_numero"
+ *              "ct_centre_id", "ct_imprime_tech_id", "edb_numero"
  *          }
  *      )
  *  }
  * )
  * @UniqueEntity(
- *  fields = {"ctCentre", "edbNumero"},
- *  errorPath = "edbNumero",
- *  message = "Le numéro de l'EDB entrée est déjà existant dans l'expression de besoin."
+ *  fields = {"ctCentre", "ctImprimeTech", "edbNumero"},
+ *  errorPath = "ctImprimeTech",
+ *  message = "Le type d'imprimé entrée est déjà existant dans l'expression de besoin."
  * )
  */
 class CtExpressionBesoin
@@ -46,9 +46,19 @@ class CtExpressionBesoin
     private $edbDateEdit;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $edbQteDemander;
+
+    /**
      * @ORM\ManyToOne(targetEntity=CtCentre::class, inversedBy="ctExpressionBesoins")
      */
     private $ctCentre;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CtImprimeTech::class, inversedBy="ctExpressionBesoins")
+     */
+    private $ctImprimeTech;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ctExpressionBesoins")
@@ -66,13 +76,13 @@ class CtExpressionBesoin
     private $edbUpdatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=CtContenu::class, mappedBy="ctExpressionBesoin")
+     * @ORM\OneToMany(targetEntity=CtBordereau::class, mappedBy="ctExpressionBesoin")
      */
-    private $ctContenus;
+    private $ctBordereaus;
 
     public function __construct()
     {
-        $this->ctContenus = new ArrayCollection();
+        $this->ctBordereaus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,6 +114,18 @@ class CtExpressionBesoin
         return $this;
     }
 
+    public function getEdbQteDemander(): ?int
+    {
+        return $this->edbQteDemander;
+    }
+
+    public function setEdbQteDemander(int $edbQteDemander): self
+    {
+        $this->edbQteDemander = $edbQteDemander;
+
+        return $this;
+    }
+
     public function getCtCentre(): ?CtCentre
     {
         return $this->ctCentre;
@@ -112,6 +134,18 @@ class CtExpressionBesoin
     public function setCtCentre(?CtCentre $ctCentre): self
     {
         $this->ctCentre = $ctCentre;
+
+        return $this;
+    }
+
+    public function getCtImprimeTech(): ?CtImprimeTech
+    {
+        return $this->ctImprimeTech;
+    }
+
+    public function setCtImprimeTech(?CtImprimeTech $ctImprimeTech): self
+    {
+        $this->ctImprimeTech = $ctImprimeTech;
 
         return $this;
     }
@@ -153,29 +187,29 @@ class CtExpressionBesoin
     }
 
     /**
-     * @return Collection<int, CtContenu>
+     * @return Collection<int, CtBordereau>
      */
-    public function getCtContenus(): Collection
+    public function getCtBordereaus(): Collection
     {
-        return $this->ctContenus;
+        return $this->ctBordereaus;
     }
 
-    public function addCtContenu(CtContenu $ctContenu): self
+    public function addCtBordereau(CtBordereau $ctBordereau): self
     {
-        if (!$this->ctContenus->contains($ctContenu)) {
-            $this->ctContenus[] = $ctContenu;
-            $ctContenu->setCtExpressionBesoin($this);
+        if (!$this->ctBordereaus->contains($ctBordereau)) {
+            $this->ctBordereaus[] = $ctBordereau;
+            $ctBordereau->setCtExpressionBesoin($this);
         }
 
         return $this;
     }
 
-    public function removeCtContenu(CtContenu $ctContenu): self
+    public function removeCtBordereau(CtBordereau $ctBordereau): self
     {
-        if ($this->ctContenus->removeElement($ctContenu)) {
+        if ($this->ctBordereaus->removeElement($ctBordereau)) {
             // set the owning side to null (unless already changed)
-            if ($ctContenu->getCtExpressionBesoin() === $this) {
-                $ctContenu->setCtExpressionBesoin(null);
+            if ($ctBordereau->getCtExpressionBesoin() === $this) {
+                $ctBordereau->setCtExpressionBesoin(null);
             }
         }
 

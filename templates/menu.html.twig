@@ -20,7 +20,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+                
+    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') %}
     <!-- Heading -->
     <div class="sidebar-heading">
         Contrôles
@@ -72,12 +73,13 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 {# <h6 class="collapse-header">Custom Utilities:</h6> #}
-                {% if is_granted('ROLE_SUPERADMIN') %}                    
+                {% if is_granted('ROLE_SUPERADMIN') %}
                 <a class="collapse-item" href="{{ path('cad_type_index') }}">Types de constatation</a>
                 {% endif %}
             </div>
         </div>
     </li>
+    {% endif %}
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -96,19 +98,25 @@
         </a>
         <div id="imprimes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Demandes :</h6>
-                <a class="collapse-item" href="{{ path('edb_index') }}">Expressions (EDB)</a>
+                <h6 class="collapse-header">Expression de besoin :</h6>
+                {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_USER') %}
+                <a class="collapse-item" href="{{ path('edb_index') }}">Référence</a>
+                <a class="collapse-item" href="{{ path('contenu_index') }}">Contenues</a>
+                {% endif %}
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_APPRO') %}
-                <h6 class="collapse-header">Envois :</h6>
-                <a class="collapse-item" href="{{ path('be_index') }}">Bordereau (BDE)</a>
+                <h6 class="collapse-header">Bordereau d'envoi :</h6>
+                <a class="collapse-item" href="{{ path('be_index') }}">Référence</a>
+                <a class="collapse-item" href="{{ path('contenu_index') }}">Contenues</a>
                 {% endif %}
                 <h6 class="collapse-header">Utilisations :</h6>
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
                 <a class="collapse-item" href="#">Activation</a>
                 {% endif %}
+                {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_USER') %}
                 <a class="collapse-item" href="#">Unique</a>
                 <a class="collapse-item" href="#">Multiple</a>
                 <a class="collapse-item" href="#">Non utilisés</a>
+                {% endif %}
             </div>
         </div>
     </li>
