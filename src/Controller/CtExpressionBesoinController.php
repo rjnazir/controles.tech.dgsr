@@ -127,31 +127,32 @@ class CtExpressionBesoinController extends AbstractController
      */
     public function printing(CtExpressionBesoin $ctExpressionBesoin, CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtCentreRepository $ctCentreRepository, CtContenuRepository $ctContenuRepository)
     {
-        $ctCentre = $this->getUser()->getCtCentre()->getId();
-        $edbDateEdit = new DateTime('now');
+        $dir_edb_generated = $ctExpressionBesoinRepository->getDirGeneratedPdf('edb');
         $numero_edb = $ctExpressionBesoinRepository->findOneBy(['id'=>$ctExpressionBesoin->getId()]);
         if($numero_edb) $numero = $numero_edb->getEdbNumero();
 
-        $ct_centre = $this->getUser()->getCtCentre()->getCtrNom();
-        $rgts_ctre = $ctCentreRepository->transformCenter($ct_centre);
-        $ctrFonction = $rgts_ctre[0];
-        $ctrNom = $rgts_ctre[1];
+        $ct_centre  = $this->getUser()->getCtCentre()->getCtrNom();
+        $rgts_ctre  = $ctCentreRepository->transformCenter($ct_centre);
+        $ctrFonction= $rgts_ctre[0];
+        $ctrNom     = $rgts_ctre[1];
         $ctrLibelle = $rgts_ctre[2];
-        $ctrNumero = $rgts_ctre[4];
+        $ctrAbbrev  = $rgts_ctre[3];
 
         $contenue = $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctExpressionBesoin->getId()]);
-        // $contenue = $ctExpressionBesoinRepository->findBy(['ctCentre'=>$ctCentre, 'edbDateEdit'=>$edbDateEdit]);
-        // $numero_edb = $ctExpressionBesoinRepository->findNumberEDB($ctCentre, $edbDateEdit->format('Y-m-d'));
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->AddPage('P');
-        $pdf->setTitle('Expression de besoin');
+        $pdf->SetTitle('Expression de besoin');
 
-		$pdf->setFooterFont(Array('times', '', 10));
+        $pdf->setPrintHeader(false);
 		$pdf->SetHeaderMargin(0);
-		$pdf->SetFooterMargin(10);
-		$pdf->SetAutoPageBreak(true, 10);
 
+        $pdf->setPrintFooter(true);
+		$pdf->SetFooterFont(Array('times', '', 10));
+		$pdf->SetFooterMargin(10);
+        $pdf->SetFooterData(array(0,0,0), array(0,0,0));
+		$pdf->SetAutoPageBreak(true, 10);
+        
         $pdf->SetFont('times','',9);
 		$pdf->SetTextColor(0,0,0);
 		$pdf->SetFillColor(0,0,0,0);
@@ -232,7 +233,11 @@ class CtExpressionBesoinController extends AbstractController
         $pdf->Cell(95, 12, 'Avis du responsable MAG.APPRO', 0, 0, 'C');
         $pdf->Cell(95, 12, 'Décision AC', 0, 1, 'C');
 
-        $pdf->Output('edb_'.date('YmdHis').'.pdf', 'I');
+        $pdf->SetY(-15);
+        $pdf->setFont('times', 'I', 6);
+        $pdf->Cell(0, 5, 'Imprimée le ' . date('d/m/Y') .' à ' . date('H:i:s') . ' par ' . $this->getUser()->getUsrnamecomplet() , 0, 0, 'L');
+
+        $pdf->Output($dir_edb_generated.'edb_'.strtolower($ctrAbbrev).'_'.date('YmdHis').'.pdf', 'FI');
 
     }
 }

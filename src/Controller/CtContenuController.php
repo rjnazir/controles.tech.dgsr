@@ -33,12 +33,7 @@ class CtContenuController extends AbstractController
         $edbDateEdit = new DateTime('now');
         return $this->render('ct_contenu/index.html.twig', [
             'ct_contenus' => $ctContenuRepository->contenuWithCentreDate($ctCentre, $edbDateEdit->format('Y-m-d')),
-            'idEdb' => $ctExpressionBesoinRepository->findOneBy(
-                [
-                    'ctCentre' => $ctCentre,
-                    'edbDateEdit' => $edbDateEdit
-                ]
-            )->getId(),
+            'idEdb' => $ctExpressionBesoinRepository->findOneBy(['ctCentre' => $ctCentre, 'edbDateEdit' => $edbDateEdit])->getId(),
         ]);
     }
 

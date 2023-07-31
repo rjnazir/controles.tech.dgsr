@@ -56,6 +56,21 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
         return $numero;
     }
 
+    public function getDirGeneratedPdf($type){
+        if(strtoupper(substr(PHP_OS, 0, 3)) === "WIN"){
+            switch($type){
+                case 'edb'  : $_dir_generated = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\generated\\edb\\";break;
+                default     : $_dir_generated = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\generated\\";break;
+            }
+        }else{
+            switch($type){
+                case 'edb'  : $_dir_generated = "/var/www/html/controles.tech.dgsr/public/reporting/generated/edb/";break;
+                default     : $_dir_generated = "/var/www/html/controles.tech.dgsr/public/reporting/generated/";break;
+            }
+        }
+        return $_dir_generated;
+    }
+
     /* public function findWithCtImprime($centre, $dedition)
     {
 //        return $this->createQueryBuilder('c')

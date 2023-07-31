@@ -26,11 +26,12 @@ class UserController extends AbstractController
         $role = $this->getUser()->getRoles();
         $centre = $this->getUser()->getCtCentre()->getId();
 
-        if(in_array('ROLE_ADMIN', $role)){
-            $users = $userRepository->findByRoleCentre('ROLE_VTA', $centre);
-        }else{
-            $users = $userRepository->findByRole('ROLE_VTA');
-        }
+        $users = $userRepository->findAll();
+        // if(in_array('ROLE_ADMIN', $role)){
+        //     $users = $userRepository->findByRoleCentre('ROLE_USER', $centre);
+        // }else{
+        //     $users = $userRepository->findByRole('ROLE_USER');
+        // }
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
