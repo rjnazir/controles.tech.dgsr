@@ -33,11 +33,13 @@ class CtExpressionBesoinType extends AbstractType
                     if($ctCentre){
                         return $_er
                             ->createQueryBuilder('c')
-                            ->where("c.id = ".$ctCentre."")
+                            ->where("c.isParent = 1")
+                            ->Where("c.id = ".$ctCentre."")
                             ->orderBy('c.ctr_nom', 'ASC');
                     }else{
                         return $_er
                             ->createQueryBuilder('c')
+                            ->where("c.isParent = 1")
                             ->orderBy('c.ctr_nom', 'ASC');
                     }
                 },

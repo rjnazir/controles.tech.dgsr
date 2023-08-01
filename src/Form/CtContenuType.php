@@ -3,8 +3,9 @@
 namespace App\Form;
 
 use App\Entity\CtContenu;
-use App\Entity\CtExpressionBesoin;
 use App\Entity\CtImprimeTech;
+use App\Entity\CtExpressionBesoin;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,11 @@ class CtContenuType extends AbstractType
             ->add('ctExpressionBesoin', EntityType::class, [
                 'label' => 'Réf. de l\'EDB',
                 'class' => CtExpressionBesoin::class,
+                'query_builder' => function (EntityRepository $_er) {
+                    return $_er
+                        ->createQueryBuilder('edb')
+                        ->orderBy('edb.id', 'DESC');
+                },                
                 'choice_label' => 'edbNumero',
                 'required'   => false,
                 'attr' => [

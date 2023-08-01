@@ -52,4 +52,8 @@
 /.web-server-pid
 
 # Generated file by app
-/public/reporting/generated/*~
+/public/reporting/generated/edb/
+/public/reporting/generated/bde/
+/public/reporting/generated/visite/
+/public/reporting/generated/reception/
+/public/reporting/generated/constatation/

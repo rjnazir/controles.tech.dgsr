@@ -134,8 +134,8 @@ class CtExpressionBesoinController extends AbstractController
         $ct_centre  = $this->getUser()->getCtCentre()->getCtrNom();
         $rgts_ctre  = $ctCentreRepository->transformCenter($ct_centre);
         $ctrFonction= $rgts_ctre[0];
-        $ctrNom     = $rgts_ctre[1];
-        $ctrLibelle = $rgts_ctre[2];
+        $ctrNom     = mb_strtoupper($rgts_ctre[1]);
+        $ctrLibelle = mb_strtoupper($rgts_ctre[2]);
         $ctrAbbrev  = $rgts_ctre[3];
 
         $contenue = $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctExpressionBesoin->getId()]);
@@ -169,7 +169,7 @@ class CtExpressionBesoinController extends AbstractController
 		$pdf->SetFont('times','B',9);
 		$pdf->MultiCell(95,5,$ctrLibelle.' '.$ctrNom,0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
 		$pdf->SetFont('times','',9);
-		$pdf->MultiCell(95,5,'A '.ucwords(strtolower($ctrNom)).', '.$ctCentreRepository->dateLetterFr(),0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
+		$pdf->MultiCell(95,5, ('A '.ucwords(strtolower($ctrNom)).', '.$ctCentreRepository->dateLetterFr()),0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
 		$pdf->MultiCell(95,5,"--------------------",0,'C',true,0,'', '', true, 0, false, true, 5, 'M');
 		$pdf->MultiCell(95,5,$numero,0,'C',true,1,'', '', true, 0, false, true, 5, 'M');
         $pdf->SetXY(52.5, 40);
@@ -227,11 +227,12 @@ class CtExpressionBesoinController extends AbstractController
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetFont('times', '', 12);
         $pdf->Cell(95, 12, '', 0, 0, 'C');
-        $pdf->Cell(95, 12, ucfirst(strtolower(str_replace('LE ', '', $ctrFonction))), 0, 1, 'C');
+        // $pdf->Cell(95, 12, str_replace('LE ', '', $ctrFonction), 0, 1, 'C');
+        $pdf->Cell(95, 12, $ctrFonction, 0, 1, 'C');
         $pdf->Ln(40);
 		$pdf->SetFont('times', 'UB', 12);
-        $pdf->Cell(95, 12, 'Avis du responsable MAG.APPRO', 0, 0, 'C');
-        $pdf->Cell(95, 12, 'Décision AC', 0, 1, 'C');
+        $pdf->Cell(95, 12, mb_strtoupper('Avis du responsable MAG.APPRO'), 0, 0, 'C');
+        $pdf->Cell(95, 12, mb_strtoupper('Décision AC'), 0, 1, 'C');
 
         $pdf->SetY(-15);
         $pdf->setFont('times', 'I', 6);

@@ -61,6 +61,11 @@ class CtCentre
      */
     private $ctBordereaus;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isParent;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -219,6 +224,18 @@ class CtCentre
                 $ctBordereau->setCtCentre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsParent(): ?bool
+    {
+        return $this->isParent;
+    }
+
+    public function setIsParent(bool $isParent): self
+    {
+        $this->isParent = $isParent;
 
         return $this;
     }

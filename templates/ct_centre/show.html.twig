@@ -38,6 +38,10 @@
                                 <th width="20%">Province : </th>
                                 <td width="80%">{{ ct_centre.ctProvince.prvNom }}</td>
                             </tr>
+                            <tr>
+                                <th width="20%">Est centre parent : </th>
+                                <td width="80%">{{ ct_centre.isParent == 1 ? Oui : Non}}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

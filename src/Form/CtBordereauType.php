@@ -2,18 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\CtBordereau;
 use App\Entity\CtCentre;
-use App\Entity\CtExpressionBesoin;
+use App\Entity\CtBordereau;
 use App\Entity\CtImprimeTech;
+use App\Entity\CtExpressionBesoin;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CtBordereauType extends AbstractType
 {
@@ -31,11 +31,13 @@ class CtBordereauType extends AbstractType
                     if($idCentre == 26){
                         return $_er
                             ->createQueryBuilder('c')
+                            ->where("c.isParent = 1")
                             ->where("c.id IN (7, 9, 10, 11, 22)")
                             ->orderBy('c.ctr_nom', 'ASC');
                     }else{
                         return $_er
                             ->createQueryBuilder('c')
+                            ->where("c.isParent = 1 ")
                             ->orderBy('c.ctr_nom', 'ASC');
                     }
                 },
@@ -50,6 +52,11 @@ class CtBordereauType extends AbstractType
             ->add('ctExpressionBesoin', EntityType::class, [
                 'label' => 'Réf. expression de besoin',
                 'class' => CtExpressionBesoin::class,
+                'query_builder' => function (EntityRepository $_er) {
+                    return $_er
+                        ->createQueryBuilder('edb')
+                        ->orderBy('edb.id', 'DESC');
+                }, 
                 'choice_label' => 'edbNumero',
                 'required'   => false,
                 'attr' => [
