@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use TCPDF;
 use DateTime;
 use DateTimeImmutable;
 use App\Form\CtContenuType;
@@ -10,12 +11,14 @@ use App\Entity\CtExpressionBesoin;
 use App\Form\CtExpressionBesoinType;
 use App\Repository\CtCentreRepository;
 use App\Repository\CtContenuRepository;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CtExpressionBesoinRepository;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use TCPDF;
 
 /**
  * @Route("/edb")
@@ -236,9 +239,76 @@ class CtExpressionBesoinController extends AbstractController
 
         $pdf->SetY(-15);
         $pdf->setFont('times', 'I', 6);
-        $pdf->Cell(0, 5, 'Imprimée le ' . date('d/m/Y') .' à ' . date('H:i:s') . ' par ' . $this->getUser()->getUsrnamecomplet() , 0, 0, 'L');
+        $pdf->Cell(0, 5, 'Editée le ' . date('d/m/Y') .' à ' . date('H:i:s') . ' par ' . $this->getUser()->getUsrnamecomplet() , 0, 0, 'L');
 
         $pdf->Output($dir_edb_generated.'edb_'.strtolower($ctrAbbrev).'_'.date('YmdHis').'.pdf', 'FI');
 
+    }
+
+    /**
+    *   @Route("/print_docx/{id}", name="edb_print_docx")
+    */
+    public function printing_docx(CtExpressionBesoin $ctExpressionBesoin, CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtCentreRepository $ctCentreRepository, CtContenuRepository $ctContenuRepository):Response
+    {
+        //Rgts centre établissant l'edb
+        $ct_centre  = $this->getUser()->getCtCentre()->getCtrNom();
+        $rgts_ctre  = $ctCentreRepository->transformCenter($ct_centre);
+
+        // Chemin vers le template Word
+        $templatePath   = $ctExpressionBesoinRepository->getFileTemplateDocx('edb');
+
+        // Créez un TemplateProcessor en utilisant le template
+        $templateProcessor  = new TemplateProcessor($templatePath);
+
+        // Completement de l'attache du centre
+        $templateProcessor->setValue('centre', mb_strtoupper($rgts_ctre[2] .' ' . $rgts_ctre[1]));
+
+        // Lieu et date edition de l'edb
+        $templateProcessor->setValue('lieu', ucwords(strtolower($rgts_ctre[1])));
+        $edbdate    = $ctCentreRepository->dateLetterFr();
+        $templateProcessor->setValue('edbDate', $edbdate);
+
+        // Récupération numéro de l'edb
+        $numero_edb = $ctExpressionBesoinRepository->findOneBy(['id'=>$ctExpressionBesoin->getId()]);
+        $numero     = $numero_edb ? $numero_edb->getEdbNumero() : "N°_______-CENSERO/";
+        $templateProcessor->setValue('numeroedb', ucwords($numero));
+
+        // Remplacez les placeholders dans le template
+        $contenues  = $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctExpressionBesoin->getId()]);
+        $nbrecntns  = count($contenues);
+        $_i = 1;
+        $_k = 0;
+
+        $templateProcessor->cloneRow('i', $nbrecntns);
+        foreach($contenues as $contenues){
+            ++$_k;
+            $templateProcessor->setValue('i#'.$_k, $_i);
+            $templateProcessor->setValue('typeImprime#'.$_k, $contenues->getCtImprimeTech()->getNomImprimeTech().' ('.$contenues->getCtImprimeTech()->getAbrevImprimeTech().')');
+            $templateProcessor->setValue('enstock#'.$_k, null);
+            $templateProcessor->setValue('qtedder#'.$_k, $contenues->getQteDemande());
+            $_i++;
+        }
+
+        // Compléter fonction du signataire
+        $templateProcessor->setValue('signataire', $rgts_ctre[0]);
+        
+        // Compléter le pied de page (Date d'edition et utilisateur)
+        $templateProcessor->setValue('printdate', date('d/m/Y') .' à ' . date('H:i:s'));
+        $templateProcessor->setValue('usrprinter', $this->getUser()->getUsrnamecomplet());
+
+        // Générez le fichier Word
+        $fileName = 'edb_'. strtolower($rgts_ctre[3]) . '_' . date('YmdHis') .'.docx';
+        $filePath = $ctExpressionBesoinRepository->getDirGeneratedPdf('edb') . $fileName;
+        $templateProcessor->saveAs($filePath);
+
+        // Renvoyez une réponse pour télécharger le fichier généré
+        $response = new Response(file_get_contents($filePath));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 }

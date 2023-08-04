@@ -6,6 +6,7 @@ use App\Entity\CtExpressionBesoin;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use PhpOffice\PhpWord\TemplateProcessor;
 /**
  * @extends ServiceEntityRepository<CtExpressionBesoin>
  *
@@ -69,6 +70,42 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
             }
         }
         return $_dir_generated;
+    }
+
+    public function getFileTemplateDocx($type){
+        if(strtoupper(substr(PHP_OS, 0, 3)) === "WIN"){
+            switch($type){
+                case 'edb'  : $_file_template = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\templates\\edb\\edb.docx" ;break;
+                default     : $_file_template = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\templates\\template.docx";break;
+            }
+        }else{
+            switch($type){
+                case 'edb'  : $_file_template = "/var/www/html/controles.tech.dgsr/public/reporting/templates/edb/edb.docx";break;
+                default     : $_file_template = "/var/www/html/controles.tech.dgsr/public/reporting/templates/template.docx";break;
+            }
+        }
+        return $_file_template;
+    }
+
+    public function generateEDBWord($id, $centre){
+        $_file_template = $this->getFileTemplateDocx('edb');
+        $_dir_generated = $this->getDirGeneratedPdf('edb');
+
+        $ctrFonction= $centre[0];
+        $ctrNom     = mb_strtoupper($centre[1]);
+        $ctrLibelle = mb_strtoupper($centre[2]);
+        $ctrAbbrev  = $centre[3];
+        
+        $_template = new TemplateProcessor($_file_template);
+        // $_template = $_php_word->loadTemplate($_file_template);
+        $_file_name= 'edb_' . strtolower($ctrAbbrev) . '_' . date('YmdHis') . '.docx';
+        $_dest_path= $_dir_generated . $_file_name;
+        $_template->setValue('id', $id);
+
+        $_template->saveAs($_dest_path);
+        $_file_generated = $_dest_path;
+
+        return $_file_generated;
     }
 
     /* public function findWithCtImprime($centre, $dedition)
