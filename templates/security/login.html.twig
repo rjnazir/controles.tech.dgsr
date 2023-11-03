@@ -42,7 +42,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-primary mb-4">Gestion des contrôles techniques</h1>
                                     </div>
-                                    <form class="user" method="POST">
+                                    <form class="user" action="{{ path('app_login') }}" method="POST">
                                         <div class="form-group">
                                             <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
                                                 autocomplete="username" required placeholder="Entrer votre login" autofocus>
