@@ -56,6 +56,25 @@ class CtContenuRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function updateCtContenuForDropBordereau($ctBordereau)
+    {
+        $qb = $this->createQueryBuilder('q');
+        $qb->update(CtContenu::class, 'c');
+        $qb->set('c.debutNumero', "NULL");
+        $qb->set('c.finNumero', "NULL");
+        $qb->set('c.ctBordereau', "NULL");
+        $qb->where($qb->expr()->in('c.ctBordereau', $ctBordereau));
+        return $qb->getQuery()->execute();
+    }
+
+    public function deleteContenu($ctExpressionBesoin)
+    {
+        $qb = $this->createQueryBuilder('q');
+        $qb->delete(CtContenu::class, 'c');
+        $qb->where($qb->expr()->in('c.ctExpressionBesoin', $ctExpressionBesoin));
+        return $qb->getQuery()->execute();
+    }
+
 //    /**
 //     * @return CtContenu[] Returns an array of CtContenu objects
 //     */

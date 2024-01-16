@@ -97,7 +97,6 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
         $ctrAbbrev  = $centre[3];
         
         $_template = new TemplateProcessor($_file_template);
-        // $_template = $_php_word->loadTemplate($_file_template);
         $_file_name= 'edb_' . strtolower($ctrAbbrev) . '_' . date('YmdHis') . '.docx';
         $_dest_path= $_dir_generated . $_file_name;
         $_template->setValue('id', $id);

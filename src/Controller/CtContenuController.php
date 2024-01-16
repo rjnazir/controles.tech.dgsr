@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeImmutable;
 use App\Entity\CtContenu;
 use App\Entity\CtExpressionBesoin;
+use App\Form\CtContenu2Type;
 use App\Form\CtContenuType;
 use App\Repository\CtCentreRepository;
 use App\Repository\CtContenuRepository;
@@ -31,9 +32,24 @@ class CtContenuController extends AbstractController
         $ctExpressionBesoinRepository = $this->getDoctrine()->getManager()->getRepository(CtExpressionBesoin::class);
         $ctCentre = $this->getUser()->getCtCentre();
         $edbDateEdit = new DateTime('now');
+        $id_edb = $ctExpressionBesoinRepository->findOneBy(['ctCentre' => $ctCentre, 'edbDateEdit' => $edbDateEdit]);
         return $this->render('ct_contenu/index.html.twig', [
             'ct_contenus' => $ctContenuRepository->contenuWithCentreDate($ctCentre, $edbDateEdit->format('Y-m-d')),
-            'idEdb' => $ctExpressionBesoinRepository->findOneBy(['ctCentre' => $ctCentre, 'edbDateEdit' => $edbDateEdit])->getId(),
+            'idEdb' => $id_edb ? $id_edb->getId() : NULL,
+        ]);
+    }
+
+    /**
+     * @Route("/list", name="be_contenu_index", methods={"GET"})
+     */
+    public function list(Request $request, CtContenuRepository $ctContenuRepository): Response
+    {
+        $ctExpressionBesoinRepository = $this->getDoctrine()->getManager()->getRepository(CtExpressionBesoin::class);
+        $ctExpressionBesoin = $request->query->get('ctExpressionBesoin');
+        $id_edb = $ctExpressionBesoinRepository->findOneBy(['id'=>$ctExpressionBesoin]);
+        return $this->render('ct_contenu/list.html.twig', [
+            'ct_contenus' => $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctExpressionBesoin], ['id'=>'ASC']),
+            'idEdb' => $id_edb ? $id_edb->getId() : NULL,
         ]);
     }
 
@@ -47,6 +63,9 @@ class CtContenuController extends AbstractController
         $form = $this->createForm(CtContenuType::class, $ctContenu);
         $form->handleRequest($request);
 
+        //recupération identifiant EDB concernée
+        $_id = $request->query->get('id');
+
         if ($form->isSubmitted() && $form->isValid()) {
             if($ctContenu->getCtExpressionBesoin()->getId()){
                 $ctContenu->setDebutNumero(NULL);
@@ -57,12 +76,15 @@ class CtContenuController extends AbstractController
 
             $this->addFlash("success", "Ajout d'imprimé relative à ce numéro est effectué avec succès.");
 
-            return $this->redirectToRoute('contenu_index', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('contenu_index', [], Response::HTTP_SEE_OTHER);
+
+            return $this->redirectToRoute('edb_show', ['id' => $ctContenu->getCtExpressionBesoin()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ct_contenu/new.html.twig', [
             'ct_contenu' => $ctContenu,
             'form' => $form,
+            'id' => $_id,
         ]);
     }
 
@@ -89,11 +111,37 @@ class CtContenuController extends AbstractController
 
             $this->addFlash("success", "Modification d'imprimé relative à ce numéro est effectuée avec succès.");
 
-            return $this->redirectToRoute('contenu_index', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('contenu_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('edb_show', ['id' => $ctContenu->getCtExpressionBesoin()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ct_contenu/edit.html.twig', [
             'ct_contenu' => $ctContenu,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit2", name="contenu_edit2", methods={"GET", "POST"})
+     */
+    public function edit2(Request $request, CtContenu $ctContenu, CtContenuRepository $ctContenuRepository): Response
+    {
+        $form = $this->createForm(CtContenu2Type::class, $ctContenu);
+        $form->handleRequest($request);
+
+        $ctBordereau = $request->query->get('ctBordereau');
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ctContenuRepository->add($ctContenu, true);
+
+            $this->addFlash("success", "Modification d'imprimé relative à ce numéro est effectuée avec succès.");
+
+            return $this->redirectToRoute('be_show', ['id' => $ctBordereau], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('ct_contenu/edit2.html.twig', [
+            'ct_contenu' => $ctContenu,
+            'ct_bordereau' => $ctBordereau,
             'form' => $form,
         ]);
     }
@@ -109,6 +157,7 @@ class CtContenuController extends AbstractController
             $this->addFlash("success", "Suppression d'imprimé relative à ce numéro est effectuée avec succès.");
         }
 
-        return $this->redirectToRoute('contenu_index', [], Response::HTTP_SEE_OTHER);
+        // return $this->redirectToRoute('contenu_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('edb_show', ['id' => $ctContenu->getCtExpressionBesoin()->getId()], Response::HTTP_SEE_OTHER);
     }
 }

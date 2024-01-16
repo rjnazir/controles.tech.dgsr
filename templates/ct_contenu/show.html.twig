@@ -9,14 +9,14 @@
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
                 <h4 class="m-0 font-weight-bold text-gray-100">Détail de l'imprimé l'EDB</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
@@ -48,25 +48,25 @@
 
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('contenu_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    {# <a href="{{ path('contenu_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
-                    </a>
+                    </a> #}
                     {# {% if is_granted('ROLE_SUPERADMIN') %} #}
-                    <a href="{{ path('contenu_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    {# <a href="{{ path('contenu_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Ajouter une imprimé de l'EDB</span>
-                    </a>
-                    <a href="{{ path('contenu_edit', {'id': ct_contenu.id}) }}" class="btn btn-sm btn-warning btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    </a> #}
+                    {# <a href="{{ path('contenu_edit', {'id': ct_contenu.id}) }}" class="btn btn-sm bg-gradient-warning text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-pen"></i>
                         </span>
                         <span class="text">Modifier l'imprimé de l'EDB</span>
-                    </a>
+                    </a> #}
                     <div>{{ include('ct_contenu/_delete_form.html.twig') }}</div>
                     {# {% endif %} #}
                 </div>
@@ -75,37 +75,3 @@
     </div>
 </div>
 {% endblock %}
-{# {% extends 'base.html.twig' %}
-
-{% block title %}CtContenu{% endblock %}
-
-{% block body %}
-    <h1>CtContenu</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ct_contenu.id }}</td>
-            </tr>
-            <tr>
-                <th>QteDemande</th>
-                <td>{{ ct_contenu.qteDemande }}</td>
-            </tr>
-            <tr>
-                <th>DebutNumero</th>
-                <td>{{ ct_contenu.debutNumero }}</td>
-            </tr>
-            <tr>
-                <th>FinNumero</th>
-                <td>{{ ct_contenu.finNumero }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ct_contenu_index') }}">back to list</a>
-
-    <a href="{{ path('app_ct_contenu_edit', {'id': ct_contenu.id}) }}">edit</a>
-
-    {{ include('ct_contenu/_delete_form.html.twig') }}
-{% endblock %} #}

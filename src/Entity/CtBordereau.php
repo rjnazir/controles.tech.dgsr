@@ -71,12 +71,7 @@ class CtBordereau
     private $ctExpressionBesoin;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CtContenu::class, inversedBy="ctBordereaus")
-     */
-    private $ctContenu;
-
-    /**
-     * @ORM\OneToMany(targetEntity=CtContenu::class, mappedBy="ctBordereau")
+     * @ORM\OneToMany(targetEntity=CtContenu::class, mappedBy="ctExpressionBesoin")
      */
     private $ctContenus;
 
@@ -174,17 +169,6 @@ class CtBordereau
         return $this;
     }
 
-    public function getCtContenu(): ?CtContenu
-    {
-        return $this->ctContenu;
-    }
-
-    public function setCtContenu(?CtContenu $ctContenu): self
-    {
-        $this->ctContenu = $ctContenu;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, CtContenu>
@@ -198,7 +182,7 @@ class CtBordereau
     {
         if (!$this->ctContenus->contains($ctContenu)) {
             $this->ctContenus[] = $ctContenu;
-            $ctContenu->setCtBordereau($this);
+            $ctContenu->setCtbordereau($this);
         }
 
         return $this;
@@ -208,8 +192,8 @@ class CtBordereau
     {
         if ($this->ctContenus->removeElement($ctContenu)) {
             // set the owning side to null (unless already changed)
-            if ($ctContenu->getCtBordereau() === $this) {
-                $ctContenu->setCtBordereau(null);
+            if ($ctContenu->getCtbordereau() === $this) {
+                $ctContenu->setCtbordereau(null);
             }
         }
 

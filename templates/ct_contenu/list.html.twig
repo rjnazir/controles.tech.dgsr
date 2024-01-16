@@ -1,6 +1,6 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Liste des imprimés de l'EDB{% endblock %}
+{% block title %}Liste des imprimés du BE{% endblock %}
 
 {% block body %}
 <div class="row">
@@ -8,25 +8,25 @@
         <!-- DataTales Roles -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Liste des imprimés de l'EDB</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Liste des imprimés du BE</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-secondary btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
-                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
+                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary btn-icon-split">
                         <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
                     {% if idEdb %}
-                    <a href="{{ path('edb_print', {'id': idEdb }) }}" target="_black" title="Imprimer EDB" class="btn btn-sm bg-gradient-success text-white btn-icon-split">
+                    <a href="{{ path('edb_print', {'id': idEdb }) }}" target="_black" title="Imprimer EDB" class="btn btn-sm bg-gradient-success btn-icon-split">
                         <span class="icon text-white">
                             <i class="fas fa-print"></i>
                         </span>
                     </a>
-                    <a href="{{ path('edb_print_docx', {'id': idEdb }) }}" target="_black" title="Imprimer EDB" class="btn btn-sm bg-gradient-info text-white btn-icon-split">
+                    <a href="{{ path('edb_print_docx', {'id': idEdb }) }}" target="_black" title="Imprimer EDB" class="btn btn-sm bg-gradient-info btn-icon-split">
                         <span class="icon text-white">
                             <i class="fas fa-file-word"></i>
                         </span>
@@ -46,10 +46,10 @@
                             <tr class="text-center bg-gradient-light">
                                 <th>N°</th>
                                 <th>Centre</th>
-                                <th>Réf. EDB</th>
-                                <th>Date EDB</th>
+                                <th>Réf. et date EDB</th>
                                 <th>Type</th>
                                 <th>Quantité</th>
+                                <th>Numéro IT</th>
                                 <th width="12%">Actions</th>
                             </tr>
                         </thead>
@@ -59,10 +59,10 @@
                                 <tr>
                                     <td class="text-center">{{ i }}</td>
                                     <td class="text-center">{{ ct_contenu.ctExpressionBesoin.ctCentre ? ct_contenu.ctExpressionBesoin.ctCentre.ctrNom : "" }}</td>
-                                    <td class="text-center">{{ ct_contenu.ctExpressionBesoin ? ct_contenu.ctExpressionBesoin.edbNumero : "" }}</td>
-                                    <td class="text-center">{{ ct_contenu.ctExpressionBesoin.edbDateEdit | date('d/m/Y') }}</td>
+                                    <td class="text-center">{{ ct_contenu.ctExpressionBesoin ? ct_contenu.ctExpressionBesoin.edbNumero : "" }} du {{ ct_contenu.ctExpressionBesoin.edbDateEdit | date('d/m/Y') }}</td>
                                     <td class="text-left">{{ ct_contenu.ctImprimeTech ? ct_contenu.ctImprimeTech.nomImprimeTech : "" }}</td>
                                     <td class="text-right">{{ ct_contenu.qteDemande | number_format(2, ',', '.') }}</td>
+                                    <td class="text-center">{{ ct_contenu.debutNumero and ct_contenu.finNumero ? "#{ct_contenu.debutNumero | number_format(0, ',', '.')} à #{ct_contenu.finNumero | number_format(0, ',', '.')}" : "-" }}</td>
                                     <td class="text-center">
                                         {# <a class="btn btn-sm btn-info"
                                             href="{{ path('contenu_show', {'id': ct_contenu.id}) }}">
@@ -91,19 +91,19 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('contenu_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('be_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
                         <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
-                    <a href="{{ path('contenu_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('be_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
                         <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
-                        <span class="text">Ajouter une imprimé</span>
+                        <span class="text">Ajouter un bordereau</span>
                     </a>
-                    {% if idEdb %}
+                    {# {% if idEdb %}
                     <a href="{{ path('edb_print', {'id': idEdb }) }}" target="_black" class="btn btn-sm bg-gradient-success text-white btn-icon-split ml-2 mr-2">
                         <span class="icon text-white">
                             <i class="fas fa-print"></i>
@@ -116,7 +116,7 @@
                         </span>
                         <span class="text">Generer l'EDB</span>
                     </a>
-                    {% endif %}
+                    {% endif %} #}
                 </div>
             </div>
         </div>

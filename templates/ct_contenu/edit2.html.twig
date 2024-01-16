@@ -1,22 +1,22 @@
 {% extends 'base_1.html.twig' %}
 
-{% block title %}Modifier l'imprimé de l'EDB{% endblock %}
+{% block title %}Mise à jour n° de série IT{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="col-lg-12">       
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
-                <h4 class="m-0 font-weight-bold text-gray-100">Modifier l'imprimé de l'EDB</h4>
+                <h4 class="m-0 font-weight-bold text-gray-100">Mise à jour n° de série IT</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-secondary btn-icon-split">
+                    <a href="{{ path('contenu_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split">
                         <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
-                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary btn-icon-split">
+                    <a href="{{ path('contenu_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
                         <span class="icon text-white">
-                            <i class="fas fa-user-plus"></i>
+                            <i class="fas fa-plus"></i>
                         </span>
                     </a>
                 </div>
@@ -26,28 +26,29 @@
                     {{ form_row(form.ctExpressionBesoin) }}
                     {{ form_row(form.ctImprimeTech) }}
                     {{ form_row(form.qteDemande) }}
-                    {# {{ form_row(form.debutNumero) }}
-                    {{ form_row(form.finNumero) }} #}
+                    {{ form_row(form.ctBordereau) }}
+                    {{ form_row(form.debutNumero) }}
+                    {{ form_row(form.finNumero) }}
                     {{ form_row(form.save) }}
                 {{ form_end(form) }}
             </div>
 
             {# <div class="card-footer">
-                <div class="row">
-                    <a href="{{ path('contenu_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white">
+                <div class="row"> #}
+                    {# <a href="{{ path('be_show', {'id': idEdb }) }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white-50">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
-                    </a>
-                    <a href="{{ path('contenu_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                    </a> #}
+                    {# <a href="{{ path('contenu_new') }}" class="btn btn-sm bg-gradient-primary btn-icon-split ml-2 mr-2">
                         <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Modifier l'imprimé de l'EDB</span>
-                    </a>
-                    <div>{{ include('ct_contenu/_delete_form.html.twig') }}</div>
-                </div>
+                    </a> #}
+                    {# <div>{{ include('ct_contenu/_delete_form.html.twig') }}</div> #}
+                {# </div>
             </div> #}
         </div>
     </div>

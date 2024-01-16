@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\CtBordereau;
+use App\Entity\CtContenu;
 use App\Form\CtBordereauType;
 use App\Repository\CtBordereauRepository;
-use DateTimeImmutable;
+use App\Repository\CtContenuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTimeImmutable;
 
 /**
  * @Route("be")
@@ -21,9 +23,17 @@ class CtBordereauController extends AbstractController
      */
     public function index(CtBordereauRepository $ctBordereauRepository): Response
     {
-        return $this->render('ct_bordereau/index.html.twig', [
-            'ct_bordereaus' => $ctBordereauRepository->findAll(),
-        ]);
+        // return $this->render('ct_bordereau/index.html.twig', [
+        //     'ct_bordereaus' => $ctBordereauRepository->findAll(),
+        // ]);
+        return $this->render(
+            'ct_bordereau/index.html.twig',[
+                'ct_bordereaus' => $ctBordereauRepository->findBy(
+                    [],
+                    ['id' => 'DESC']
+                ),
+            ]
+        );
     }
 
     /**
@@ -45,7 +55,7 @@ class CtBordereauController extends AbstractController
 
             $this->addFlash("success", "Ajout du bordereau effectué avec succès.");
 
-            return $this->redirectToRoute('be_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('be_contenu_index', ['ctExpressionBesoin'=>$ctBordereau->getCtExpressionBesoin()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ct_bordereau/new.html.twig', [
@@ -57,10 +67,11 @@ class CtBordereauController extends AbstractController
     /**
      * @Route("/{id}", name="be_show", methods={"GET"})
      */
-    public function show(CtBordereau $ctBordereau): Response
+    public function show(CtBordereau $ctBordereau, CtContenuRepository $ctContenuRepository): Response
     {
-        return $this->render('ct_bordereau/show.html.twig', [
+        return $this->render('ct_bordereau/show2.html.twig', [
             'ct_bordereau' => $ctBordereau,
+            'ct_contenus' => $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctBordereau->getCtExpressionBesoin()], ['id'=>'ASC']),
         ]);
     }
 
@@ -93,9 +104,13 @@ class CtBordereauController extends AbstractController
     /**
      * @Route("/{id}", name="be_delete", methods={"POST"})
      */
-    public function delete(Request $request, CtBordereau $ctBordereau, CtBordereauRepository $ctBordereauRepository): Response
+    public function delete(Request $request, CtBordereau $ctBordereau, CtBordereauRepository $ctBordereauRepository, CtContenuRepository $ctContenuRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ctBordereau->getId(), $request->request->get('_token'))) {
+
+            // Annulation des valeurs dans la table contenu lié au bordereau en question
+            $ctContenuRepository->updateCtContenuForDropBordereau($ctBordereau->getId());
+
             $ctBordereauRepository->remove($ctBordereau, true);
 
             $this->addFlash("success", "Suppression du bordereau effectué avec succès.");

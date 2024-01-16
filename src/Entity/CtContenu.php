@@ -61,6 +61,11 @@ class CtContenu
      */
     private $ctExpressionBesoin;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=CtBordereau::class, inversedBy="ctContenus")
+     */
+    private $ctBordereau;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +127,18 @@ class CtContenu
     public function setCtExpressionBesoin(?CtExpressionBesoin $ctExpressionBesoin): self
     {
         $this->ctExpressionBesoin = $ctExpressionBesoin;
+
+        return $this;
+    }
+
+    public function getCtBordereau(): ?CtBordereau
+    {
+        return $this->ctBordereau;
+    }
+
+    public function setCtBordereau(?CtBordereau $ctBordereau): self
+    {
+        $this->ctBordereau = $ctBordereau;
 
         return $this;
     }

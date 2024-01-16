@@ -46,7 +46,7 @@ class CtExpressionBesoinController extends AbstractController
     /**
      * @Route("/new", name="edb_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, CtExpressionBesoinRepository $ctExpressionBesoinRepository): Response
+    public function new(Request $request, CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtContenuRepository $ctContenuRepository): Response
     {
         $ctCentre = $this->getUser()->getCtCentre()->getId();
 
@@ -76,10 +76,11 @@ class CtExpressionBesoinController extends AbstractController
     /**
      * @Route("/{id}", name="edb_show", methods={"GET"})
      */
-    public function show(CtExpressionBesoin $ctExpressionBesoin): Response
+    public function show(CtExpressionBesoin $ctExpressionBesoin, CtContenuRepository $ctContenuRepository): Response
     {
         return $this->render('ct_expression_besoin/show.html.twig', [
             'ct_expression_besoin' => $ctExpressionBesoin,
+            'ct_contenus' => $ctContenuRepository->findBy(['ctExpressionBesoin'=>$ctExpressionBesoin->getId()], ['id'=>'ASC']),
         ]);
     }
 
@@ -114,9 +115,12 @@ class CtExpressionBesoinController extends AbstractController
     /**
      * @Route("/{id}", name="edb_delete", methods={"POST"})
      */
-    public function delete(Request $request, CtExpressionBesoin $ctExpressionBesoin, CtExpressionBesoinRepository $ctExpressionBesoinRepository): Response
+    public function delete(Request $request, CtExpressionBesoin $ctExpressionBesoin, CtExpressionBesoinRepository $ctExpressionBesoinRepository, CtContenuRepository $ctContenuRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ctExpressionBesoin->getId(), $request->request->get('_token'))) {
+            //Suppression des IT relatives à l'EDB en objet
+            $ctContenuRepository->deleteContenu($ctExpressionBesoin->getId());
+
             $ctExpressionBesoinRepository->remove($ctExpressionBesoin, true);
 
             $this->addFlash("success", "Suppression de l'imprimé dans l'expression de besoin effectuée avec succès.");
@@ -147,13 +151,15 @@ class CtExpressionBesoinController extends AbstractController
         $pdf->AddPage('P');
         $pdf->SetTitle('Expression de besoin');
 
-        $pdf->setPrintHeader(false);
-		$pdf->SetHeaderMargin(0);
+        $pdf->SetPrintHeader(false);
+        $pdf->SetHeaderFont(array('times', '', 10));
+		$pdf->SetHeaderMargin(10);
+        $pdf->SetHeaderData(array(0,0,0), array(255,255,255));
 
-        $pdf->setPrintFooter(true);
+        $pdf->SetPrintFooter(true);
 		$pdf->SetFooterFont(Array('times', '', 10));
 		$pdf->SetFooterMargin(10);
-        $pdf->SetFooterData(array(0,0,0), array(0,0,0));
+        $pdf->SetFooterData(array(0,0,0), array(255,255,255));
 		$pdf->SetAutoPageBreak(true, 10);
         
         $pdf->SetFont('times','',9);

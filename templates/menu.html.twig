@@ -101,12 +101,12 @@
                 <h6 class="collapse-header">Expression de besoin :</h6>
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_USER') %}
                 <a class="collapse-item" href="{{ path('edb_index') }}">Référence</a>
-                <a class="collapse-item" href="{{ path('contenu_index') }}">Contenues</a>
+                {# <a class="collapse-item" href="{{ path('contenu_index') }}">Contenues</a> #}
                 {% endif %}
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_APPRO') %}
                 <h6 class="collapse-header">Bordereau d'envoi :</h6>
                 <a class="collapse-item" href="{{ path('be_index') }}">Référence</a>
-                <a class="collapse-item" href="{{ path('contenu_index') }}">Contenues</a>
+                {# <a class="collapse-item" href="{{ path('be_contenu_index') }}">Contenues</a> #}
                 {% endif %}
                 <h6 class="collapse-header">Utilisations :</h6>
                 {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
