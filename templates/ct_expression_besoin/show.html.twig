@@ -20,6 +20,11 @@
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
+                    <a href="{{ path('edb_print', {'id': ct_expression_besoin.id}) }}" target="_blank" title="Générer" class="btn btn-sm bg-gradient-danger text-white btn-icon-split">
+                        <span class="icon text-white">
+                            <i class="fa fa-file-pdf"></i>
+                        </span>
+                    </a>
                     {% endif %}
                 </div>
             </div>
@@ -55,8 +60,17 @@
                 </table>
             </div>
             
-            <div class="card">
-                <div class="card-header bg-gradient-light text-dark">Liste des contenus de l'EDB</div>
+            <div class="card shadow mb-4">
+                <div class="card-header bg-gradient-light py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h4 class="m-0 font-weight-bold text-dark">Liste des contenus de l'EDB</h4>
+                    <div class="dropdown no-arrow">
+                        <a href="{{ path('contenu_new', {'id': ct_expression_besoin.id}) }}" title="Ajouter imprimée" class="btn btn-sm bg-gradient-light text-dark btn-icon-split">
+                            <span class="icon text-dark">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive table-striped">
                         <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -108,32 +122,32 @@
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('edb_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('edb_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2" title="Créer une EDB">
                         <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Créer une EDB</span>
                     </a>
-                    <a href="{{ path('edb_edit', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm bg-gradient-warning text-white btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('edb_edit', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm bg-gradient-warning text-white btn-icon-split ml-2 mr-2" title="Modifier l'EDB">
                         <span class="icon text-white">
                             <i class="fas fa-pen"></i>
                         </span>
                         <span class="text">Modifier l'EDB</span>
                     </a>
                     <div>{{ include('ct_expression_besoin/_delete_form.html.twig') }}</div>
-                    <a href="{{ path('edb_print', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm bg-gradient-success text-white" title="Imprimer" target='_black'>
+                    <a href="{{ path('edb_print', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm  bg-gradient-danger text-white btn-icon-split ml-2 mr-2" title="Générer l'EDB" target='_black'>
                     {# <a href="{{ path('edb_print_docx', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm bg-gradient-success text-white" title="Imprimer" target='_black'> #}
                         <span class="icon text-white">
-                            <i class="fas fa-print"></i>
+                            <i class="fas fa-file-pdf"></i>
                         </span>
                         <span class="text">Imprimer l'EDB</span>
                     </a>
-                    <a href="{{ path('contenu_new', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm bg-gradient-info text-white btn-icon-split ml-2 mr-2">
+                    {# <a href="{{ path('contenu_new', {'id': ct_expression_besoin.id}) }}" class="btn btn-sm bg-gradient-info text-white btn-icon-split ml-2 mr-2">
                         <span class="icon text-white">
                             <i class="fas fa-plus-square"></i>
                         </span>
                         <span class="text">Ajouter des imprimés</span>
-                    </a>
+                    </a> #}
                     {% endif %}
                 </div>
             </div>

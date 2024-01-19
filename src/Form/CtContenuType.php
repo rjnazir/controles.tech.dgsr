@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CtContenuType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -49,20 +50,6 @@ class CtContenuType extends AbstractType
                     'class' => 'form-control form-control-sm'
                 ]
             ])
-            // ->add('debutNumero', NumberType::class, [
-            //     'label' => 'Début numéro imprimé',
-            //     'required'   => true,
-            //     'attr'  => [
-            //         'class' => 'form-control form-control-sm',
-            //     ]
-            // ])
-            // ->add('finNumero', NumberType::class, [
-            //     'label' => 'Fin numéro imprimé',
-            //     'required'   => true,
-            //     'attr'  => [
-            //         'class' => 'form-control form-control-sm',
-            //     ]
-            // ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
                 'attr'  => [

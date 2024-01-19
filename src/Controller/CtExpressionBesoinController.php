@@ -64,7 +64,7 @@ class CtExpressionBesoinController extends AbstractController
 
             $this->addFlash("success", "Ajout de l'imprimé dans l'expression de besoin effectué avec succès.");
 
-            return $this->redirectToRoute('edb_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('edb_show', ['id'=>$ctExpressionBesoin->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ct_expression_besoin/new.html.twig', [
@@ -103,7 +103,7 @@ class CtExpressionBesoinController extends AbstractController
 
             $this->addFlash("success", "Modification de l'imprimé dans l'expression de besoin effectuée avec succès.");
 
-            return $this->redirectToRoute('edb_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('edb_show', ['id'=>$ctExpressionBesoin->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('ct_expression_besoin/edit.html.twig', [
@@ -220,7 +220,7 @@ class CtExpressionBesoinController extends AbstractController
             $i = 1;
 			foreach($contenue as $contenue) {
 				$pdf->Cell($w[0],12,$i,1,0,'C');
-				$pdf->Cell($w[1],12,$contenue->getCtImprimeTech()->getNomImprimeTech().' ('.$contenue->getCtImprimeTech()->getAbrevImprimeTech().')',1);
+				$pdf->Cell($w[1],12,'- '.$contenue->getCtImprimeTech()->getNomImprimeTech().' ('.$contenue->getCtImprimeTech()->getAbrevImprimeTech().')',1);
 				$pdf->Cell($w[2],12,"",1,0,'C');
 				$pdf->Cell($w[3],12,$contenue->getQteDemande(),1,0,'C');
 				$pdf->Cell($w[4],12,"",1,0,'C');

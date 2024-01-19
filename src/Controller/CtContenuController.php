@@ -58,13 +58,13 @@ class CtContenuController extends AbstractController
      */
     public function new(Request $request, CtContenuRepository $ctContenuRepository): Response
     {
+        
+        //recupération identifiant EDB concernée
+        $_id_edb = $request->query->get('id');
 
         $ctContenu = new CtContenu();
         $form = $this->createForm(CtContenuType::class, $ctContenu);
         $form->handleRequest($request);
-
-        //recupération identifiant EDB concernée
-        $_id = $request->query->get('id');
 
         if ($form->isSubmitted() && $form->isValid()) {
             if($ctContenu->getCtExpressionBesoin()->getId()){
@@ -82,9 +82,9 @@ class CtContenuController extends AbstractController
         }
 
         return $this->renderForm('ct_contenu/new.html.twig', [
-            'ct_contenu' => $ctContenu,
-            'form' => $form,
-            'id' => $_id,
+            'ct_contenu'=> $ctContenu,
+            'form'      => $form,
+            'id_edb'    => $_id_edb,
         ]);
     }
 

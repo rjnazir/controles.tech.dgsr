@@ -24,7 +24,7 @@ class CtZoneDeserteType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label'     => 'Enregistrer',
                 'attr'      => [
-                    'class' => 'col-2 btn btn-sm btn-success',
+                    'class' => 'col-2 btn bg-gradient-success btn-sm text-white',
                 ]
             ])  
         ;
