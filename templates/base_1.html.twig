@@ -152,16 +152,16 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-danger">
+                <div class="modal-header bg-gradient-danger text-white">
                     <h5 class="modal-title" id="exampleModalLabel">Confirmation action</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
                 </div>
-                <div class="modal-body">Sélectionnez "Déconnexion" ci-dessous si vous êtes prêt à mettre fin à votre session en cours.</div>
+                <div class="modal-body text-center">Sélectionnez "Déconnexion" ci-dessous si vous êtes prêt à mettre fin à votre session en cours.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                    <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                    <button class="btn btn-sm bg-gradient-secondary text-white" type="button" data-dismiss="modal">Annuler</button>
+                    <a class="btn btn-sm bg-gradient-danger text-white" href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
             </div>
         </div>

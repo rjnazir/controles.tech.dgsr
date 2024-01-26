@@ -20,8 +20,8 @@
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
-                    <a href="{{ path('be_print', {'id': ct_bordereau.id}) }}" target="_blank" title="Générer" class="btn btn-sm bg-gradient-danger text-white btn-icon-split">
-                        <span class="icon text-white">
+                    <a href="{{ path('be_print', {'id': ct_bordereau.id}) }}" target="_blank" title="Générer" class="btn btn-sm btn-outline-danger text-danger btn-icon-split">
+                        <span class="icon bg-white text-danger">
                             <i class="fa fa-file-pdf"></i>
                         </span>
                     </a>
@@ -110,21 +110,21 @@
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_APPRO') or is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('be_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('be_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2" title="Créer un bordereau">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Créer un bordereau</span>
                     </a>
-                    <a href="{{ path('be_edit', {'id': ct_bordereau.id}) }}" class="btn btn-sm bg-gradient-warning text-white btn-icon-split ml-2 mr-2">
+                    <a href="{{ path('be_edit', {'id': ct_bordereau.id}) }}" class="btn btn-sm bg-gradient-warning text-white btn-icon-split ml-2 mr-2" title="Modifier le bordereau">
                         <span class="icon text-white-50">
                             <i class="fas fa-pen"></i>
                         </span>
                         <span class="text">Modifier le bordereau</span>
                     </a>
                     <div>{{ include('ct_bordereau/_delete_form.html.twig') }}</div>
-                    <a href="{{ path('be_print', {'id': ct_bordereau.id}) }}" class="btn btn-sm  bg-gradient-danger text-white btn-icon-split ml-2 mr-2" title="Générer l'EDB" target='_black'>
-                        <span class="icon text-white">
+                    <a href="{{ path('be_print', {'id': ct_bordereau.id}) }}" class="btn btn-sm btn-outline-danger text-danger btn-icon-split ml-2 mr-2" title="Générer le bordereau" target='_black'>
+                        <span class="icon bg-white text-danger">
                             <i class="fas fa-file-pdf"></i>
                         </span>
                         <span class="text">Générer le bordereau</span>
