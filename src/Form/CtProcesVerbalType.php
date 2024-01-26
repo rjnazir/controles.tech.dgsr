@@ -51,7 +51,7 @@ class CtProcesVerbalType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
                 'attr'  => [
-                    'class' => 'col-2 btn btn-sm btn-success',
+                    'class' => 'col-2 btn btn-sm bg-gradient-success text-white',
                 ]
             ])
         ;

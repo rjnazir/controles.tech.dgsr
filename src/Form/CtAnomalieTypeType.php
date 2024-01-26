@@ -24,7 +24,7 @@ class CtAnomalieTypeType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label'     => 'Enregistrer',
                 'attr'      => [
-                    'class' => 'btn btn-sm btn-success'
+                    'class' => 'btn btn-sm bg-gradient-success text-white'
                 ],
             ])
         ;

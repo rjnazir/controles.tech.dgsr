@@ -24,6 +24,10 @@ class CtCentreType extends AbstractType
             ->add('ctr_code', TextType::class, [
                 'label'    => "Code",
                 'required' => true
+                ])
+            ->add('ctr_acronyme', TextType::class, [
+                'label'    => "Acronyme",
+                'required' => false
             ])
             ->add('ctProvince', EntityType::class, [
                 'label' => 'Province',
@@ -41,7 +45,7 @@ class CtCentreType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label'     => 'Enregistrer',
                 'attr'      => [
-                    'class' => 'col-2 btn btn-sm btn-success',
+                    'class' => 'col-2 btn btn-sm bg-gradient-success text-white',
                 ]
             ])
         ;

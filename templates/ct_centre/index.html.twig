@@ -10,14 +10,14 @@
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
                 <h4 class="m-0 font-weight-bold text-gray-100">Listes des centres</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('app_ct_centre_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_centre_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('app_ct_centre_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_centre_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
@@ -25,18 +25,19 @@
                 </div>
             </div>
             {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                    {{ message }}
+            <div class="alert bg-gradient-success text-white text-center">
+                {{ message }}
             </div>
             {% endfor %}
             <div class="card-body">
                 <div class="table-responsive table-striped">
                     <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                            <tr class="text-center">
+                            <tr class="text-center bg-gradient-light text-dark">
                                 <th>N°</th>
                                 <th>Nom</th>
                                 <th>Code</th>
+                                <th>Acronyme</th>
                                 <th>Province</th>
                                 <th>Est parent</th>
                                 <th width="12%">Actions</th>
@@ -49,6 +50,7 @@
                                     <td class="text-center">{{ i }}</td>
                                     <td>{{ centre.ctrNom }}</td>
                                     <td class="text-center">{{ centre.ctrCode }}</td>
+                                    <td class="text-center">{{ centre.ctrAcronyme }}</td>
                                     <td>
                                         {% if(centre.ctProvince is not null) %}
                                             {{ centre.ctProvince.prvNom }}
@@ -59,11 +61,11 @@
                                     </td>
                                     <td class="text-center">
                                         {% if is_granted('ROLE_SUPERADMIN') %}
-                                        <a class="btn btn-sm btn-warning" title="Modifier"
+                                        <a class="btn btn-sm bg-gradient-warning text-white" title="Modifier"
                                             href="{{ path('app_ct_centre_edit', {'id': centre.id}) }}">
                                                 <i class="fas fa-pen"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-danger" title="Supprimer"
+                                        <a class="btn btn-sm bg-gradient-danger text-white" title="Supprimer"
                                             href="{{ path('app_ct_centre_delete', {'id': centre.id}) }}">
                                                 <i class="fas fa-trash"></i>
                                         </a>
@@ -72,7 +74,7 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="6" class="text-center alert-danger">Aucun enregistrement trouvé.</td>
+                                    <td colspan="7" class="text-center bg-gradient-danger text-white">Aucun enregistrement trouvé.</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -81,15 +83,15 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('app_ct_centre_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_centre_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('app_ct_centre_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_centre_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Créer un centre</span>

@@ -1,7 +1,7 @@
 <form method="post" action="{{ path('app_ct_anomalie_type_delete', {'id': ct_anomalie_type.id}) }}" onsubmit="return confirm('Est-vous sûr de vouloir supprimer cet enregistrement?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ct_anomalie_type.id) }}">
-    <button class="btn btn-sm btn-danger btn-icon-split ml-2 mr-2">
-        <span class="icon text-white-50">
+    <button class="btn btn-sm bg-gradient-danger text-white btn-icon-split ml-2 mr-2">
+        <span class="icon text-white">
             <i class="fa fa-trash"></i>
         </span>
         <span class="text">Supprimer type d'anomalie</span>

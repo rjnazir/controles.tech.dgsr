@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CtCentreRepository::class)
@@ -65,6 +66,15 @@ class CtCentre
      * @ORM\Column(type="boolean")
      */
     private $isParent;
+
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     * @Assert\Length(
+     *  max = 50,
+     *  maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
+     */
+    private $ctrAcronyme;
 
     public function __construct()
     {
@@ -236,6 +246,18 @@ class CtCentre
     public function setIsParent(bool $isParent): self
     {
         $this->isParent = $isParent;
+
+        return $this;
+    }
+
+    public function getCtrAcronyme(): ?string
+    {
+        return $this->ctrAcronyme;
+    }
+
+    public function setCtrAcronyme(?string $ctrAcronyme): self
+    {
+        $this->ctrAcronyme = $ctrAcronyme;
 
         return $this;
     }

@@ -9,14 +9,14 @@
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
                 <h4 class="m-0 font-weight-bold text-gray-100">Créer un arrêté</h4>
                 <div class="dropdown no-arrow">
-                    <a href="{{ path('app_ct_arrete_prix_index') }}" title="Retour à la liste" class="btn btn-sm btn-secondary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_arrete_prix_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('app_ct_arrete_prix_new') }}" title="Créer" class="btn btn-sm btn-primary btn-icon-split">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_arrete_prix_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
+                        <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
@@ -34,15 +34,15 @@
 
             <div class="card-footer">
                 <div class="row">
-                    <a href="{{ path('app_ct_arrete_prix_index') }}" class="btn btn-sm btn-secondary btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_arrete_prix_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-list"></i>
                         </span>
                         <span class="text">Retour à la liste</span>
                     </a>
                     {% if is_granted('ROLE_SUPERADMIN') %}
-                    <a href="{{ path('app_ct_arrete_prix_new') }}" class="btn btn-sm btn-primary btn-icon-split ml-2 mr-2">
-                        <span class="icon text-white-50">
+                    <a href="{{ path('app_ct_arrete_prix_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
                             <i class="fas fa-plus"></i>
                         </span>
                         <span class="text">Créer un arrêté</span>

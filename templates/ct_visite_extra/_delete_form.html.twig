@@ -1,7 +1,7 @@
 <form method="post" action="{{ path('vtex_delete', {'id': ct_visite_extra.id}) }}" onsubmit="return confirm('Est-vous sûr de vouloir supprimer cet enregistrement?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ct_visite_extra.id) }}">
-    <button class="btn btn-sm btn-danger btn-icon-split ml-2 mr-2">
-        <span class="icon text-white-50">
+    <button class="btn btn-sm bg-gradient-danger text-white btn-icon-split ml-2 mr-2">
+        <span class="icon text-white">
             <i class="fa fa-trash"></i>
         </span>
         <span class="text">Supprimer visite extra</span>
