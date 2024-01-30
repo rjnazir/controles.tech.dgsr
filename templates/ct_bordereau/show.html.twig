@@ -20,9 +20,14 @@
                             <i class="fas fa-plus"></i>
                         </span>
                     </a>
-                    <a href="{{ path('be_print', {'id': ct_bordereau.id}) }}" target="_blank" title="Générer" class="btn btn-sm btn-outline-danger text-danger btn-icon-split">
+                    <a href="{{ path('be_print_pdf', {'id': ct_bordereau.id}) }}" target="_blank" title="Générer" class="btn btn-sm btn-outline-danger text-danger btn-icon-split">
                         <span class="icon bg-white text-danger">
                             <i class="fa fa-file-pdf"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('be_print_wrd', {'id': ct_bordereau.id}) }}" target="_blank" title="Générer" class="btn btn-sm btn-outline-primary text-danger btn-icon-split">
+                        <span class="icon bg-white text-primary">
+                            <i class="fa fa-file-word"></i>
                         </span>
                     </a>
                     {% endif %}
@@ -123,7 +128,7 @@
                         <span class="text">Modifier le bordereau</span>
                     </a>
                     <div>{{ include('ct_bordereau/_delete_form.html.twig') }}</div>
-                    <a href="{{ path('be_print', {'id': ct_bordereau.id}) }}" class="btn btn-sm btn-outline-danger text-danger btn-icon-split ml-2 mr-2" title="Générer le bordereau" target='_black'>
+                    <a href="{{ path('be_print_pdf', {'id': ct_bordereau.id}) }}" class="btn btn-sm btn-outline-danger text-danger btn-icon-split ml-2 mr-2" title="Générer le bordereau" target='_black'>
                         <span class="icon bg-white text-danger">
                             <i class="fas fa-file-pdf"></i>
                         </span>

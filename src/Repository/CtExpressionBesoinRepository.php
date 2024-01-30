@@ -61,13 +61,13 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
         if(strtoupper(substr(PHP_OS, 0, 3)) === "WIN"){
             switch($type){
                 case 'edb'  : $_dir_generated = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\generated\\edb\\";break;
-                case 'be'   : $_dir_generated = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\generated\\be\\";break;
+                case 'bde'   : $_dir_generated = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\generated\\bde\\";break;
                 default     : $_dir_generated = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\generated\\";break;
             }
         }else{
             switch($type){
                 case 'edb'  : $_dir_generated = "/var/www/html/controles.tech.dgsr/public/reporting/generated/edb/";break;
-                case 'be'   : $_dir_generated = "/var/www/html/controles.tech.dgsr/public/reporting/generated/be/";break;
+                case 'bde'   : $_dir_generated = "/var/www/html/controles.tech.dgsr/public/reporting/generated/bde/";break;
                 default     : $_dir_generated = "/var/www/html/controles.tech.dgsr/public/reporting/generated/";break;
             }
         }
@@ -78,13 +78,13 @@ class CtExpressionBesoinRepository extends ServiceEntityRepository
         if(strtoupper(substr(PHP_OS, 0, 3)) === "WIN"){
             switch($type){
                 case 'edb'  : $_file_template = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\templates\\edb\\edb.docx" ;break;
-                case 'be'   : $_file_template = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\templates\\be\\be.docx" ;break;
+                case 'bde'   : $_file_template = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\templates\\bde\\bde.docx" ;break;
                 default     : $_file_template = "E:\\laragon\\www\\controles.tech.dgsr\\public\\reporting\\templates\\template.docx";break;
             }
         }else{
             switch($type){
                 case 'edb'  : $_file_template = "/var/www/html/controles.tech.dgsr/public/reporting/templates/edb/edb.docx";break;
-                case 'be'   : $_file_template = "/var/www/html/controles.tech.dgsr/public/reporting/templates/be/be.docx";break;
+                case 'bde'   : $_file_template = "/var/www/html/controles.tech.dgsr/public/reporting/templates/bde/bde.docx";break;
                 default     : $_file_template = "/var/www/html/controles.tech.dgsr/public/reporting/templates/template.docx";break;
             }
         }

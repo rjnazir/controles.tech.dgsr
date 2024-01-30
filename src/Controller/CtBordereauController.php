@@ -3,24 +3,25 @@
 namespace App\Controller;
 
 use TCPDF;
+use DateTimeImmutable;
 use App\Entity\CtBordereau;
-use App\Entity\CtContenu;
 use App\Form\CtBordereauType;
 use App\Repository\CtCentreRepository;
 use App\Repository\CtContenuRepository;
+use PhpOffice\PhpWord\TemplateProcessor;
 use App\Repository\CtBordereauRepository;
-use App\Repository\CtExpressionBesoinRepository;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use DateTimeImmutable;
 
 /**
  * @Route("be")
  */
 class CtBordereauController extends AbstractController
 {
+
     /**
      * @Route("/", name="be_index", methods={"GET"})
      */
@@ -123,11 +124,11 @@ class CtBordereauController extends AbstractController
     }
 
     /**
-     * @Route("/printing/{id}", name="be_print")
+     * @Route("/printingPdf/{id}", name="be_print_pdf")
      */
-    public function printing(CtBordereau $ctBordereau, CtBordereauRepository $ctBordereauRepository, CtCentreRepository $ctCentreRepository, CtContenuRepository $ctContenuRepository, CtExpressionBesoinRepository $ctExpressionBesoinRepository)
+    public function printingPdf(CtBordereau $ctBordereau, CtBordereauRepository $ctBordereauRepository, CtCentreRepository $ctCentreRepository, CtContenuRepository $ctContenuRepository)
     {
-        $dir_be_generated = $ctExpressionBesoinRepository->getDirGeneratedPdf('be');
+        $dir_be_generated = $this->getParameter('reporting_generated_directory') . '/bde/';
         $numero_be = $ctBordereauRepository->findOneBy(['id'=>$ctBordereau->getId()]);
         if($numero_be) $numero = $numero_be->getBeNumero();
 
@@ -192,7 +193,7 @@ class CtBordereauController extends AbstractController
 		$entete = array();
 		$entete[0] = "N°";
 		$entete[1] = "DESIGNATION DES PIECES";
-		$entete[2] = "QUANTITE DEMANDER";
+		$entete[2] = "QUANTITE EN ENVOYER";
 		$entete[3] = "NUMERO DE SERIE";
 		$entete[4] = "OBSERVATIONS";
 		$pdf->SetTextColor(0,0,0);
@@ -241,7 +242,97 @@ class CtBordereauController extends AbstractController
         $pdf->setFont('times', 'I', 6);
         $pdf->Cell(0, 5, 'Editée le ' . date('d/m/Y') .' à ' . date('H:i:s') . ' par ' . $this->getUser()->getUsrnamecomplet() , 0, 0, 'L');
 
-        $pdf->Output($dir_be_generated.'be_'.strtolower($ctrAbbrev).'_'.date('YmdHis').'.pdf', 'FI');
+        $pdf->Output($dir_be_generated.'bde_'.strtolower($ctrAbbrev).'_'.date('YmdHis').'.pdf', 'FI');
 
+    }
+
+    /**
+     *  @Route("/printingWord/{id}", name="be_print_wrd")
+     */
+    public function printingWord(CtBordereau $ctBordereau, CtBordereauRepository $ctBordereauRepository, CtCentreRepository $ctCentreRepository, CtContenuRepository $ctContenuRepository)
+    {
+        $_templates = $this->getParameter('reporting_templates_directory') . '/bde/bde.docx';
+        $_generated = $this->getParameter('reporting_generated_directory') . '/bde/';
+
+        $templateProcessor  = new TemplateProcessor($_templates);
+        
+        $numero_be = $ctBordereauRepository->findOneBy(['id'=>$ctBordereau->getId()]);
+        if($numero_be) $numero = $numero_be->getBeNumero();
+
+        $ct_centre  = $numero_be->getCtCentre()->getCtrNom();
+        $rgts_ctre  = $ctCentreRepository->transformCenter($ct_centre);
+        $ctrFonction= $rgts_ctre[0];
+        $ctrNom     = mb_strtoupper($rgts_ctre[1]);
+        $ctrLibelle = mb_strtoupper($rgts_ctre[2]);
+        $ctrAbbrev  = $rgts_ctre[3];
+
+        // Completement de l'attache du centre
+        $templateProcessor->setValue('centre', mb_strtoupper($rgts_ctre[2] .' ' . $rgts_ctre[1]));
+
+        // Lieu et date edition de l'edb
+        $templateProcessor->setValue('lieu', ucwords(strtolower($rgts_ctre[1])));
+        $bdedate    = $ctCentreRepository->dateLetterFr();
+        $templateProcessor->setValue('bdeDate', $bdedate);
+
+        // Récupération numéro de l'edb
+        $numero_bde = $ctBordereauRepository->findOneBy(['id'=>$ctBordereau->getId()]);
+        $numero     = $numero_bde ? $numero_bde->getBeNumero() : "N°_______-/DGSR/AC/IT/" . date('y');
+        $templateProcessor->setValue('numeroBde', ucwords($numero));        
+ 
+        // Remplacez les placeholders dans le template
+        $contenues  = $ctContenuRepository->findBy(['ctBordereau'=>$ctBordereau->getId()]);
+        $nbrecntns  = count($contenues);
+        $_i = 1;
+        $_k = 0;
+        $_t = 0;
+
+        $templateProcessor->cloneRow('i', $nbrecntns);
+        foreach($contenues as $contenues){
+            ++$_k;
+            $templateProcessor->setValue('i#'.$_k, $_i);
+
+            if($_i == 1){
+                $nature = 'Imprimée<w:br/>technique';
+                $reference = '« POUR ATTRIBUTION »<w:br/>REF. : '.$numero_be->getCtExpressionBesoin()->getEdbNumero().'<w:br/>du '.$numero_be->getCtExpressionBesoin()->getEdbDateEdit()->format('d/m/Y');
+            }else{
+                $nature = '';
+                $reference = '';
+            }
+            $templateProcessor->setValue('nature#' . $_i, $nature);
+            $templateProcessor->setValue('reference#' . $_i, $reference);
+            $templateProcessor->setValue('unite#' . $_i, $contenues->getCtImprimeTech()->getUniteImprimeTech());
+
+            $templateProcessor->setValue('typeImprime#'.$_k, $contenues->getCtImprimeTech()->getNomImprimeTech().' ('.$contenues->getCtImprimeTech()->getAbrevImprimeTech().')');
+            $templateProcessor->setValue('qteEnvoyer#'.$_k, $contenues->getQteDemande());
+            $templateProcessor->setValue('nrSerie#'.$_k, (($contenues->getDebutNumero() and $contenues->getFinNumero()) ? $contenues->getDebutNumero().' à '. $contenues->getFinNumero():"-"));
+
+            $_t += $contenues->getQteDemande();
+
+            $_i++;
+        }
+
+        $templateProcessor->setValue('total', $_t);
+
+        // Compléter fonction du signataire
+        $templateProcessor->setValue('signataire', $rgts_ctre[0]);
+
+        // Compléter le pied de page (Date d'edition et utilisateur)
+        $templateProcessor->setValue('printdate', date('d/m/Y') .' à ' . date('H:i:s'));
+        $templateProcessor->setValue('usrprinter', $this->getUser()->getUsrnamecomplet());
+
+        // Générez le fichier Word
+        $fileName = 'bde_'. strtolower($rgts_ctre[3]) . '_' . date('YmdHis') .'.docx';
+        $filePath = $_generated . $fileName;
+        $templateProcessor->saveAs($filePath);
+
+        // Renvoyez une réponse pour télécharger le fichier généré
+        $response = new Response(file_get_contents($filePath));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 }
