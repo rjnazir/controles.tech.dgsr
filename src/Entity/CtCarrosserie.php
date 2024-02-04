@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CtCarrosserieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -24,6 +26,16 @@ class CtCarrosserie
      */
     private $crsLibelle;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtReception::class, mappedBy="ctCarrosserie")
+     */
+    private $ctReceptions;
+
+    public function __construct()
+    {
+        $this->ctReceptions = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,6 +49,36 @@ class CtCarrosserie
     public function setCrsLibelle(?string $crsLibelle): self
     {
         $this->crsLibelle = $crsLibelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtReception>
+     */
+    public function getCtReceptions(): Collection
+    {
+        return $this->ctReceptions;
+    }
+
+    public function addCtReception(CtReception $ctReception): self
+    {
+        if (!$this->ctReceptions->contains($ctReception)) {
+            $this->ctReceptions[] = $ctReception;
+            $ctReception->setCtCarrosserie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtReception(CtReception $ctReception): self
+    {
+        if ($this->ctReceptions->removeElement($ctReception)) {
+            // set the owning side to null (unless already changed)
+            if ($ctReception->getCtCarrosserie() === $this) {
+                $ctReception->setCtCarrosserie(null);
+            }
+        }
 
         return $this;
     }

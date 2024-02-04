@@ -121,12 +121,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $ctBordereaus;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtReception::class, mappedBy="ctUser")
+     */
+    private $ctReceptions;
+
     public function __construct()
     {
         $this->ctArretePrixes = new ArrayCollection();
         $this->ctImprimeTeches = new ArrayCollection();
         $this->ctExpressionBesoins = new ArrayCollection();
         $this->ctBordereaus = new ArrayCollection();
+        $this->ctReceptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -471,6 +477,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($ctBordereau->getUser() === $this) {
                 $ctBordereau->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtReception>
+     */
+    public function getCtReceptions(): Collection
+    {
+        return $this->ctReceptions;
+    }
+
+    public function addCtReception(CtReception $ctReception): self
+    {
+        if (!$this->ctReceptions->contains($ctReception)) {
+            $this->ctReceptions[] = $ctReception;
+            $ctReception->setCtUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtReception(CtReception $ctReception): self
+    {
+        if ($this->ctReceptions->removeElement($ctReception)) {
+            // set the owning side to null (unless already changed)
+            if ($ctReception->getCtUser() === $this) {
+                $ctReception->setCtUser(null);
             }
         }
 

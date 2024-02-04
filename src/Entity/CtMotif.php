@@ -36,9 +36,15 @@ class CtMotif
      */
     private $ctMotifTarifs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtReception::class, mappedBy="ctMotif")
+     */
+    private $ctReceptions;
+
     public function __construct()
     {
         $this->ctMotifTarifs = new ArrayCollection();
+        $this->ctReceptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,36 @@ class CtMotif
             // set the owning side to null (unless already changed)
             if ($ctMotifTarif->getCtMotif() === $this) {
                 $ctMotifTarif->setCtMotif(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtReception>
+     */
+    public function getCtReceptions(): Collection
+    {
+        return $this->ctReceptions;
+    }
+
+    public function addCtReception(CtReception $ctReception): self
+    {
+        if (!$this->ctReceptions->contains($ctReception)) {
+            $this->ctReceptions[] = $ctReception;
+            $ctReception->setCtMotif($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtReception(CtReception $ctReception): self
+    {
+        if ($this->ctReceptions->removeElement($ctReception)) {
+            // set the owning side to null (unless already changed)
+            if ($ctReception->getCtMotif() === $this) {
+                $ctReception->setCtMotif(null);
             }
         }
 

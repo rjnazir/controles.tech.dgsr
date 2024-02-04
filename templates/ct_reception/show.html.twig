@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CtReception{% endblock %}
+
+{% block body %}
+    <h1>CtReception</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ct_reception.id }}</td>
+            </tr>
+            <tr>
+                <th>RcpMiseService</th>
+                <td>{{ ct_reception.rcpMiseService ? ct_reception.rcpMiseService|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>RcpImmatriculation</th>
+                <td>{{ ct_reception.rcpImmatriculation }}</td>
+            </tr>
+            <tr>
+                <th>RcpProprietaire</th>
+                <td>{{ ct_reception.rcpProprietaire }}</td>
+            </tr>
+            <tr>
+                <th>RcpProfession</th>
+                <td>{{ ct_reception.rcpProfession }}</td>
+            </tr>
+            <tr>
+                <th>RcpAdresse</th>
+                <td>{{ ct_reception.rcpAdresse }}</td>
+            </tr>
+            <tr>
+                <th>RcpNbrAssis</th>
+                <td>{{ ct_reception.rcpNbrAssis }}</td>
+            </tr>
+            <tr>
+                <th>RcpNbrDebout</th>
+                <td>{{ ct_reception.rcpNbrDebout }}</td>
+            </tr>
+            <tr>
+                <th>RcpNumPv</th>
+                <td>{{ ct_reception.rcpNumPv }}</td>
+            </tr>
+            <tr>
+                <th>RcpNumGroup</th>
+                <td>{{ ct_reception.rcpNumGroup }}</td>
+            </tr>
+            <tr>
+                <th>IsDeleted</th>
+                <td>{{ ct_reception.isDeleted ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>RcpObsDel</th>
+                <td>{{ ct_reception.rcpObsDel }}</td>
+            </tr>
+            <tr>
+                <th>RcpCreated</th>
+                <td>{{ ct_reception.rcpCreated ? ct_reception.rcpCreated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>RcpUpdate</th>
+                <td>{{ ct_reception.rcpUpdate ? ct_reception.rcpUpdate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ct_reception_index') }}">back to list</a>
+
+    <a href="{{ path('app_ct_reception_edit', {'id': ct_reception.id}) }}">edit</a>
+
+    {{ include('ct_reception/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base_1.html.twig' %}
+
+{% block title %}Créer une réception{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">       
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-gradient-primary">
+                <h4 class="m-0 font-weight-bold text-gray-100">Créer un réception</h4>
+                <div class="dropdown no-arrow">
+                    <a href="{{ path('ct_reception_index') }}" title="Retour à la liste" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
+                        <span class="icon text-white">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('ct_reception_new') }}" title="Créer" class="btn btn-sm bg-gradient-primary text-white btn-icon-split">
+                        <span class="icon text-white">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header border-bottom-success">Informations véhicule</div>
+                                <div class="card-body">
+                                    {{ form_row(form.ctVehicule.ctGenre) }}
+                                    {{ form_row(form.ctVehicule.ctMarque) }}
+                                    {{ form_row(form.ctVehicule.vhcType) }}
+                                    {{ form_row(form.ctVehicule.vhcNumSerie) }}
+                                    {{ form_row(form.ctVehicule.vhcNumMoteur) }}
+                                    {{ form_row(form.ctCarrosserie) }}
+                                    {{ form_row(form.ctSourceEnergie) }}
+                                    {{ form_row(form.ctVehicule.vhcCylindre) }}
+                                    {{ form_row(form.ctVehicule.vhcPuissance) }}
+                                    {{ form_row(form.ctVehicule.vhcPoidsVide) }}
+                                    {{ form_row(form.ctVehicule.vhcChargeUtile) }}
+                                    {{ form_row(form.ctVehicule.vhcPoidsTotalCharge) }}
+                                    {{ form_row(form.ctVehicule.vhcHauteur) }}
+                                    {{ form_row(form.ctVehicule.vhcLargeur) }}
+                                    {{ form_row(form.ctVehicule.vhcLongueur) }}
+                                    {{ form_row(form.ctVehicule.vhcProvenance) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class=" card-header border-bottom-primary">Informations réception</div>
+                                <div class="card-body">
+                                    {{ form_row(form.ctTypeReception) }}
+
+                                    <div id="group_nbr_vhl" class="hidden">
+                                        <div class="mb-3 row" id="from_group_nbr_vhl" name="from_group_nbr_vhl">
+                                            <label class="col-form-label col-sm-3 required" for="ct_reception_rcpImmatriculation">Nbre VHL</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" id="ct_nb_total_vehicule" name="ct_nb_total_vehicule" class="form-control form-control-sm form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {{ form_row(form.ctUtilisation) }}
+                                    {{ form_row(form.ctMotif) }}
+                                    {{ form_row(form.rcpImmatriculation) }}
+                                    {{ form_row(form.rcpProprietaire) }}
+                                    {{ form_row(form.rcpProfession) }}
+                                    {{ form_row(form.rcpAdresse) }}
+                                    {{ form_row(form.rcpNbrAssis) }}
+                                    {{ form_row(form.rcpNbrDebout) }}
+                                    {{ form_row(form.rcpMiseService) }}
+                                    {{ form_row(form.ctVerificateur) }}
+                                    <hr/>
+                                    {{ form_row(form.save) }}
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div class="card-footer">
+                <div class="row">
+                    <a href="{{ path('ct_reception_index') }}" class="btn btn-sm bg-gradient-secondary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="text">Retour à la liste</span>
+                    </a>
+                    <a href="{{ path('ct_reception_new') }}" class="btn btn-sm bg-gradient-primary text-white btn-icon-split ml-2 mr-2">
+                        <span class="icon text-white">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Créer une réception</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+    <script src="/public/js/reception.js"></script>
+{% endblock %}

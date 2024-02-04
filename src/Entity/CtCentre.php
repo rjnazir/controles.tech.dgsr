@@ -76,11 +76,17 @@ class CtCentre
      */
     private $ctrAcronyme;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtReception::class, mappedBy="ctCentre")
+     */
+    private $ctReceptions;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->ctExpressionBesoins = new ArrayCollection();
         $this->ctBordereaus = new ArrayCollection();
+        $this->ctReceptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,6 +264,36 @@ class CtCentre
     public function setCtrAcronyme(?string $ctrAcronyme): self
     {
         $this->ctrAcronyme = $ctrAcronyme;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtReception>
+     */
+    public function getCtReceptions(): Collection
+    {
+        return $this->ctReceptions;
+    }
+
+    public function addCtReception(CtReception $ctReception): self
+    {
+        if (!$this->ctReceptions->contains($ctReception)) {
+            $this->ctReceptions[] = $ctReception;
+            $ctReception->setCtCentre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtReception(CtReception $ctReception): self
+    {
+        if ($this->ctReceptions->removeElement($ctReception)) {
+            // set the owning side to null (unless already changed)
+            if ($ctReception->getCtCentre() === $this) {
+                $ctReception->setCtCentre(null);
+            }
+        }
 
         return $this;
     }

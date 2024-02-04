@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CtReception index{% endblock %}
+
+{% block body %}
+    <h1>CtReception index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RcpMiseService</th>
+                <th>RcpImmatriculation</th>
+                <th>RcpProprietaire</th>
+                <th>RcpProfession</th>
+                <th>RcpAdresse</th>
+                <th>RcpNbrAssis</th>
+                <th>RcpNbrDebout</th>
+                <th>RcpNumPv</th>
+                <th>RcpNumGroup</th>
+                <th>IsDeleted</th>
+                <th>RcpObsDel</th>
+                <th>RcpCreated</th>
+                <th>RcpUpdate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ct_reception in ct_receptions %}
+            <tr>
+                <td>{{ ct_reception.id }}</td>
+                <td>{{ ct_reception.rcpMiseService ? ct_reception.rcpMiseService|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ct_reception.rcpImmatriculation }}</td>
+                <td>{{ ct_reception.rcpProprietaire }}</td>
+                <td>{{ ct_reception.rcpProfession }}</td>
+                <td>{{ ct_reception.rcpAdresse }}</td>
+                <td>{{ ct_reception.rcpNbrAssis }}</td>
+                <td>{{ ct_reception.rcpNbrDebout }}</td>
+                <td>{{ ct_reception.rcpNumPv }}</td>
+                <td>{{ ct_reception.rcpNumGroup }}</td>
+                <td>{{ ct_reception.isDeleted ? 'Yes' : 'No' }}</td>
+                <td>{{ ct_reception.rcpObsDel }}</td>
+                <td>{{ ct_reception.rcpCreated ? ct_reception.rcpCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ct_reception.rcpUpdate ? ct_reception.rcpUpdate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_ct_reception_show', {'id': ct_reception.id}) }}">show</a>
+                    <a href="{{ path('app_ct_reception_edit', {'id': ct_reception.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ct_reception_new') }}">Create new</a>
+{% endblock %}

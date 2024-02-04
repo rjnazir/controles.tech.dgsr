@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CtGenreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -47,6 +49,16 @@ class CtGenre
      */
     private $ctGenreCategorie;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtVehicule::class, mappedBy="ctGenre")
+     */
+    private $ctVehicules;
+
+    public function __construct()
+    {
+        $this->ctVehicules = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,6 +96,36 @@ class CtGenre
     public function setCtGenreCategorie(?CtGenreCategorie $ctGenreCategorie): self
     {
         $this->ctGenreCategorie = $ctGenreCategorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtVehicule>
+     */
+    public function getCtVehicules(): Collection
+    {
+        return $this->ctVehicules;
+    }
+
+    public function addCtVehicule(CtVehicule $ctVehicule): self
+    {
+        if (!$this->ctVehicules->contains($ctVehicule)) {
+            $this->ctVehicules[] = $ctVehicule;
+            $ctVehicule->setCtGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtVehicule(CtVehicule $ctVehicule): self
+    {
+        if ($this->ctVehicules->removeElement($ctVehicule)) {
+            // set the owning side to null (unless already changed)
+            if ($ctVehicule->getCtGenre() === $this) {
+                $ctVehicule->setCtGenre(null);
+            }
+        }
 
         return $this;
     }
