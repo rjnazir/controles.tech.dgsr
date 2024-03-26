@@ -76,6 +76,11 @@ class CtArretePrix
      */
     private $ctVisiteExtraTarifs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CtTarifAutreSce::class, mappedBy="ctArretePrix")
+     */
+    private $ctTarifAutreSces;
+
     public function __construct()
     {
         $this->ctMotifTarifs = new ArrayCollection();
@@ -83,6 +88,7 @@ class CtArretePrix
         $this->ctDroitPtacs = new ArrayCollection();
         $this->ctProcesVerbals = new ArrayCollection();
         $this->ctVisiteExtraTarifs = new ArrayCollection();
+        $this->ctTarifAutreSces = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -306,6 +312,36 @@ class CtArretePrix
             // set the owning side to null (unless already changed)
             if ($ctVisiteExtraTarif->getCtArretePrix() === $this) {
                 $ctVisiteExtraTarif->setCtArretePrix(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CtTarifAutreSce>
+     */
+    public function getCtTarifAutreSces(): Collection
+    {
+        return $this->ctTarifAutreSces;
+    }
+
+    public function addCtTarifAutreSce(CtTarifAutreSce $ctTarifAutreSce): self
+    {
+        if (!$this->ctTarifAutreSces->contains($ctTarifAutreSce)) {
+            $this->ctTarifAutreSces[] = $ctTarifAutreSce;
+            $ctTarifAutreSce->setCtArretePrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCtTarifAutreSce(CtTarifAutreSce $ctTarifAutreSce): self
+    {
+        if ($this->ctTarifAutreSces->removeElement($ctTarifAutreSce)) {
+            // set the owning side to null (unless already changed)
+            if ($ctTarifAutreSce->getCtArretePrix() === $this) {
+                $ctTarifAutreSce->setCtArretePrix(null);
             }
         }
 

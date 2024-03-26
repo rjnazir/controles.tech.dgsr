@@ -82,7 +82,7 @@ class CtVehiculeType extends AbstractType
                 ],
             ])
             ->add('vhcNumMoteur', TextType::class, [
-                'label' => 'Libellé',
+                'label' => 'Num moteur',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control form-control-sm',
